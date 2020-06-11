@@ -1,15 +1,15 @@
 {
-    "region": "eu-west-2",
-    "userPool": "eu-west-2_z1Go5XdrZ",
-    "userPoolBaseUri": "https://auth-cognito-demo.arronharden.com",
-    "clientId": "4tnp4k64d5v4ah9dud3pj1kbs0",
+    "region": "eu-west-1",
+    "userPool": "eu-west-1_FkJrgVbpQ",
+    "userPoolBaseUri": "https://lobassa.auth.eu-west-1.amazoncognito.com",
+    "clientId": "43r8navlfmqq80t73m8k70nard",
     "callbackUri": "http://localhost:3000/callback",
     "signoutUri": "http://localhost:3000/",
     "tokenScopes": [
         "openid",
         "email",
         "profile",
-        "https://cognito-demo-api.arronharden.com/hello-world.all"                
+        "https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta"
     ],
-    "apiUri": "https://cognito-demo-api.arronharden.com"
+    "apiUri": "http://localhost:3000/test"
 }

@@ -36,11 +36,11 @@ class Home extends Component {
         } else if (resp.statusCode !== 200) {
           // API returned an error
           apiStatus = 'Error response received'
-          apiResponse = body
+          //apiResponse = body
           console.error(apiStatus + ': ' + JSON.stringify(resp))
         } else {
           apiStatus = 'Successful response received.'
-          apiResponse = body
+          //apiResponse = body
         }
         this.setState({ apiStatus, apiResponse })
       })
@@ -53,6 +53,7 @@ class Home extends Component {
   }
 
   render () {
+    console.log(this.props.session)
     return (
       <div className="Home">
         <header className="Home-header">
@@ -75,23 +76,7 @@ class Home extends Component {
             </div>
           )}
           <div className="Home-details">
-            <hr></hr>
-            <div className="Home-details-links">
-              This example application was written by Arron Harden and shows how to integrate AWS Cognito with a React single-page application and how to use Cognito issued JWT access codes to secure backend Express based Node.js REST APIs.
-              More information about me can be found on my profile at <a href="https://arronharden.com">https://arronharden.com</a>.
-              <p></p>
-              See my medium.com posts for more information:
-              <ul>
-                <li><a href="https://medium.com/@arron.harden/aws-cognito-example-using-react-ui-and-node-js-rest-apis-part-1-cognito-setup-5597acb02db4">AWS Cognito example using React UI and Node.js REST APIs — part 1 (Cognito setup)</a></li>
-                <li><a href="https://medium.com/@arron.harden/aws-cognito-example-using-react-ui-and-node-js-rest-apis-part-2-react-ui-app-with-redux-6cc22610affe">AWS Cognito example using React UI and Node.js REST APIs — part 2 (React UI app with Redux)</a></li>
-                <li><a href="https://medium.com/@arron.harden/aws-cognito-example-using-react-ui-and-node-js-rest-apis-part-3-jwt-secured-rest-apis-e56d336ce306">AWS Cognito example using React UI and Node.js REST APIs — part 3 (JWT secured REST APIs)</a></li>
-              </ul>
-              Source is available in GitHub:
-              <ul>
-                <li><a href="https://github.com/arronharden/cognito-demo-ui">cognito-demo-ui</a></li>
-                <li><a href="https://github.com/arronharden/cognito-demo-service">cognito-demo-service</a></li>
-              </ul>
-            </div>
+
           </div>
         </header>
       </div>
