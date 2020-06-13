@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './Home.css'
 import { connect } from 'react-redux'
-import cognitoUtils from '../lib/cognitoUtils'
+import cognitoUtils from '../../../lib/cognitoUtils'
 import request from 'request'
-import appConfig from '../config/app-config.json'
+import appConfig from '../../../config/app-config.json'
+import {
+  Button,
+  Typography,
+  AppBar,
+  Toolbar
+} from '@material-ui/core'
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -36,11 +41,11 @@ class Home extends Component {
         } else if (resp.statusCode !== 200) {
           // API returned an error
           apiStatus = 'Error response received'
-          //apiResponse = body
+          // apiResponse = body
           console.error(apiStatus + ': ' + JSON.stringify(resp))
         } else {
           apiStatus = 'Successful response received.'
-          //apiResponse = body
+          // apiResponse = body
         }
         this.setState({ apiStatus, apiResponse })
       })
@@ -56,9 +61,20 @@ class Home extends Component {
     console.log(this.props.session)
     return (
       <div className="Home">
-        <header className="Home-header">
-          <img src={logo} className="Home-logo" alt="logo" />
-          { this.props.session.isLoggedIn ? (
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" style={{ marginRight: '50%' }}> LoBassa </Typography>
+            { this.props.session.isLoggedIn ? (
+              <Typography style={{ flex: 1, justifyContent: 'flex-end' }} >Hi, {this.props.session.user.userName}</Typography>
+            )
+              : (
+                <div style={{ flex: 1, justifyContent: 'flex-end' }}>
+                  <Button style={{ flex: 1, justifyContent: 'flex-end' }}><a className="MuiButtonBase-root " href={cognitoUtils.getCognitoSignInUri()}>Sign in</a></Button>
+                </div>
+              )}
+          </Toolbar>
+          {/* { this.props.session.isLoggedIn ? (
+
             <div>
               <p>You are logged in as user {this.props.session.user.userName} ({this.props.session.user.email}).</p>
               <p></p>
@@ -74,11 +90,12 @@ class Home extends Component {
               <p>You are not logged in.</p>
               <a className="Home-link" href={cognitoUtils.getCognitoSignInUri()}>Sign in</a>
             </div>
-          )}
-          <div className="Home-details">
+          )} */}
+        </AppBar>
+        <div className="Home-details">
 
-          </div>
-        </header>
+        </div>
+
       </div>
     )
   }

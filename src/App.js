@@ -4,7 +4,7 @@ import {
   Route
 } from 'react-router-dom'
 import Callback from './routes/Callback'
-import Home from './routes/components/Home'
+import Home from './routes/components/home/Home'
 
 import { createBrowserHistory } from 'history'
 
