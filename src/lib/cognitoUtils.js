@@ -2,7 +2,7 @@ import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth'
 import { CognitoUserPool } from 'amazon-cognito-identity-js'
 import { config as AWSConfig } from 'aws-sdk'
 import appConfig from '../config/app-config.json'
-import axios from 'axios'
+import service from '../api/api'
 
 AWSConfig.region = appConfig.region
 
@@ -67,7 +67,7 @@ const getCognitoSession = () => {
       }
 
       // Resolve the promise with the session credentials
-      console.debug('Successfully got session: ' + JSON.stringify(result))
+      service.setToken(result.accessToken.jwtToken, result.idToken.jwtToken, result.refreshToken.token)
       const session = {
         credentials: {
           accessToken: result.accessToken.jwtToken,

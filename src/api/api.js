@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const service = axios.create({
   baseURL: 'https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta',
-  headers: {'Authorization': 'Bearer '+ '122121212'}
+  crossorigin: true
 })
 
 const errHandler = err => {
@@ -14,12 +14,15 @@ const errHandler = err => {
   throw err
 }
 
-axios.defaults.headers.common['Authorization'] = 'Bearer 12312312312312';
-
 export default {
   service: service,
 
   getAll () {
+    console.log('calling function')
     return service.get('/tag/all').then(res => res.data).catch(errHandler)
+  },
+
+  setToken (accessToken, idToken, refreshToken) {
+    service.defaults.headers.common['Authorization'] = idToken
   }
 }
