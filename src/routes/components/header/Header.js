@@ -11,9 +11,9 @@ import {
 } from '@material-ui/core'
 import api from '../../../api/api'
 
-const mapStateToProps = state => {
-  return { session: state.session }
-}
+// const mapStateToProps = state => {
+//   return { session: state.session }
+// }
 function Header () {
   const dispatch = useDispatch()
   //   const { state } = props
@@ -21,7 +21,7 @@ function Header () {
   const state = useSelector(state => state)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   console.log('Is logged?', isLoggedIn)
-  
+
   // const handleLogout = () => dispatch(logout());
 
   //   onSignOut = (e) => {
@@ -38,9 +38,7 @@ function Header () {
             <Typography style={{ flex: 1, justifyContent: 'flex-end' }} >Hi, {state.session.user.userName}</Typography>
           )
             : (
-              <div style={{ flex: 1, justifyContent: 'flex-end' }}>
-                <Button ><a className="MuiButtonBase-root " href={cognitoUtils.getCognitoSignInUri()}>Sign in</a></Button>
-              </div>
+              <Button style={{ flex: 1, color: '#fffff', justifyContent: 'center' }}><a href={cognitoUtils.getCognitoSignInUri()}>Sign in</a></Button>
             )}
         </Toolbar>
         {/* { this.props.session.isLoggedIn ? (

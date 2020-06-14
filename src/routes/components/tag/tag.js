@@ -5,7 +5,8 @@ import {
   Button,
   Typography,
   AppBar,
-  Card
+  Card,
+  CardMedia
 } from '@material-ui/core'
 import api from '../../../api/api'
 
@@ -20,9 +21,11 @@ const Tag = (props) => {
 console.log("requesting", api.getAll())
 
   return (
-    <div className="Header">
-        <Typography>Tags page</Typography>
-    </div>
+    <Card>
+        <CardMedia>
+            
+        </CardMedia>
+    </Card>
   )
 }
 
