@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
+import logo from './lobassaLogo.svg'
 import './Home.css'
 import { connect } from 'react-redux'
 import cognitoUtils from '../lib/cognitoUtils'
@@ -13,7 +13,9 @@ const mapStateToProps = state => {
 class Home extends Component {
   constructor (props) {
     super(props)
-    this.state = { apiStatus: 'Not called' }
+    this.state = {
+      apiStatus: 'Not called'
+    }
   }
 
   componentDidMount () {
@@ -56,7 +58,10 @@ class Home extends Component {
     console.log(this.props.session)
     return (
       <div className="Home">
-        <header className="Home-header">
+        <div className="Home-header">
+          <p className="Home-text">Home</p>
+        </div>
+        <div className="Home-content">
           <img src={logo} className="Home-logo" alt="logo" />
           { this.props.session.isLoggedIn ? (
             <div>
@@ -71,14 +76,14 @@ class Home extends Component {
             </div>
           ) : (
             <div>
-              <p>You are not logged in.</p>
+              <p className="Home-link">You are not logged in.</p>
               <a className="Home-link" href={cognitoUtils.getCognitoSignInUri()}>Sign in</a>
             </div>
           )}
           <div className="Home-details">
 
           </div>
-        </header>
+        </div>
       </div>
     )
   }

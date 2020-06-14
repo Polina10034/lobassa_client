@@ -3,13 +3,12 @@
 }
 
 .Home-logo {
-  animation: Home-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
 }
 
-.Home-header {
-  background-color: #282c34;
+.Home-content {
+  background-color: #ffffff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -19,8 +18,25 @@
   color: white;
 }
 
+.Home-header {
+  width: 100%;
+  height: 60px;
+  background-color: #3A69B0;
+  display: flex;
+  padding-left: 10%;
+}
+
+.Menu-icon {
+  color: #ffffff;
+}
+
+.Home-text {
+  color: #ffffff;
+  font-size: 20px;
+}
+
 .Home-link {
-  color: #61dafb;
+  color: #3A69B0;
 }
 
 .Home-api-response {

@@ -1,0 +1,128 @@
+.MyList {
+    text-align: center;
+    overflow: hidden;
+}
+
+.MyList-content {
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    padding-top: 20px;
+}
+
+.MyList-header {
+    width: 100%;
+    height: 60px;
+    background-color: #3A69B0;
+    display: flex;
+    padding-left: 10%;
+}
+
+.MyList-text {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.found-button {
+    background-color: #3A69B0;
+    text-decoration: none;
+    color: #fff;
+    font-size: 17px;
+    width: 200px;
+    height: 60px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Tags-list {
+    margin-top: -5px;
+    border: 0.5px solid #d3d3d3;
+    width: 400px;
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.List-title {
+    color: #000000;
+    font-size: 16px;
+    margin-right: 200px;
+    font-weight: bold;
+}
+
+.Plus-button {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background-color: #3A69B0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 80vh;
+    right: 20vh;
+    color: #ffffff;
+    font-size: 30px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Plus-text {
+    margin-bottom: 35px;
+}
+
+.List-item {
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #d3d3d3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.Item-image {
+    width: 55px;
+    height: 55px;
+    color: #000000;
+    font-size: 20px;
+}
+
+.Item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    height: 50px;
+    width: 200px;
+}
+
+.Item-title {
+    /* color: #000000; */
+    font-size: 16px;
+    font-weight: bold;
+    height: 20px;
+    margin-top: -1px;
+}
+
+.Item-status {
+    font-size: 16px;
+    font-weight: bold;
+    height: 20px;
+    margin-top: -1px;
+    width: 70px;
+}
+
+.Item-desc {
+    /* color: #000000; */
+    font-size: 13px;
+    height: 15px;
+    margin-top: -15px;
+}
