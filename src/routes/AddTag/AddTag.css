@@ -1,0 +1,30 @@
+.AddTag {
+    text-align: center;
+    overflow: hidden;
+}
+
+.AddTag-content {
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    width: 300px;
+    margin: 0px auto;
+}
+
+.AddTag-header {
+    width: 100%;
+    height: 60px;
+    background-color: #3A69B0;
+    display: flex;
+    padding-left: 10%;
+}
+
+.AddTag-text {
+    color: #ffffff;
+    font-size: 20px;
+}
