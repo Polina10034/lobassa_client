@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './FoundItem.css'
 import { connect } from 'react-redux'
+import HomeIcon from '@material-ui/icons/Home'
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -17,6 +18,9 @@ class FoundItem extends Component {
       <div className="FoundItem">
         <div className="FoundItem-header">
           <p className="FoundItem-text">Found Item</p>
+          <a href="/MyTagsList">
+            <HomeIcon style={{ color: 'white', height: '40px', width: '40px', marginRight: '20px', marginTop: '10px' }}/>
+          </a>
         </div>
         <div className="FoundItem-content">
           <p className="FoundItem-Title">Scan barcode</p>
