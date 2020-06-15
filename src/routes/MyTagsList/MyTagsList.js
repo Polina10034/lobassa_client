@@ -1,7 +1,21 @@
 import React, { Component } from 'react'
 import './MyTagsList.css'
 import { connect } from 'react-redux'
-import { DialogContent, DialogTitle, Dialog, Button, DialogActions } from '@material-ui/core'
+import { Redirect } from 'react-router-dom'
+import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
+  ListItemAvatar,
+  Fab,
+  Avatar,
+  Typography,
+  IconButton,
+  ListItem,
+  List,
+  ListItemText,
+  ListItemSecondaryAction
+} from '@material-ui/core'
+import { CheckCircleRounded, Add } from '@material-ui/icons'
+
+import api from '../../api/api'
 
 const mockData = {
   myLabels: [
@@ -94,10 +108,9 @@ const mockData = {
   ]
 }
 
-const mapStateToProps = state => {
+function mapStateToProps (state) {
   return { session: state.session }
 }
-
 const translateColor = status => {
   switch (status) {
     case 'pending':
@@ -156,10 +169,14 @@ class MyTagsList extends Component {
   }
 
   componentDidMount () {
+    console.log('requesting', api.getAll())
     // API call tpo get all user tags, i inser mock data for now
   }
 
   render () {
+    if (!this.props.session.isLoggedIn) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="MyList">
         <div className="MyList-header">
@@ -167,22 +184,25 @@ class MyTagsList extends Component {
         </div>
         <div className="MyList-content">
           <a className="found-button" href="/FoundItem">
-            I found baggage!
+            I Found Baggage!
           </a>
-          <p className="List-title">My Labels</p>
-          <div className="Tags-list">
+          <List>
             {mockData.myLabels.map((item, i) => (
-              <div className="List-item" onClick={() => this.handleChange(item._id)}>
-                <div className="Item-image">{item.img}</div>
-                <div className="Item-text" style={{ color: translateColor(item.status) }}>
-                  <p className="Item-title">{item.title}</p>
-                  <p className="Item-desc">{item.desc}</p>
-                </div>
-                <p className="Item-status" style={{ color: translateColor(item.status) }}>{item.status}</p>
-              </div>
+              <ListItem alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item._id)}>
+                <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.img}/></ListItemAvatar>
+                <ListItemText
+                  primary={<Typography style={{ color: '#434d63' }}>{item.title}</Typography>}
+                  secondary={item.desc}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="comments">
+                    <CheckCircleRounded style={{ color: translateColor(item.status) }} />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
             ))}
-          </div>
-          <p className="List-title" style={{ marginTop: '50px' }}>My Founds</p>
+          </List>
+          {/* <p className="List-title" style={{ marginTop: '50px' }}>My Founds</p>
           <div className="Tags-list">
             {mockData.myFounds.map((item, i) => (
               <div className="List-item" onClick={() => this.handleChange(item._id)}>
@@ -194,9 +214,11 @@ class MyTagsList extends Component {
                 <p className="Item-status" style={{ color: translateColor(item.status) }}>{item.status}</p>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
-        <a href="/AddTag" className="Plus-button"><p className="Plus-text">+</p></a>
+        <Fab href="/AddTag" style={{ position: 'fixed', right: '10%', bottom: '25px' }} color="primary" aria-label="add">
+          <Add />
+        </Fab>
         {this.state.selectedTag && <Dialog
           onClose={this.handleClose}
           aria-labelledby="simple-dialog-title"

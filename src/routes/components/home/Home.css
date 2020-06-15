@@ -1,0 +1,112 @@
+
+.Home {
+  text-align: center;
+  margin-top: 50px;
+
+}
+
+.MuiButtonBase-root .MuiButton-root .MuiButton-text  {
+  justify-content: flex-end;
+}
+
+.Home-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  height: 60px;
+
+}
+
+.Home-link {
+  color: #61dafb;
+}
+
+.Home-api-response {
+  margin-top: 10px;
+  width: 50%;
+  background-color: #434d63;
+  display: inline-block;
+  font-family: 'Lucida Console', monospace
+}
+
+
+.Home-details {
+  margin-top: 2em;
+  font-size: 14px;
+  max-width: 50%;
+}
+.Home-details a {
+  color: #61dafb;
+}
+.Home-details-links {
+  text-align: left;
+  display: inline-block;
+}
+.Home {
+  text-align: center;
+}
+
+.Home-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.Home-content {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Home-header {
+  width: 100%;
+  height: 70px;
+  background-color: #3A69B0;
+  display: flex;
+  padding-left: 10%;
+}
+
+.Menu-icon {
+  color: #ffffff;
+}
+
+.Home-text {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.Home-link {
+  text-decoration: none;
+  color: hsla(0, 0%, 100%, 0.89);
+}
+
+.Home-api-response {
+  margin-top: 10px;
+  width: 50%;
+  background-color: #434d63;
+  display: inline-block;
+  font-family: 'Lucida Console', monospace
+}
+
+.Home-details {
+  align-items: center;
+margin: auto 0;
+padding-top: 60px;
+max-width: 100%;
+}
+.Home-details a {
+  color: #61dafb;
+}
+.Home-details-links {
+  text-align: left;
+  display: inline-block;
+}
