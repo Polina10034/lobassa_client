@@ -3,6 +3,7 @@ import './AddTag.css'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import HomeIcon from '@material-ui/icons/Home'
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -35,6 +36,9 @@ class AddTag extends Component {
       <div className="AddTag">
         <div className="AddTag-header">
           <p className="AddTag-text">Create Tag</p>
+          <a href="/MyTagsList">
+            <HomeIcon style={{ color: 'white', height: '40px', width: '40px', marginRight: '100px', marginTop: '10px' }}/>
+          </a>
         </div>
         <div className="AddTag-content">
           <TextField
@@ -42,7 +46,7 @@ class AddTag extends Component {
             fullWidth
             name="labelName"
             id="outlined-required"
-            label="Label"
+            label="Label name"
             variant="outlined"
             placeholder="Label-name"
             onChange={this.handleChange}
@@ -52,7 +56,7 @@ class AddTag extends Component {
             fullWidth
             name="labelDesc"
             id="outlined-required"
-            label="Label"
+            label="Label sescription"
             variant="outlined"
             placeholder="Label description"
             onChange={this.handleChange}

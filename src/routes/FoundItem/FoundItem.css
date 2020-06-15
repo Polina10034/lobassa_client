@@ -25,12 +25,14 @@
     height: 60px;
     background-color: #3A69B0;
     display: flex;
-    padding-left: 10%;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .FoundItem-text {
     color: #ffffff;
     font-size: 20px;
+    margin-left: 10%;
 }
 
 .FoundItem-scanner {
