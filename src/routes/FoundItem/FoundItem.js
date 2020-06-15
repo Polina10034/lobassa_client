@@ -19,7 +19,7 @@ class FoundItem extends Component {
         <div className="FoundItem-header">
           <p className="FoundItem-text">Found Item</p>
           <a href="/MyTagsList">
-            <HomeIcon style={{ color: 'white', height: '40px', width: '40px', marginRight: '100px', marginTop: '10px' }}/>
+            <HomeIcon style={{ color: 'white', height: '40px', width: '40px', marginRight: '20px', marginTop: '10px' }}/>
           </a>
         </div>
         <div className="FoundItem-content">
