@@ -1,12 +1,10 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import './Home.css'
 import { connect } from 'react-redux'
-import appConfig from '../../../config/app-config.json'
+// import appConfig from '../../../config/app-config.json'
 import {
-  Button,
   Typography,
-  AppBar,
-  Toolbar
+  AppBar
 } from '@material-ui/core'
 
 const mapStateToProps = state => {
@@ -24,9 +22,10 @@ class Home extends Component {
     return (
       <div className="Home">
         <AppBar position="static">
-          <Typography>Home Page</Typography>
+          <Typography variant='h6'>WELCOME</Typography>
         </AppBar>
         <div className="Home-details">
+          <Typography>Please Sign In</Typography>
 
         </div>
 

@@ -1,8 +1,7 @@
 import React, { Component, useState, useEffect } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import cognitoUtils from '../../../lib/cognitoUtils'
-import request from 'request'
-import appConfig from '../../../config/app-config.json'
+
 import {
   Button,
   Typography,
@@ -11,63 +10,39 @@ import {
 } from '@material-ui/core'
 import api from '../../../api/api'
 
-// const mapStateToProps = state => {
-//   return { session: state.session }
-// }
 function Header () {
-  const dispatch = useDispatch()
-  //   const { state } = props
-
+//   const dispatch = useDispatch()
+//   const { state } = props
+ // const handleLogout = () => dispatch(logout());
   const state = useSelector(state => state)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   console.log('Is logged?', isLoggedIn)
 
-  // const handleLogout = () => dispatch(logout());
-
-  //   onSignOut = (e) => {
-  //     e.preventDefault()
-  //     cognitoUtils.signOutCognitoSession()
-  //   }
+  const onSignOut = (e) => {
+    e.preventDefault()
+    cognitoUtils.signOutCognitoSession()
+  }
 
   return (
     <div className="Header">
-      <AppBar position="static">
+      <AppBar position="fixed" marginBottom='20px'>
         <Toolbar>
-          <Typography variant="h6" style={{ marginRight: '60%' }}> LoBassa </Typography>
+          <Typography variant="h6" href="/tags" > LoBassa </Typography>
           { isLoggedIn ? (
-            <Typography style={{ flex: 1, justifyContent: 'flex-end' }} >Hi, {state.session.user.userName}</Typography>
+            <Toolbar style={{ position: 'fixed', right: '10px' }}>
+              <Typography >Hi, {state.session.user.userName}</Typography>
+              <Button style={{ marginLeft: '30px' }}><a className="Home-link" href="#" onClick={onSignOut}>Sign out</a></Button>
+            </Toolbar>
           )
             : (
-              <Button style={{ flex: 1, color: '#fffff', justifyContent: 'center' }}><a href={cognitoUtils.getCognitoSignInUri()}>Sign in</a></Button>
+              <Toolbar style={{ position: 'fixed', right: '10px' }}>
+                <Button style={{ flex: 1, color: '#fffff' }}><a className="Home-link" href={cognitoUtils.getCognitoSignInUri()}>Sign in</a></Button>
+              </Toolbar >
             )}
         </Toolbar>
-        {/* { this.props.session.isLoggedIn ? (
-
-            <div>
-              <p>You are logged in as user {this.props.session.user.userName} ({this.props.session.user.email}).</p>
-              <p></p>
-              <div>
-                <div>API status: {this.state.apiStatus}</div>
-                <div className="Home-api-response">{this.state.apiResponse}</div>
-              </div>
-              <p></p>
-              <a className="Home-link" href="#" onClick={this.onSignOut}>Sign out</a>
-            </div>
-          ) : (
-            <div>
-              <p>You are not logged in.</p>
-              <a className="Home-link" href={cognitoUtils.getCognitoSignInUri()}>Sign in</a>
-            </div>
-          )} */}
       </AppBar>
-      <div className="Home-details">
-
-      </div>
-
     </div>
   )
 }
-
-// export default connect(mapStateToProps)(Header)
 
 export default Header
