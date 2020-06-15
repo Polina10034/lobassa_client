@@ -175,9 +175,9 @@ class MyTagsList extends Component {
   }
 
   render () {
-    // if (!this.props.session.isLoggedIn) {
-    //   return <Redirect to="/" />
-    // }
+    if (!this.props.session.isLoggedIn) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="MyList">
         <div className="MyList-header">

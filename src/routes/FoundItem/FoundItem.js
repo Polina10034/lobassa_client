@@ -14,11 +14,10 @@ class FoundItem extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      delay: 300,
       qrCode: 'Scanning.....',
-      scan: false,
+      scan: true,
       imageUrl: undefined,
-      image: true,
+      image: false,
       buttonIndicator: false,
       redirect: false
     }
@@ -70,7 +69,7 @@ class FoundItem extends Component {
           <p className="FoundItem-Title">Scan barcode</p>
           {this.state.scan && <div className="FoundItem-scanner">
             <QrReader
-              delay={this.state.delay}
+              delay={30}
               style={previewStyle}
               onError={this.handleError}
               onScan={this.handleScan}
