@@ -9,6 +9,7 @@ import Header from './routes/components/header/Header'
 import AddTag from './routes/AddTag/AddTag'
 import FoundItem from './routes/FoundItem/FoundItem'
 import MyTagsList from './routes/MyTagsList/MyTagsList'
+import Approval from '../src/routes/Approval/Approval'
 
 import { createBrowserHistory } from 'history'
 
@@ -22,6 +23,7 @@ const App = () => (
     <Route exact path="/tags" component={MyTagsList}/>
     <Route exact path="/AddTag" component={AddTag}/>
     <Route exact path="/FoundItem" component={FoundItem}/>
+    <Route exact path="/Approval" component={Approval}/>
 
   </Router>
 )
