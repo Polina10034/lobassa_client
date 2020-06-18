@@ -36,8 +36,37 @@
 }
 
 .FoundItem-scanner {
-    width: 400px;
-    height: 400px;
+    width: 250px;
+    height: 250px;
     border: 2px dashed #d3d3d3;
     color: #000;
+}
+
+.found-button {
+    margin-top: 30px;
+    background-color: #3A69B0;
+    text-decoration: none;
+    color: #fff;
+    font-size: 17px;
+    width: 200px;
+    height: 40px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.UploadImage-button {
+    background-color: #3A69B0;
+    color: #fff;
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.UploadImage-image {
+    margin: 20px;
 }

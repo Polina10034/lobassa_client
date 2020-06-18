@@ -111,6 +111,7 @@ const mockData = {
 function mapStateToProps (state) {
   return { session: state.session }
 }
+
 const translateColor = status => {
   switch (status) {
     case 'pending':
