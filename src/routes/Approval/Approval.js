@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg';
 import {
     Typography,
-    AppBar
+    AppBar,
+    Button
 } from '@material-ui/core'
-
-
+import { Link } from "react-router-dom"
 
 
 const mapStateToProps = state => {
@@ -25,8 +25,8 @@ class Approval extends Component {
         // query = query.slice(1, query.length)
         // const str = 'The&quick&brown&fox&jumps&over&the&lazy&dog.';
         const params = query.split('&');
-        
-        console.log(params[0],params[1],params[2],params[4]);
+
+        console.log(params[0], params[1], params[2], params[4]);
         // console.log(`query:${query}`)
     }
 
@@ -60,6 +60,11 @@ class Approval extends Component {
                         <Logo />
                     </div>
                     {this.getQuery()}
+                    <div className="Approval-home">
+                        <Link to="/" style={{ textDecoration: 'none' }}>
+                            <Button style={{ backgroundColor: '#01A39D', borderRadius: 22, color: '#FFFFFF' }}>Comeback Home</Button>
+                        </Link>
+                    </div>
                 </div >
             </div>
         )
