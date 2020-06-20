@@ -20,7 +20,15 @@ class Approval extends Component {
         this.state = {}
     }
 
-
+    getQuery() {
+        let query = window.location.search
+        // query = query.slice(1, query.length)
+        // const str = 'The&quick&brown&fox&jumps&over&the&lazy&dog.';
+        const params = query.split('&');
+        
+        console.log(params[0],params[1],params[2],params[4]);
+        // console.log(`query:${query}`)
+    }
 
     render() {
         return (
@@ -51,6 +59,7 @@ class Approval extends Component {
                     <div className="Approval-logo" >
                         <Logo />
                     </div>
+                    {this.getQuery()}
                 </div >
             </div>
         )
