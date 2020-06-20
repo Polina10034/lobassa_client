@@ -7,6 +7,9 @@ import {
     AppBar
 } from '@material-ui/core'
 
+
+
+
 const mapStateToProps = state => {
     return { session: state.session }
 }
@@ -16,6 +19,8 @@ class Approval extends Component {
         super(props)
         this.state = {}
     }
+
+
 
     render() {
         return (
