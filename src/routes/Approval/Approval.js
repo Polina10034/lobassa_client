@@ -57,7 +57,7 @@ class Approval extends Component {
           </div>
           <div className="Approval-centerContent" >
             <p>
-              Hey username, < br />
+              Hey You, < br />
                 Now you just need to wait
                 for your product gets to you, <br />
                 that great news!

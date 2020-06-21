@@ -33,7 +33,7 @@ class Cancel extends Component {
           </div>
           <div className="Approval-centerContent" >
             <p>
-                Hey username, < br />
+                Hey You, < br />
                 we are sorry to inform you that <br />
                 something went wrong with <br />
                 your transaction. <br />
