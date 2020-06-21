@@ -1,7 +1,7 @@
-import React, { Component, useState, useEffect } from 'react'
-import { connect, useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import cognitoUtils from '../../../lib/cognitoUtils'
-
+import { NavLink } from 'react-router-dom'
 import {
   Button,
   Typography,
@@ -13,10 +13,10 @@ import api from '../../../api/api'
 function Header () {
 //   const dispatch = useDispatch()
 //   const { state } = props
- // const handleLogout = () => dispatch(logout());
+  // const handleLogout = () => dispatch(logout());
   const state = useSelector(state => state)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
-  console.log('Is logged?', isLoggedIn)
+  console.log('Is logged?', state.session)
 
   const onSignOut = (e) => {
     e.preventDefault()
@@ -25,9 +25,23 @@ function Header () {
 
   return (
     <div className="Header">
-      <AppBar position="fixed" >
+      <AppBar position="fixed" style={{ background: '#2d60adb3' }} >
         <Toolbar>
-          <Typography variant="h6" href="/tags" > LoBassa </Typography>
+          { isLoggedIn ? (
+            <NavLink to="/tags" exact>
+              <img
+                src="../images/logo2.png"
+                alt="logo"
+                style={{ height: 50, marginTop: 2 }}
+              />
+            </NavLink>)
+            : (<NavLink to="/" exact>
+              <img
+                src="../images/logo2.png"
+                alt="logo"
+                style={{ height: 50, marginTop: 2 }}
+              />
+            </NavLink>)}
           { isLoggedIn ? (
             <Toolbar style={{ position: 'fixed', right: '10px' }}>
               <Typography >Hi, {state.session.user.userName}</Typography>

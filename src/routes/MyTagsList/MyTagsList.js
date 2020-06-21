@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './MyTagsList.css'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemAvatar,
   Fab,
@@ -140,6 +140,12 @@ class MyTagsList extends Component {
     this.reportDelete = this.reportDelete.bind(this)
   }
 
+  componentDidMount () {
+    console.log('tesssst')
+    console.log('requesting', api.getAll())
+    // API call tpo get all user tags, i inser mock data for now
+  }
+
   handleChange (id) {
     let tag = mockData.myLabels.filter((item) => item._id === id)
     if (tag.length === 1) {
@@ -169,11 +175,6 @@ class MyTagsList extends Component {
     this.setState({ dialog: false })
   }
 
-  componentDidMount () {
-    console.log('requesting', api.getAll())
-    // API call tpo get all user tags, i inser mock data for now
-  }
-
   render () {
     if (!this.props.session.isLoggedIn) {
       return <Redirect to="/" />
@@ -184,9 +185,11 @@ class MyTagsList extends Component {
           <p className="MyList-text">My Tags</p>
         </div>
         <div className="MyList-content">
-          <a className="found-button" href="/FoundItem">
+          <NavLink to="/FoundItem">
+            <a className="found-button" >
             I Found Baggage!
-          </a>
+            </a>
+          </NavLink>
           <List>
             {mockData.myLabels.map((item, i) => (
               <ListItem alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item._id)}>
@@ -217,9 +220,11 @@ class MyTagsList extends Component {
             ))}
           </div> */}
         </div>
-        <Fab href="/AddTag" style={{ position: 'fixed', right: '10%', bottom: '25px' }} color="primary" aria-label="add">
-          <Add />
-        </Fab>
+        <NavLink to="/AddTag" exact>
+          <Fab style={{ position: 'fixed', right: '10%', bottom: '25px' }} color="primary" aria-label="add">
+            <Add />
+          </Fab>
+        </NavLink>
         {this.state.selectedTag && <Dialog
           onClose={this.handleClose}
           aria-labelledby="simple-dialog-title"

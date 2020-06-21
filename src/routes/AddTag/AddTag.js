@@ -56,9 +56,6 @@ class AddTag extends Component {
       <div className="AddTag">
         <div className="AddTag-header">
           <p className="AddTag-text">Create Tag</p>
-          <a href="/tags">
-            <HomeIcon style={{ color: 'white', height: '40px', width: '40px', marginRight: '20px', marginTop: '10px' }}/>
-          </a>
         </div>
         <div className="AddTag-content">
           <TextField

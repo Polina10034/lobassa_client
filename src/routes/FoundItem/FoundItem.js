@@ -61,9 +61,6 @@ class FoundItem extends Component {
       <div className="FoundItem">
         <div className="FoundItem-header">
           <p className="FoundItem-text">Found Item</p>
-          <a href="/tags">
-            <HomeIcon style={{ color: 'white', height: '40px', width: '40px', marginRight: '20px', marginTop: '10px' }}/>
-          </a>
         </div>
         <div className="FoundItem-content">
           <p className="FoundItem-Title">Scan barcode</p>

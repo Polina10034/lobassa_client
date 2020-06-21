@@ -21,9 +21,13 @@ class Home extends Component {
     console.log(this.props.session)
     return (
       <div className="Home">
-        <AppBar position="static">
-          <Typography variant='h6'>WELCOME</Typography>
-        </AppBar>
+        <div>
+          <img
+            src="../images/logo2.png"
+            alt="logo"
+            style={{ height: 100, marginTop: 50 }}
+          />
+        </div>
         <div className="Home-details">
           <Typography>Please Sign In</Typography>
 
