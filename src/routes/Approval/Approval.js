@@ -22,9 +22,10 @@ class Approval extends Component {
   getQuery () {
     const query = window.location.search
     const params = query.split('&')
-    const toSend = `${params[0]}&${params[1]}&${params[2]}&${params[4]}`
+    const toSend = `${params[0]}&${params[2]}&${params[4]}`
+    // console.log(`to send:${toSend}`)
     const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-    console.log(`toSend:${toSend}`)
+    // console.log(`toSend:${toSend}`)
     const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/paymentsuccess${toSend}`
     fetch(proxyurl + url, {
       method: 'GET',
