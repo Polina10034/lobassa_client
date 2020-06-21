@@ -25,7 +25,7 @@ function Header () {
 
   return (
     <div className="Header">
-      <AppBar position="fixed" marginBottom='20px'>
+      <AppBar position="fixed" >
         <Toolbar>
           <Typography variant="h6" href="/tags" > LoBassa </Typography>
           { isLoggedIn ? (
