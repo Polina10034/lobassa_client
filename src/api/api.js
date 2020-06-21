@@ -24,5 +24,6 @@ export default {
 
   setToken (accessToken, idToken, refreshToken) {
     service.defaults.headers.common['Authorization'] = idToken
+    service.defaults.headers.common['accessToken'] = accessToken
   }
 }
