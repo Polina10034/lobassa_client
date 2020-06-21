@@ -74,7 +74,7 @@ class Approval extends Component {
           </div>
           {this.getQuery()}
           <div className="Approval-home">
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link to="/tags" style={{ textDecoration: 'none' }}>
               <Button style={{ backgroundColor: '#01A39D', borderRadius: 22, color: '#FFFFFF' }}>Comeback Home</Button>
             </Link>
           </div>
