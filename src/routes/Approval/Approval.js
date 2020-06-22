@@ -7,22 +7,24 @@ import {
   AppBar,
   Button
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const mapStateToProps = state => {
   return { session: state.session }
 }
 
 class Approval extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {}
   }
 
-  getQuery () {
+  getQuery() {
     const query = window.location.search
     const params = query.split('&')
     const toSend = `${params[0]}&${params[2]}&${params[4]}`
+    console.log(toSend)
     // console.log(`to send:${toSend}`)
     const proxyurl = 'https://cors-anywhere.herokuapp.com/'
     // console.log(`toSend:${toSend}`)
@@ -43,7 +45,7 @@ class Approval extends Component {
       })
   }
 
-  render () {
+  render() {
     return (
       <div className="Approval">
         <div className="Approval-header">
@@ -74,14 +76,19 @@ class Approval extends Component {
           </div>
           {this.getQuery()}
           <div className="Approval-home">
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            {/* <Link to="/" style={{ textDecoration: 'none' }}>
               <Button style={{ backgroundColor: '#01A39D', borderRadius: 22, color: '#FFFFFF' }}>Comeback Home</Button>
-            </Link>
+            </Link> */}
+            <NavLink
+              to="/tags" exact
+              style={{ textDecoration: 'none' }}
+            >
+              <Button style={{ backgroundColor: '#2d60adb3', color: '#FFFFFF' }}>Go back</Button>
+            </NavLink>
           </div>
         </div >
       </div>
     )
   }
 }
-
 export default connect(mapStateToProps)(Approval)
