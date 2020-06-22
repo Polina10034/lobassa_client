@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const service = axios.create({
-  baseURL: 'https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta',
+  baseURL: 'https://api.lobassa.com',
   crossorigin: true
 })
 
