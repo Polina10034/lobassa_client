@@ -1,8 +1,10 @@
 import { CLEAR_SESSION, SET_SESSION } from '../constants/actionTypes'
+import api from '../api/api'
 
 const initialState = {
   isLoggedIn: false,
-  type: 'user'
+  type: 'user',
+  labelsData: []
 }
 
 const session = (state = initialState, action) => {
@@ -11,7 +13,8 @@ const session = (state = initialState, action) => {
       return Object.assign({},
         action.session,
         { isLoggedIn: true,
-          type: action.session.user.type[0] })
+          type: action.session.user.type[0],
+          labelsData: api.getAll() })
 
     case CLEAR_SESSION:
       return initialState

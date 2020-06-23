@@ -133,7 +133,8 @@ class MyTagsList extends Component {
       apiStatus: 'Not called',
       dialog: false,
       selectedTag: undefined,
-      listIndicator: true
+      listIndicator: true,
+      labels: []
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
@@ -141,12 +142,27 @@ class MyTagsList extends Component {
     this.reportDelete = this.reportDelete.bind(this)
   }
 
+  // componentDidMount () {
+  //   console.log('SSS: ' + this.props.session.type)
+  //   console.log(this.props.session.type === 'Admin')
+  //    const data = api.getAll()
+  //   console.log('requesting', api.getAll())
+  //   console.log(typeof (data))
+  //   this.setState({ labels: this.state.labels })
+  //   console.log('labels: ' + this.props.session.labelsData)
+  //   // API call tpo get all user tags, i inser mock data for now
+  // }
+
   componentDidMount () {
-    console.log('SSS: ' + this.props.session.type)
-    console.log('Type: ' + typeof (this.props.session.type))
-    console.log(this.props.session.type === 'Admin')
-    console.log('requesting', api.getAll())
-    // API call tpo get all user tags, i inser mock data for now
+    // fetch the project name, once it retrieves resolve the promsie and update the state.
+    this.getLabelsName().then(result => this.setState({
+      labels: [result]
+    }))
+  }
+
+  getLabelsName () {
+    // replace with whatever your api logic is.
+    return api.getAll()
   }
 
   handleChange (id) {
@@ -185,7 +201,7 @@ class MyTagsList extends Component {
     return (
       <div className="MyList">
         <div className="MyList-header">
-          <p className="MyList-text">My Tags</p>
+          <p className="MyList-text">{JSON.stringify(this.state.labels)}</p>
         </div>
         <div className="MyList-content">
           <NavLink to="/FoundItem">
@@ -225,7 +241,7 @@ class MyTagsList extends Component {
 
         </div>
         {this.props.session.type === 'Admin'
-          ? <NavLink to="/dashboard" exact>
+          ? <NavLink to="/dashboard" >
             <Fab style={{ position: 'fixed', right: '10%', bottom: '90px' }} color="primary" aria-label="add">
               <DashboardIcon />
             </Fab>

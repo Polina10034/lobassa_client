@@ -153,12 +153,12 @@ export default function Dashboard (props) {
   const useMountEffect = (fun) => React.useEffect(fun, [])
 
   useMountEffect(function () {
-    axios.get(`https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
+    axios.get(`https://api.lobassa.com/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
       .then(res => { setTransData(res.data.body.records); setLoading(false) })
   })
 
   function getNewRecs () {
-    axios.get(`https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
+    axios.get(`https://api.lobassa.com/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
       .then(res => { setTransData(res.data.body.records); setLoading(false) })
   }
 

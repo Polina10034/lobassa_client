@@ -15,7 +15,7 @@ function AdminDash () {
   const useMountEffect = (fun) => useEffect(fun, [])
 
   useMountEffect(function () {
-    axios.get('https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/statistics')
+    axios.get('https://api.lobassa.com/statistics')
       .then(res => { setData(res.data.body); setLoading(false) })
   })
 
