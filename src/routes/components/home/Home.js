@@ -3,8 +3,7 @@ import './Home.css'
 import { connect } from 'react-redux'
 // import appConfig from '../../../config/app-config.json'
 import {
-  Typography,
-  AppBar
+  Typography
 } from '@material-ui/core'
 
 const mapStateToProps = state => {

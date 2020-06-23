@@ -9,6 +9,7 @@
         "openid",
         "email",
         "profile",
+        "aws.cognito.signin.user.admin",
         "https://api.lobassa.com"
     ],
     "apiUri": "https://api.lobassa.com"
