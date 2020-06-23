@@ -13,6 +13,7 @@ import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemText,
   ListItemSecondaryAction
 } from '@material-ui/core'
+import DashboardIcon from '@material-ui/icons/Dashboard'
 import { CheckCircleRounded, Add } from '@material-ui/icons'
 
 import api from '../../api/api'
@@ -141,7 +142,9 @@ class MyTagsList extends Component {
   }
 
   componentDidMount () {
-    console.log('tesssst')
+    console.log('SSS: ' + this.props.session.type)
+    console.log('Type: ' + typeof (this.props.session.type))
+    console.log(this.props.session.type === 'Admin')
     console.log('requesting', api.getAll())
     // API call tpo get all user tags, i inser mock data for now
   }
@@ -192,7 +195,7 @@ class MyTagsList extends Component {
           </NavLink>
           <List>
             {mockData.myLabels.map((item, i) => (
-              <ListItem alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item._id)}>
+              <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item._id)}>
                 <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.img}/></ListItemAvatar>
                 <ListItemText
                   primary={<Typography style={{ color: '#434d63' }}>{item.title}</Typography>}
@@ -219,7 +222,14 @@ class MyTagsList extends Component {
               </div>
             ))}
           </div> */}
+
         </div>
+        {this.props.session.type === 'Admin'
+          ? <NavLink to="/dashboard" exact>
+            <Fab style={{ position: 'fixed', right: '10%', bottom: '90px' }} color="primary" aria-label="add">
+              <DashboardIcon />
+            </Fab>
+          </NavLink> : null}
         <NavLink to="/AddTag" exact>
           <Fab style={{ position: 'fixed', right: '10%', bottom: '25px' }} color="primary" aria-label="add">
             <Add />
