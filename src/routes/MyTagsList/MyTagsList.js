@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './MyTagsList.css'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemAvatar,
   Fab,
@@ -59,50 +59,6 @@ const mockData = {
       title: 'name 6',
       desc: 'verbe btrber ewrgfwgr ergwerge ergbe cvefcqwefqwef',
       img: 'Item 6',
-      status: 'found'
-    }
-  ],
-  myFounds: [
-    {
-      _id: 7,
-      title: 'name 7',
-      desc: 'vgutcuku xerzj ihbpiugbb vtyicri',
-      img: 'Item 7',
-      status: 'pending'
-    },
-    {
-      _id: 8,
-      title: 'name 8',
-      desc: 'citycvoub cxrtes75zu pugyiyg',
-      img: 'Item 8',
-      status: undefined
-    },
-    {
-      _id: 9,
-      title: 'name 9',
-      desc: 'huip cxdreyezr ctydidt8ici cryicd',
-      img: 'Item 9',
-      status: undefined
-    },
-    {
-      _id: 10,
-      title: 'name 10',
-      desc: 'vgutcuku xerzj ihbpiugbb vtyicri',
-      img: 'Item 10',
-      status: 'pending'
-    },
-    {
-      _id: 11,
-      title: 'name 11',
-      desc: 'citycvoub cxrtes75zu pugyiyg',
-      img: 'Item 11',
-      status: undefined
-    },
-    {
-      _id: 12,
-      title: 'name 12',
-      desc: 'huip cxdreyezr ctydidt8ici cryicd',
-      img: 'Item 12',
       status: undefined
     }
   ]
@@ -111,7 +67,6 @@ const mockData = {
 function mapStateToProps (state) {
   return { session: state.session }
 }
-
 const translateColor = status => {
   switch (status) {
     case 'pending':
@@ -132,34 +87,39 @@ class MyTagsList extends Component {
       apiStatus: 'Not called',
       dialog: false,
       selectedTag: undefined,
-      listIndicator: true
+      listIndicator: true,
+      foundIndicator: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
     this.reportLost = this.reportLost.bind(this)
     this.reportDelete = this.reportDelete.bind(this)
+    this.reportWant = this.reportWant.bind(this)
   }
 
   handleChange (id) {
-    let tag = mockData.myLabels.filter((item) => item._id === id)
+    const tag = mockData.myLabels.filter((item) => item._id === id)
     if (tag.length === 1) {
       this.setState({ selectedTag: tag[0] })
       this.setState({ listIndicator: true })
-    } else {
-      tag = mockData.myFounds.filter((item) => item._id === id)
-      this.setState({ selectedTag: tag[0] })
-      this.setState({ listIndicator: false })
     }
     this.setState({ dialog: true })
   }
 
   handleClose () {
     this.setState({ dialog: false })
+    this.setState({ foundIndicator: false })
   }
 
   reportLost () {
     alert(`lost tag id ${this.state.selectedTag._id}`)
     // API call to report lost item. all item details are saved in state - selectedTag
+    this.setState({ dialog: false })
+  }
+
+  reportWant () {
+    alert(`i want tag id ${this.state.selectedTag._id}`)
+    // API call to report user want the lost item, i dont know . all item details are saved in state - selectedTag
     this.setState({ dialog: false })
   }
 
@@ -171,13 +131,19 @@ class MyTagsList extends Component {
 
   componentDidMount () {
     console.log('requesting', api.getAll())
-    // API call tpo get all user tags, i inser mock data for now
+    // here i check if there is a tag with status _found_ and if so im opening the dialog with the found product
+    const foundItem = mockData.myLabels.filter(item => item.status === 'found')
+    if (foundItem.length > 0) {
+      this.setState({ selectedTag: foundItem[0] })
+      this.setState({ dialog: true })
+      this.setState({ foundIndicator: true })
+    }
   }
 
   render () {
-    if (!this.props.session.isLoggedIn) {
-      return <Redirect to="/" />
-    }
+    // if (!this.props.session.isLoggedIn) {
+    //   return <Redirect to="/" />
+    // }
     return (
       <div className="MyList">
         <div className="MyList-header">
@@ -226,6 +192,9 @@ class MyTagsList extends Component {
           open={this.state.dialog}
           style={{ textAlign: 'center' }}
         >
+          {this.state.foundIndicator && <DialogTitle id="simple-dialog-title">
+            We found somthing that belong to you...
+          </DialogTitle>}
           <DialogTitle id="simple-dialog-title">
             {this.state.selectedTag.title}
           </DialogTitle>
@@ -234,11 +203,14 @@ class MyTagsList extends Component {
             <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img} picture</p>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.status !== 'lost' && <Button variant="outlined" color="primary" onClick={this.reportLost}>
+            {this.state.selectedTag.status === 'found' && <Button variant="outlined" color="primary" onClick={this.reportWant}>
+              I Want it
+            </Button>}
+            {this.state.selectedTag.status !== 'found' && this.state.selectedTag.status !== 'lost' && <Button variant="outlined" color="primary" onClick={this.reportLost}>
               I Lost it
             </Button>}
             <Button variant="outlined" color="primary" onClick={this.reportDelete}>
-              Delete Tag
+              {this.state.selectedTag.status === 'found' ? 'Never Mind' : 'Delete Tag'}
             </Button>
           </DialogActions>}
         </Dialog>}

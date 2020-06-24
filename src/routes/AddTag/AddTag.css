@@ -22,12 +22,10 @@
     height: 60px;
     background-color: #3A69B0;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    padding-left: 10%;
 }
 
 .AddTag-text {
     color: #ffffff;
     font-size: 20px;
-    margin-left: 10%;
 }
