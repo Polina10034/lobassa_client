@@ -10,6 +10,7 @@
     "amazon-cognito-identity-js": "^3.0.14",
     "aws-sdk": "^2.498.0",
     "axios": "^0.19.2",
+    "lodash.throttle": "^4.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-images-uploading": "^2.2.0",

@@ -22,6 +22,26 @@ export default {
     return service.get('/tag/all').then(res => res.data).catch(errHandler)
   },
 
+  addTag (body) {
+    return service.post('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  deleteTag (body) {
+    return service
+      .delete('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  updateTag (id, body) {
+    return service
+      .put('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+  
   setToken (accessToken, idToken, refreshToken) {
     service.defaults.headers.common['Authorization'] = idToken
     service.defaults.headers.common['accessToken'] = accessToken
