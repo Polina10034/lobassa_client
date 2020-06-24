@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import './AddTag.css'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
-import HomeIcon from '@material-ui/icons/Home'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { DialogContent, DialogTitle, Dialog, Button, DialogActions } from '@material-ui/core'
 import { QRCode } from 'react-qr-svg'
 import { Redirect } from 'react-router-dom'
+import api from '../../api/api'
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -20,7 +21,8 @@ class AddTag extends Component {
       labelDesc: undefined,
       returnPrice: undefined,
       dialog: false,
-      tagId: undefined
+      tagId: undefined,
+      isLoading: true
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -30,6 +32,7 @@ class AddTag extends Component {
 
   handleClose () {
     this.setState({ dialog: false })
+    this.setState({ redirect: true })
   }
 
   handlePrint () {
@@ -43,29 +46,43 @@ class AddTag extends Component {
   }
 
   handleSubmit (e) {
-    alert(`label name: ${this.state.labelName}, label desc: ${this.state.labelDesc}, Price: ${this.state.returnPrice}`)
-    this.setState({ tagId: 'thisIsTestId' })
-    this.setState({ dialog: true })
-    e.preventDefault()
+    var body = {
+      name: this.state.labelName,
+      description: this.state.labelDesc,
+      price: this.state.returnPrice
+    }
+    try {
     // API call to create new tag and return tag id,
     // then we create QR code with tag id
+      api.addTag(body).then(response => {
+        this.setState({ tagId: response.body.newItem.productId })
+        this.setState({ dialog: true })
+        this.setState({ isLoading: false })
+        e.preventDefault()
+      })
+      // alert(`label name: ${this.state.labelName}, label desc: ${this.state.labelDesc}, Price: ${this.state.returnPrice}`)
+
+      e.preventDefault()
+    } catch (err) {
+      console.log('error fetching...:', err)
+    }
   }
 
   render () {
-    return this.state.redirect ? (<Redirect to='/tags' />) : (
+    if (!this.props.session.isLoggedIn) {
+      return <Redirect to="/" />
+    }
+    return this.state.redirect ? <Redirect to='/tags' /> : (
       <div className="AddTag">
         <div className="AddTag-header">
           <p className="AddTag-text">Create Tag</p>
-          <a href="/tags">
-            <HomeIcon style={{ color: 'white', height: '40px', width: '40px', marginRight: '20px', marginTop: '10px' }}/>
-          </a>
         </div>
         <div className="AddTag-content">
           <TextField
             required
             fullWidth
             name="labelName"
-            id="outlined-required"
+            id="outlined-required1"
             label="Label name"
             variant="outlined"
             placeholder="Label-name"
@@ -75,7 +92,7 @@ class AddTag extends Component {
             required
             fullWidth
             name="labelDesc"
-            id="outlined-required"
+            id="outlined-required2"
             label="Label sescription"
             variant="outlined"
             placeholder="Label description"
@@ -85,7 +102,7 @@ class AddTag extends Component {
             required
             fullWidth
             name="returnPrice"
-            id="outlined-required"
+            id="outlined-required3"
             label="Return Price"
             variant="outlined"
             placeholder="0.00"
@@ -107,14 +124,15 @@ class AddTag extends Component {
             Your tag created!
           </DialogTitle>
           <DialogContent>
-            <QRCode
-              level="Q"
-              style={{ width: 256 }}
-              value={JSON.stringify({
-                id: this.state.tagId,
-                insider: true
-              })}
-            />
+            {this.state.isLoading ? <CircularProgress />
+              : <QRCode
+                level="Q"
+                style={{ width: 256 }}
+                value={JSON.stringify({
+                  id: this.state.tagId,
+                  insider: true
+                })}
+              />}
           </DialogContent>
           <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             <Button variant="outlined" color="primary" onClick={this.handlePrint}>

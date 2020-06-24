@@ -6,7 +6,7 @@
 
 .AddTag-content {
     background-color: #ffffff;
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,11 +19,12 @@
 
 .AddTag-header {
     width: 100%;
-    height: 60px;
+    height: 50px;
+    align-items: center;
+    margin-top: 10px;
     background-color: #3A69B0;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    padding-left: 10%;
 }
 
 .AddTag-text {
