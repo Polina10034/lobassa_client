@@ -25,9 +25,10 @@ import Deposits from './Deposits'
 import Orders from './Orders'
 // import logo from '../../lobassalogo.svg'
 import logo from '../../../routes/lobassaLogo.svg'
-import axios from 'axios'
+import { service } from '../../../api/api';
+import Loader from './loader';
 
-function Copyright () {
+function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -121,52 +122,79 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function Dashboard (props) {
-  const classes = useStyles()
-  const today = new Date()
-  const todayDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0')
-  const [open, setOpen] = React.useState(true)
+const Dashboard = () => {
+  const classes = useStyles();
+  const today = new Date();
+  const todayDate = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+  const [open, setOpen] = React.useState(true);
+  const [data, setData] = React.useState();
+
   const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   const handleDrawerClose = () => {
-    setOpen(false)
+    setOpen(false);
+  };
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [inputStart, setInputStart] = useState(todayDate);
+  const [inputEnd, setInputEnd] = useState(todayDate);
+  const [transData, setTransData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [changeTimeout, setChangeTimeout] = React.useState(0);
+
+  const refreshRecords = () => {
+    if (changeTimeout) {
+      clearTimeout(changeTimeout);
+    }
+    setChangeTimeout(
+      setTimeout(() => {
+        getNewRecs();
+      }, 1000)
+    );
+  };
+
+  React.useEffect(() => {
+    let date = new Date(Date.now()).toISOString().substring(0, 10);
+    console.log(date);
+
+    (async () => {
+      await getStatistics();
+      await getNewRecs();
+    })();
+  }, []);
+
+  const getStatistics = async () => {
+    setLoading(true);
+    let res = [];
+    try {
+      res = await service.get(`/statistics`);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setData(res.data.body);
+      setLoading(false);
+    }
+  };
+
+  const getNewRecs = async () => {
+    setLoading(true);
+    let res = [];
+    try {
+      res = await service.get(`/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setTransData(res.data.body.records);
+      setLoading(false);
+    }
   }
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
-  const [inputStart, setInputStart] = useState(todayDate)
-  const [inputEnd, setInputEnd] = useState(todayDate)
-  const [transData, setTransData] = useState()
-  const [loading, setLoading] = useState(true)
 
-  function handleStartChange (e) {
-    setLoading(true)
-    setInputStart(e.target.value)
-    getNewRecs()
-  }
-
-  function handleEndChange (e) {
-    setLoading(true)
-    setInputEnd(e.target.value)
-    getNewRecs()
-  }
-
-  const useMountEffect = (fun) => React.useEffect(fun, [])
-
-  useMountEffect(function () {
-    axios.get(`https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
-      .then(res => { setTransData(res.data.body.records); setLoading(false) })
-  })
-
-  function getNewRecs () {
-    axios.get(`https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
-      .then(res => { setTransData(res.data.body.records); setLoading(false) })
-  }
-
-  function renderDone () {
+  function renderDone() {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar style={{ backgroundColor: 'rgba(58,105,176,0.94)' }} position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+        <AppBar style={{ backgroundColor: "rgba(58,105,176,0.94)" }} position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
             <IconButton
               edge="start"
@@ -177,12 +205,12 @@ export default function Dashboard (props) {
             >
               <MenuIcon />
             </IconButton>
-            <div style={{ float: 'left', height: 'inherit' }}>
-              <img src={logo} style={{ maxHeight: '60px' }} alt="LoBassa Logo"></img>
+            <div style={{ float: "left", height: "inherit" }}>
+              <img src={logo} style={{ maxHeight: "60px" }} alt="LoBassa Logo"></img>
             </div>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Admin Page
-            </Typography>
+              Admin Page
+          </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -193,7 +221,7 @@ export default function Dashboard (props) {
         <Drawer
           variant="permanent"
           classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
+            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
           }}
           open={open}
         >
@@ -209,18 +237,17 @@ export default function Dashboard (props) {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>
-
             <Grid container spacing={3}>
               {/* Chart */}
               <Grid item xs={12} md={8} lg={9}>
                 <Paper className={fixedHeightPaper}>
-                  <Chart data={props.data.transactionsbymode}/>
+                  <Chart data={data.transactionsbymode} />
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <Deposits data={props.data.products} />
+                  <Deposits data={data.products} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={12} lg={12}>
@@ -231,21 +258,20 @@ export default function Dashboard (props) {
                     type="date"
                     className={classes.textField}
                     value={inputStart}
-                    onChange={handleStartChange}
+                    onChange={(e) => { setInputStart(e.target.value); refreshRecords(); }}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                   />
-
                   <TextField
                     id="endDate"
                     label="End Date"
                     type="date"
                     className={classes.textField}
                     value={inputEnd}
-                    onChange={handleEndChange}
+                    onChange={(e) => { setInputEnd(e.target.value); refreshRecords(); }}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                   />
                 </form>
@@ -263,16 +289,12 @@ export default function Dashboard (props) {
           </Container>
         </main>
       </div>
-    )
-  }
-
-  function renderLoad () {
-    return (
-      <div>loading</div>
-    )
+    );
   }
 
   return (
-    loading ? renderLoad() : renderDone()
+    loading ? <Loader /> : renderDone()
   )
 }
+
+export default Dashboard;
