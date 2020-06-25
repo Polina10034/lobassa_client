@@ -43,6 +43,7 @@ class MyTagsList extends Component {
       dialog: false,
       selectedTag: undefined,
       listIndicator: true,
+      foundIndicator: false,
       labels: []
     }
     this.handleChange = this.handleChange.bind(this)
@@ -55,10 +56,15 @@ class MyTagsList extends Component {
   componentDidMount () {
     // fetch the project name, once it retrieves resolve the promsie and update the state.
     this.getLabelsData().then(result => {
-      // console.log('Body: ' + (result.body))
       this.setState({
         labels: result.body
       })
+      const foundItem = result.body.filter(item => item.transactionStatus === 'found')
+      if (foundItem.length > 0) {
+        this.setState({ selectedTag: foundItem[0] })
+        this.setState({ dialog: true })
+        this.setState({ foundIndicator: true })
+      }
     })
   }
 
@@ -171,8 +177,8 @@ class MyTagsList extends Component {
             <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img ? this.state.selectedTag.img : 'img' } picture</p>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.transactionStatus !== 'lost' && <Button color="primary" size="small" onClick={this.reportLost}>
-              Lost
+            {this.state.selectedTag.transactionStatus !== 'found' && this.state.selectedTag.status !== 'lost' && <Button color="primary" size="small" onClick={this.reportLost}>
+              I Lost it
             </Button>}
             {this.state.selectedTag.transactionStatus === 'found' && <NavLink to='/Test'><Button color="secondary" size="small" >
               Pay
