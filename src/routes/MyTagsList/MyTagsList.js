@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './MyTagsList.css'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemAvatar,
   Fab,
@@ -13,60 +13,15 @@ import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemText,
   ListItemSecondaryAction
 } from '@material-ui/core'
+import DashboardIcon from '@material-ui/icons/Dashboard'
 import { CheckCircleRounded, Add } from '@material-ui/icons'
 
 import api from '../../api/api'
 
-const mockData = {
-  myLabels: [
-    {
-      _id: 1,
-      title: 'name 1',
-      desc: 'cvwenbij cbwui fckk eqbuu de',
-      img: 'Item 1',
-      status: undefined
-    },
-    {
-      _id: 2,
-      title: 'name 2',
-      desc: 'bhibi cfrty rtt uuy66ufubvhyg',
-      img: 'Item 2',
-      status: 'lost'
-    },
-    {
-      _id: 3,
-      title: 'name 3',
-      desc: 'verbe btrber ewrgfwgr ergwerge ergbe cvefcqwefqwef',
-      img: 'Item 3',
-      status: 'found'
-    },
-    {
-      _id: 4,
-      title: 'name 4',
-      desc: 'cvwenbij cbwui fckk eqbuu de',
-      img: 'Item 4',
-      status: undefined
-    },
-    {
-      _id: 5,
-      title: 'name 5',
-      desc: 'bhibi cfrty rtt uuy66ufubvhyg',
-      img: 'Item 5',
-      status: 'lost'
-    },
-    {
-      _id: 6,
-      title: 'name 6',
-      desc: 'verbe btrber ewrgfwgr ergwerge ergbe cvefcqwefqwef',
-      img: 'Item 6',
-      status: undefined
-    }
-  ]
-}
-
 function mapStateToProps (state) {
   return { session: state.session }
 }
+
 const translateColor = status => {
   switch (status) {
     case 'pending':
@@ -88,7 +43,8 @@ class MyTagsList extends Component {
       dialog: false,
       selectedTag: undefined,
       listIndicator: true,
-      foundIndicator: false
+      foundIndicator: false,
+      labels: []
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
@@ -97,11 +53,37 @@ class MyTagsList extends Component {
     this.reportWant = this.reportWant.bind(this)
   }
 
+  componentDidMount () {
+    // fetch the project name, once it retrieves resolve the promsie and update the state.
+    this.getLabelsData().then(result => {
+      console.log('Body: ' + (Object.keys(result.body[1])))
+      console.log('Body: ' + (Object.values(result.body[1])))
+      this.setState({
+        labels: result.body
+      })
+      const foundItem = result.body.filter(item => item.transactionStatus === 'found')
+      if (foundItem.length > 0) {
+        this.setState({ selectedTag: foundItem[0] })
+        this.setState({ dialog: true })
+        this.setState({ foundIndicator: true })
+      }
+    })
+  }
+
+  getLabelsData () {
+    // replace with whatever your api logic is.
+    return api.getAll()
+  }
+
   handleChange (id) {
-    const tag = mockData.myLabels.filter((item) => item._id === id)
+    let tag = this.state.labels.filter((item) => item.productId === id)
     if (tag.length === 1) {
       this.setState({ selectedTag: tag[0] })
       this.setState({ listIndicator: true })
+    } else {
+      tag = this.state.labels.filter((item) => item.productId === id)
+      this.setState({ selectedTag: tag[0] })
+      this.setState({ listIndicator: false })
     }
     this.setState({ dialog: true })
   }
@@ -112,7 +94,7 @@ class MyTagsList extends Component {
   }
 
   reportLost () {
-    alert(`lost tag id ${this.state.selectedTag._id}`)
+    alert(`lost tag id ${this.state.selectedTag.productId}`)
     // API call to report lost item. all item details are saved in state - selectedTag
     this.setState({ dialog: false })
   }
@@ -124,20 +106,9 @@ class MyTagsList extends Component {
   }
 
   reportDelete () {
-    alert(`delete tag id ${this.state.selectedTag._id}`)
+    alert(`delete tag id ${this.state.selectedTag.productId}`)
     // API call to delete item. all item details are saved in state - selectedTag
     this.setState({ dialog: false })
-  }
-
-  componentDidMount () {
-    console.log('requesting', api.getAll())
-    // here i check if there is a tag with status _found_ and if so im opening the dialog with the found product
-    const foundItem = mockData.myLabels.filter(item => item.status === 'found')
-    if (foundItem.length > 0) {
-      this.setState({ selectedTag: foundItem[0] })
-      this.setState({ dialog: true })
-      this.setState({ foundIndicator: true })
-    }
   }
 
   render () {
@@ -150,20 +121,22 @@ class MyTagsList extends Component {
           <p className="MyList-text">My Tags</p>
         </div>
         <div className="MyList-content">
-          <a className="found-button" href="/FoundItem">
+          <NavLink to="/FoundItem">
+            <a className="found-button" >
             I Found Baggage!
-          </a>
+            </a>
+          </NavLink>
           <List>
-            {mockData.myLabels.map((item, i) => (
-              <ListItem alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item._id)}>
+            {this.state.labels.map((item, i) => (
+              <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
                 <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.img}/></ListItemAvatar>
                 <ListItemText
-                  primary={<Typography style={{ color: '#434d63' }}>{item.title}</Typography>}
-                  secondary={item.desc}
+                  primary={<Typography style={{ color: '#434d63' }}>{item.name}</Typography>}
+                  secondary={item.description}
                 />
                 <ListItemSecondaryAction>
                   <IconButton edge="end" aria-label="comments">
-                    <CheckCircleRounded style={{ color: translateColor(item.status) }} />
+                    <CheckCircleRounded style={{ color: translateColor(item.transactionStatus) }} />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
@@ -182,10 +155,19 @@ class MyTagsList extends Component {
               </div>
             ))}
           </div> */}
+
         </div>
-        <Fab href="/AddTag" style={{ position: 'fixed', right: '10%', bottom: '25px' }} color="primary" aria-label="add">
-          <Add />
-        </Fab>
+        {this.props.session.type === 'Admin'
+          ? <NavLink to="/dashboard" >
+            <Fab style={{ position: 'fixed', right: '10%', bottom: '90px' }} color="primary" aria-label="add">
+              <DashboardIcon />
+            </Fab>
+          </NavLink> : null}
+        <NavLink to="/AddTag" exact>
+          <Fab style={{ position: 'fixed', right: '10%', bottom: '25px' }} color="primary" aria-label="add">
+            <Add />
+          </Fab>
+        </NavLink>
         {this.state.selectedTag && <Dialog
           onClose={this.handleClose}
           aria-labelledby="simple-dialog-title"
@@ -196,21 +178,21 @@ class MyTagsList extends Component {
             We found somthing that belong to you...
           </DialogTitle>}
           <DialogTitle id="simple-dialog-title">
-            {this.state.selectedTag.title}
+            {this.state.selectedTag.name}
           </DialogTitle>
           <DialogContent>
-            <p>{this.state.selectedTag.desc}</p>
-            <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img} picture</p>
+            <p>{this.state.selectedTag.description}</p>
+            <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img ? this.state.selectedTag.img : 'img' } picture</p>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.status === 'found' && <Button variant="outlined" color="primary" onClick={this.reportWant}>
+            {this.state.selectedTag.transactionStatus === 'found' && <Button variant="outlined" color="primary" onClick={this.reportWant}>
               I Want it
             </Button>}
-            {this.state.selectedTag.status !== 'found' && this.state.selectedTag.status !== 'lost' && <Button variant="outlined" color="primary" onClick={this.reportLost}>
+            {this.state.selectedTag.transactionStatus !== 'found' && this.state.selectedTag.status !== 'lost' && <Button variant="outlined" color="primary" onClick={this.reportLost}>
               I Lost it
             </Button>}
             <Button variant="outlined" color="primary" onClick={this.reportDelete}>
-              {this.state.selectedTag.status === 'found' ? 'Never Mind' : 'Delete Tag'}
+              {this.state.selectedTag.transactionStatus === 'found' ? 'Never Mind' : 'Delete Tag'}
             </Button>
           </DialogActions>}
         </Dialog>}

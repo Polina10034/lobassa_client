@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const service = axios.create({
-  baseURL: 'https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta',
+  baseURL: 'https://api.lobassa.com',
   crossorigin: true
 })
 
@@ -22,7 +22,49 @@ export default {
     return service.get('/tag/all').then(res => res.data).catch(errHandler)
   },
 
+  addTag (body) {
+    return service.post('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  deleteTag (body) {
+    return service
+      .delete('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  updateTag (id, body) {
+    return service
+      .put('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
   setToken (accessToken, idToken, refreshToken) {
     service.defaults.headers.common['Authorization'] = idToken
+    service.defaults.headers.common['accessToken'] = accessToken
+  },
+
+  // Transaction func
+
+  addTransaction (body) {
+    return service.post('/transaction', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  updateTransaction (body) {
+    return service
+      .put('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  addPhoto (body) {
+    return service.post('/transaction/photo', body)
+      .then(res => res.data)
+      .catch(errHandler)
   }
 }

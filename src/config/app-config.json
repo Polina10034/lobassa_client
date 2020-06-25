@@ -1,15 +1,16 @@
 {
     "region": "eu-west-1",
-    "userPool": "eu-west-1_FkJrgVbpQ",
-    "userPoolBaseUri": "https://lobassa.auth.eu-west-1.amazoncognito.com",
-    "clientId": "43r8navlfmqq80t73m8k70nard",
+    "userPool": "eu-west-1_ckYEl0jk4",
+    "userPoolBaseUri": "https://auth.lobassa.com",
+    "clientId": "1ub97throdcaolc9uhninp6shd",
     "callbackUri": "http://localhost:3000/callback",
     "signoutUri": "http://localhost:3000/",
     "tokenScopes": [
         "openid",
         "email",
         "profile",
-        "https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta"
+        "aws.cognito.signin.user.admin",
+        "https://api.lobassa.com"
     ],
-    "apiUri": "http://localhost:3000/test"
+    "apiUri": "https://api.lobassa.com"
 }
