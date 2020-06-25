@@ -49,6 +49,7 @@ class MyTagsList extends Component {
     this.handleClose = this.handleClose.bind(this)
     this.reportLost = this.reportLost.bind(this)
     this.reportDelete = this.reportDelete.bind(this)
+    this.handelPay = this.handlePay.bind(this)
   }
 
   componentDidMount () {
@@ -77,6 +78,10 @@ class MyTagsList extends Component {
       this.setState({ listIndicator: false })
     }
     this.setState({ dialog: true })
+  }
+
+  handlePay (){
+    
   }
 
   handleClose () {
@@ -166,11 +171,14 @@ class MyTagsList extends Component {
             <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img ? this.state.selectedTag.img : 'img' } picture</p>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.transactionStatus !== 'lost' && <Button variant="outlined" color="primary" onClick={this.reportLost}>
-              I Lost it
+            {this.state.selectedTag.transactionStatus !== 'lost' && <Button color="primary" size="small" onClick={this.reportLost}>
+              Lost
             </Button>}
-            <Button variant="outlined" color="primary" onClick={this.reportDelete}>
-              Delete Tag
+            {this.state.selectedTag.transactionStatus === 'found' && <NavLink to='/Test'><Button color="secondary" size="small" >
+              Pay
+            </Button></NavLink>}
+            <Button color="primary" size="small" onClick={this.reportDelete}>
+              Delete
             </Button>
           </DialogActions>}
         </Dialog>}

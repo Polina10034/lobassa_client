@@ -41,9 +41,30 @@ export default {
       .then(res => res.data)
       .catch(errHandler)
   },
-  
+
   setToken (accessToken, idToken, refreshToken) {
     service.defaults.headers.common['Authorization'] = idToken
     service.defaults.headers.common['accessToken'] = accessToken
+  },
+
+  // Transaction func
+
+  addTransaction (body) {
+    return service.post('/transaction', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  updateTransaction (body) {
+    return service
+      .put('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  addPhoto (body) {
+    return service.post('/transaction/photo', body)
+      .then(res => res.data)
+      .catch(errHandler)
   }
 }

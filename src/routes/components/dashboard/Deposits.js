@@ -16,20 +16,16 @@ const useStyles = makeStyles({
 
 export default function Deposits(props) {
   const classes = useStyles();
+
   return (
     <React.Fragment>
-      <Title>Bags Lost</Title>
+      <Title>{props.title}</Title>
       <Typography component="p" variant="h4">
         Today: {props.data.daily}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         All Time: {props.data.count}
       </Typography>
-      <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View History
-        </Link>
-      </div>
     </React.Fragment>
   );
 }

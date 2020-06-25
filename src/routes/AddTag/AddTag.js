@@ -62,7 +62,7 @@ class AddTag extends Component {
       })
       // alert(`label name: ${this.state.labelName}, label desc: ${this.state.labelDesc}, Price: ${this.state.returnPrice}`)
 
-      e.preventDefault()
+      // e.preventDefault()
     } catch (err) {
       console.log('error fetching...:', err)
     }

@@ -2,30 +2,19 @@ import React, { useState } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Drawer from '@material-ui/core/Drawer'
 import Box from '@material-ui/core/Box'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import Badge from '@material-ui/core/Badge'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Link from '@material-ui/core/Link'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems } from './listItems'
 import TextField from '@material-ui/core/TextField'
 import Chart from './Chart'
-import Deposits from './Deposits'
 import Orders from './Orders'
-// import logo from '../../lobassalogo.svg'
-import logo from '../../../routes/lobassaLogo.svg'
-import axios from 'axios'
+import api from '../../../api/api'
+import Loader from './loader'
+import Cards from './Cards'
+import Statistic from './statistic'
 
 function Copyright () {
   return (
@@ -121,158 +110,135 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function Dashboard (props) {
+const Dashboard = () => {
   const classes = useStyles()
   const today = new Date()
   const todayDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0')
-  const [open, setOpen] = React.useState(true)
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
+  const [data, setData] = React.useState()
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
   const [inputStart, setInputStart] = useState(todayDate)
   const [inputEnd, setInputEnd] = useState(todayDate)
   const [transData, setTransData] = useState()
   const [loading, setLoading] = useState(true)
 
-  function handleStartChange (e) {
-    setLoading(true)
-    setInputStart(e.target.value)
-    getNewRecs()
+  const [changeTimeout, setChangeTimeout] = React.useState(0)
+
+  const refreshRecords = (tableName) => {
+    if (changeTimeout) {
+      clearTimeout(changeTimeout)
+    }
+    setChangeTimeout(
+      setTimeout(() => {
+        getNewRecs(tableName)
+      }, 1000)
+    )
   }
 
-  function handleEndChange (e) {
+  React.useEffect(() => {
+    const getRecs = async () => {
+      await getStatistics()
+    }
+    getRecs()
+  }, [])
+
+  const getStatistics = async () => {
     setLoading(true)
-    setInputEnd(e.target.value)
-    getNewRecs()
+    try {
+      const res = await api.service.get(`/statistics`)
+      setData(res.data.body)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const useMountEffect = (fun) => React.useEffect(fun, [])
-
-  useMountEffect(function () {
-    axios.get(`https://api.lobassa.com/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
-      .then(res => { setTransData(res.data.body.records); setLoading(false) })
-  })
-
-  function getNewRecs () {
-    axios.get(`https://api.lobassa.com/statistics/range?tableName=transaction&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
-      .then(res => { setTransData(res.data.body.records); setLoading(false) })
+  const getNewRecs = async (tableName) => {
+    setLoading(true)
+    try {
+      const res = await api.service.get(`/statistics/range?tableName=${tableName}&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
+      setTransData(res.data.body)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   function renderDone () {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar style={{ backgroundColor: 'rgba(58,105,176,0.94)' }} position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <div style={{ float: 'left', height: 'inherit' }}>
-              <img src={logo} style={{ maxHeight: '60px' }} alt="LoBassa Logo"></img>
-            </div>
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Admin Page
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-          }}
-          open={open}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>{mainListItems}</List>
-          <Divider />
-        </Drawer>
+        {console.log(data)}
+
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-
-            <Grid container spacing={3}>
-              {/* Chart */}
+           <Container maxWidth="lg" className={classes.container}>
+            <Cards classes={classes} data={data}></Cards>
+          </Container>
+          {/*<Container maxWidth="lg" className={classes.container}>
+            <Grid item xs={12} md={12} lg={12}>
+              <form className={classes.container} noValidate>
+                <TextField
+                  id="startDate"
+                  label="Start Date"
+                  type="date"
+                  className={classes.textField}
+                  value={inputStart}
+                  onChange={(e) => { setInputStart(e.target.value); refreshRecords() }}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+                <TextField
+                  id="endDate"
+                  label="End Date"
+                  type="date"
+                  className={classes.textField}
+                  value={inputEnd}
+                  onChange={(e) => { setInputEnd(e.target.value); refreshRecords() }}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+              </form>
+            </Grid>
+            <Grid container spacing={3} align="center">
               <Grid item xs={12} md={8} lg={9}>
                 <Paper className={fixedHeightPaper}>
-                  <Chart data={props.data.transactionsbymode}/>
+                  <Chart data={data.transaction.transactionsbymode} />
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                  <Deposits data={props.data.products} />
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={12} lg={12}>
-                <form className={classes.container} noValidate>
-                  <TextField
-                    id="startDate"
-                    label="Start Date"
-                    type="date"
-                    className={classes.textField}
-                    value={inputStart}
-                    onChange={handleStartChange}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-
-                  <TextField
-                    id="endDate"
-                    label="End Date"
-                    type="date"
-                    className={classes.textField}
-                    value={inputEnd}
-                    onChange={handleEndChange}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                </form>
-              </Grid>
-              {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <Orders data={transData} />
                 </Paper>
               </Grid>
             </Grid>
+            
             <Box pt={4}>
               <Copyright />
             </Box>
-          </Container>
+          </Container> */}
+
+          <Statistic classes={classes} tableName={'users'} ></Statistic>
+          <Statistic classes={classes} tableName={'products'} ></Statistic>
+          <Statistic classes={classes} tableName={'transaction'} ></Statistic>
+
+          
+          <Box pt={4}>
+              <Copyright />
+            </Box>
+
         </main>
       </div>
     )
   }
 
-  function renderLoad () {
-    return (
-      <div>loading</div>
-    )
-  }
-
   return (
-    loading ? renderLoad() : renderDone()
+    loading ? <Loader /> : renderDone()
   )
 }
+
+export default Dashboard

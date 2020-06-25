@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import QrReader from 'react-qr-scanner'
 import ImageUploading from 'react-images-uploading'
+import api from '../../api/api'
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -18,11 +19,14 @@ class FoundItem extends Component {
       imageUrl: undefined,
       image: false,
       buttonIndicator: false,
-      redirect: false
+      redirect: false,
+      transactionID: undefined,
+      uploadPhoto: false
     }
     this.handleScan = this.handleScan.bind(this)
     this.onUpload = this.onUpload.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.handelNewPhoto = this.handelNewPhoto.bind(this)
   }
 
   handleScan (data) {
@@ -43,8 +47,54 @@ class FoundItem extends Component {
 
   onSubmit () {
     // API call to upload the qrCode and imageURL
-    alert('someone out there thanks you')
-    this.setState({ redirect: true })
+    var body = {
+      productId: this.state.qrCode,
+      price: this.state.returnPrice
+    }
+    try {
+    // API call to create new tag and return tag id,
+    // then we create QR code with tag id
+      api.addTransaction(body).then(response => {
+        // response.json()
+        console.log(response)
+        this.setState({ transactionID: response.body.newItem.transactionId })
+        this.setState({ uploadPhoto: true })
+        console.log(this.state.transactionID)
+        // this.setState({ tagId: response.body.newItem.productId })
+        // this.setState({ dialog: true })
+        // e.preventDefault()
+      })
+      // .then(
+      //   this.handelNewPhoto(),
+      //   this.setState({ redirect: true })
+      // )
+    } catch (err) {
+      console.log('error fetching...:', err)
+    }
+    // alert('someone out there thanks you')
+  }
+
+  componentDidUpdate () {
+    if (this.state.uploadPhoto) {
+      this.handelNewPhoto()
+    }
+  }
+
+  handelNewPhoto () {
+    console.log('calling newPhoto...')
+    var photoBody = {
+      transactionId: this.state.transactionID,
+      photo: this.state.imageUrl
+    }
+    try {
+      api.addPhoto(photoBody).then(response => {
+        console.log(response)
+        this.setState({ uploadPhoto: false })
+        this.setState({ redirect: true })
+      })
+    } catch (err) {
+      console.log('error fetching...:', err)
+    }
   }
 
   handleError (err) {
