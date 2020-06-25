@@ -50,14 +50,12 @@ class MyTagsList extends Component {
     this.handleClose = this.handleClose.bind(this)
     this.reportLost = this.reportLost.bind(this)
     this.reportDelete = this.reportDelete.bind(this)
-    this.reportWant = this.reportWant.bind(this)
+    this.handelPay = this.handlePay.bind(this)
   }
 
   componentDidMount () {
     // fetch the project name, once it retrieves resolve the promsie and update the state.
     this.getLabelsData().then(result => {
-      console.log('Body: ' + (Object.keys(result.body[1])))
-      console.log('Body: ' + (Object.values(result.body[1])))
       this.setState({
         labels: result.body
       })
@@ -88,6 +86,10 @@ class MyTagsList extends Component {
     this.setState({ dialog: true })
   }
 
+  handlePay () {
+
+  }
+
   handleClose () {
     this.setState({ dialog: false })
     this.setState({ foundIndicator: false })
@@ -96,12 +98,6 @@ class MyTagsList extends Component {
   reportLost () {
     alert(`lost tag id ${this.state.selectedTag.productId}`)
     // API call to report lost item. all item details are saved in state - selectedTag
-    this.setState({ dialog: false })
-  }
-
-  reportWant () {
-    alert(`i want tag id ${this.state.selectedTag._id}`)
-    // API call to report user want the lost item, i dont know . all item details are saved in state - selectedTag
     this.setState({ dialog: false })
   }
 
@@ -185,14 +181,14 @@ class MyTagsList extends Component {
             <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img ? this.state.selectedTag.img : 'img' } picture</p>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.transactionStatus === 'found' && <Button variant="outlined" color="primary" onClick={this.reportWant}>
-              I Want it
-            </Button>}
             {this.state.selectedTag.transactionStatus !== 'found' && this.state.selectedTag.status !== 'lost' && <Button variant="outlined" color="primary" onClick={this.reportLost}>
               I Lost it
             </Button>}
-            <Button variant="outlined" color="primary" onClick={this.reportDelete}>
-              {this.state.selectedTag.transactionStatus === 'found' ? 'Never Mind' : 'Delete Tag'}
+            {this.state.selectedTag.transactionStatus === 'found' && <NavLink to='/Test'><Button color="secondary" size="small" >
+              Pay
+            </Button></NavLink>}
+            <Button color="primary" onClick={this.reportDelete}>
+              Delete Tag
             </Button>
           </DialogActions>}
         </Dialog>}
