@@ -49,7 +49,7 @@ export default {
 
   // Transaction func
   getTransaction (body) {
-    return service.get('/transaction')
+    return service.get(`/transaction/${body}`)
       .then(res => res.data)
       .catch(errHandler)
   },
