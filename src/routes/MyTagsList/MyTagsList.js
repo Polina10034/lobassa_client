@@ -56,16 +56,18 @@ class MyTagsList extends Component {
   componentDidMount () {
     // fetch the project name, once it retrieves resolve the promsie and update the state.
     this.getLabelsData().then(result => {
-      this.setState({
-        labels: result.body
-      })
-      // console.log('tag keys', Object.keys(result.body[1]))
-      // console.log('tag values', Object.values(result.body[1]))
-      const foundItem = result.body.filter(item => item.transactionStatus === 'found')
-      if (foundItem.length > 0) {
-        this.setState({ selectedTag: foundItem[0] })
-        this.setState({ dialog: true })
-        this.setState({ foundIndicator: true })
+      if (result.body !== undefined) {
+        this.setState({
+          labels: result.body
+        })
+        // console.log('tag keys', Object.keys(result.body[1]))
+        // console.log('tag values', Object.values(result.body[1]))
+        const foundItem = result.body.filter(item => item.transactionStatus === 'found')
+        if (foundItem.length > 0) {
+          this.setState({ selectedTag: foundItem[0] })
+          this.setState({ dialog: true })
+          this.setState({ foundIndicator: true })
+        }
       }
     })
   }
@@ -125,7 +127,7 @@ class MyTagsList extends Component {
             </a>
           </NavLink>
           <List>
-            {this.state.labels.map((item, i) => (
+            {this.state.labels.length>0 ? this.state.labels.map((item, i) => (
               <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
                 <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.img}/></ListItemAvatar>
                 <ListItemText
@@ -138,7 +140,9 @@ class MyTagsList extends Component {
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
-            ))}
+            ))
+              : <p style={{color: '#00000'}}>No tags to show</p>
+            }
           </List>
           {/* <p className="List-title" style={{ marginTop: '50px' }}>My Founds</p>
           <div className="Tags-list">
@@ -184,7 +188,7 @@ class MyTagsList extends Component {
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             {this.state.selectedTag.transactionStatus !== 'found' && this.state.selectedTag.status !== 'lost' && <Button size="small" color="primary" onClick={this.reportLost}>
-              Lost 
+              Lost
             </Button>}
             {this.state.selectedTag.transactionStatus === 'found' &&
             <Link to={{ pathname: '/Test',
@@ -193,7 +197,7 @@ class MyTagsList extends Component {
                 transactionId: this.state.selectedTag.transactionId
               } }}><Button color="secondary" size="small" >
               Pay
-            </Button></Link>}
+              </Button></Link>}
             <Button color="primary" size="small" onClick={this.reportDelete}>
               Delete
             </Button>
