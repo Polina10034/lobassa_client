@@ -48,6 +48,11 @@ export default {
   },
 
   // Transaction func
+  getTransaction (body) {
+    return service.get('/transaction')
+      .then(res => res.data)
+      .catch(errHandler)
+  },
 
   addTransaction (body) {
     return service.post('/transaction', body)
