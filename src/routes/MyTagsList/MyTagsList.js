@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './MyTagsList.css'
 import { connect } from 'react-redux'
-import { Redirect, NavLink } from 'react-router-dom'
+import { Redirect, NavLink, Link } from 'react-router-dom'
 import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemAvatar,
   Fab,
@@ -43,6 +43,7 @@ class MyTagsList extends Component {
       dialog: false,
       selectedTag: undefined,
       listIndicator: true,
+      foundIndicator: false,
       labels: []
     }
     this.handleChange = this.handleChange.bind(this)
@@ -55,10 +56,17 @@ class MyTagsList extends Component {
   componentDidMount () {
     // fetch the project name, once it retrieves resolve the promsie and update the state.
     this.getLabelsData().then(result => {
-      // console.log('Body: ' + (result.body))
       this.setState({
         labels: result.body
       })
+      // console.log('tag keys', Object.keys(result.body[1]))
+      // console.log('tag values', Object.values(result.body[1]))
+      const foundItem = result.body.filter(item => item.transactionStatus === 'found')
+      if (foundItem.length > 0) {
+        this.setState({ selectedTag: foundItem[0] })
+        this.setState({ dialog: true })
+        this.setState({ foundIndicator: true })
+      }
     })
   }
 
@@ -80,12 +88,13 @@ class MyTagsList extends Component {
     this.setState({ dialog: true })
   }
 
-  handlePay (){
-    
+  handlePay () {
+
   }
 
   handleClose () {
     this.setState({ dialog: false })
+    this.setState({ foundIndicator: false })
   }
 
   reportLost () {
@@ -163,6 +172,9 @@ class MyTagsList extends Component {
           open={this.state.dialog}
           style={{ textAlign: 'center' }}
         >
+          {this.state.foundIndicator && <DialogTitle id="simple-dialog-title">
+            We found somthing that belong to you...
+          </DialogTitle>}
           <DialogTitle id="simple-dialog-title">
             {this.state.selectedTag.name}
           </DialogTitle>
@@ -171,12 +183,17 @@ class MyTagsList extends Component {
             <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img ? this.state.selectedTag.img : 'img' } picture</p>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.transactionStatus !== 'lost' && <Button color="primary" size="small" onClick={this.reportLost}>
-              Lost
+            {this.state.selectedTag.transactionStatus !== 'found' && this.state.selectedTag.status !== 'lost' && <Button size="small" color="primary" onClick={this.reportLost}>
+              Lost 
             </Button>}
-            {this.state.selectedTag.transactionStatus === 'found' && <NavLink to='/Test'><Button color="secondary" size="small" >
+            {this.state.selectedTag.transactionStatus === 'found' &&
+            <Link to={{ pathname: '/Test',
+              state: {
+                productId: this.state.selectedTag.productId,
+                transactionId: this.state.selectedTag.transactionId
+              } }}><Button color="secondary" size="small" >
               Pay
-            </Button></NavLink>}
+            </Button></Link>}
             <Button color="primary" size="small" onClick={this.reportDelete}>
               Delete
             </Button>
