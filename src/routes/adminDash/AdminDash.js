@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Redirect, NavLink } from 'react-router-dom'
 import './App.css'
 import Dashboard from '../components/dashboard/Dashboard'
-import axios from 'axios'
 
-function AdminDash () {
-  const [data, setData] = useState()
-  const [loading, setLoading] = useState(true)
+function AdminDash() {
 
   const state = useSelector(state => state)
   const session = useSelector(state => state.session)
   console.log('Current Session: ', session)
 
+<<<<<<< HEAD
   const useMountEffect = (fun) => useEffect(fun, [])
 
   useMountEffect(function () {
@@ -34,10 +33,18 @@ function AdminDash () {
       </div>
     )
   }
+=======
+  // if (!session.isLoggedIn) {
+  //   return <Redirect to="/" />
+  // }
+>>>>>>> 9c93aed73b73f7cdcb004a38af858501bf61def5
 
   return (
-    loading ? isLoading() : adminPage(data)
+    <div className="App">
+      <Dashboard></Dashboard>
+    </div>
   )
+
 }
 
 export default AdminDash
