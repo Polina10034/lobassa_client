@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './MyTagsList.css'
 import { connect } from 'react-redux'
-import { Redirect, NavLink } from 'react-router-dom'
+import { Redirect, NavLink, Link } from 'react-router-dom'
 import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemAvatar,
   Fab,
@@ -68,10 +68,12 @@ class MyTagsList extends Component {
   }
 
   handleChange (id) {
+    console.log('current Id: ' + id)
     let tag = this.state.labels.filter((item) => item.productId === id)
     if (tag.length === 1) {
       this.setState({ selectedTag: tag[0] })
       this.setState({ listIndicator: true })
+
     } else {
       tag = this.state.labels.filter((item) => item.productId === id)
       this.setState({ selectedTag: tag[0] })
@@ -80,8 +82,8 @@ class MyTagsList extends Component {
     this.setState({ dialog: true })
   }
 
-  handlePay (){
-    
+  handlePay () {
+
   }
 
   handleClose () {
@@ -174,9 +176,14 @@ class MyTagsList extends Component {
             {this.state.selectedTag.transactionStatus !== 'lost' && <Button color="primary" size="small" onClick={this.reportLost}>
               Lost
             </Button>}
-            {this.state.selectedTag.transactionStatus === 'found' && <NavLink to='/Test'><Button color="secondary" size="small" >
+            {this.state.selectedTag.transactionStatus === 'found' &&
+            <Link to={{ pathname: '/Test',
+              state: {
+                productId: this.state.selectedTag.productId,
+                transactionId: this.state.selectedTag.transactionId
+              } }}><Button color="secondary" size="small" >
               Pay
-            </Button></NavLink>}
+              </Button></Link>}
             <Button color="primary" size="small" onClick={this.reportDelete}>
               Delete
             </Button>
