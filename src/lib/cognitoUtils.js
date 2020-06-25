@@ -81,7 +81,7 @@ const getCognitoSession = () => {
           type: result.idToken.payload['cognito:groups'] ? result.idToken.payload['cognito:groups'] : 'user'
         }
       }
-      console.log(session);
+      console.log(session)
       saveState(result)
       resolve(session)
     })
