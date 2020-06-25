@@ -64,10 +64,6 @@ class FoundItem extends Component {
         // this.setState({ dialog: true })
         // e.preventDefault()
       })
-      // .then(
-      //   this.handelNewPhoto(),
-      //   this.setState({ redirect: true })
-      // )
     } catch (err) {
       console.log('error fetching...:', err)
     }

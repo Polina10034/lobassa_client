@@ -8,7 +8,6 @@ import {
   AppBar,
   Toolbar
 } from '@material-ui/core'
-import api from '../../../api/api'
 
 function Header () {
 //   const dispatch = useDispatch()

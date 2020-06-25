@@ -13,6 +13,7 @@ import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemText,
   ListItemSecondaryAction
 } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import { CheckCircleRounded, Add } from '@material-ui/icons'
 
@@ -44,13 +45,14 @@ class MyTagsList extends Component {
       selectedTag: undefined,
       listIndicator: true,
       foundIndicator: false,
-      labels: []
+      labels: [],
+      isLoading: true
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
     this.reportLost = this.reportLost.bind(this)
     this.reportDelete = this.reportDelete.bind(this)
-    this.handelPay = this.handlePay.bind(this)
+    // this.handelPay = this.handlePay.bind(this)
   }
 
   componentDidMount () {
@@ -69,6 +71,7 @@ class MyTagsList extends Component {
           this.setState({ foundIndicator: true })
         }
       }
+      this.setState({ isLoading: false })
     })
   }
 
@@ -90,10 +93,6 @@ class MyTagsList extends Component {
     this.setState({ dialog: true })
   }
 
-  handlePay () {
-
-  }
-
   handleClose () {
     this.setState({ dialog: false })
     this.setState({ foundIndicator: false })
@@ -106,9 +105,22 @@ class MyTagsList extends Component {
   }
 
   reportDelete () {
-    alert(`delete tag id ${this.state.selectedTag.productId}`)
+    // alert(`delete tag id ${this.state.selectedTag.productId}`)
     // API call to delete item. all item details are saved in state - selectedTag
-    this.setState({ dialog: false })
+
+    var body = {
+      id: this.state.selectedTag.productId
+    }
+    console.log('body' + body.id)
+    try {
+      api.deleteTag(body).then(response => {
+        // response.json()
+        console.log(response)
+        this.setState({ dialog: false })
+      })
+    } catch (err) {
+      console.log('error fetching...:', err)
+    }
   }
 
   render () {
@@ -121,13 +133,11 @@ class MyTagsList extends Component {
           <p className="MyList-text">My Tags</p>
         </div>
         <div className="MyList-content">
-          <NavLink to="/FoundItem">
-            <a className="found-button" >
-            I Found Baggage!
-            </a>
-          </NavLink>
+          <Link to="/FoundItem" style={{ textDecoration: 'none' }}>
+            <Button style={{ backgroundColor: '#3A69B0', height: '60px', borderRadius: 40, fontSize: '13px', width: '180px', color: '#FFFFFF' }}>I Found Baggage!</Button>
+          </Link>
           <List>
-            {this.state.labels.length>0 ? this.state.labels.map((item, i) => (
+            { this.state.isLoading ? <CircularProgress/> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => (
               <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
                 <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.img}/></ListItemAvatar>
                 <ListItemText
@@ -141,7 +151,7 @@ class MyTagsList extends Component {
                 </ListItemSecondaryAction>
               </ListItem>
             ))
-              : <p style={{color: '#00000'}}>No tags to show</p>
+              : <p style={{ color: '#00000' }}>No tags to show</p>)
             }
           </List>
           {/* <p className="List-title" style={{ marginTop: '50px' }}>My Founds</p>

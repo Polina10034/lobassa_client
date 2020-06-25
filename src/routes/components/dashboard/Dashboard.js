@@ -5,12 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField'
-import Chart from './Chart'
-import Orders from './Orders'
 import api from '../../../api/api'
 import Loader from './loader'
 import Cards from './Cards'
@@ -174,10 +169,10 @@ const Dashboard = () => {
 
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-           <Container maxWidth="lg" className={classes.container}>
+          <Container maxWidth="lg" className={classes.container}>
             <Cards classes={classes} data={data}></Cards>
           </Container>
-          {/*<Container maxWidth="lg" className={classes.container}>
+          {/* <Container maxWidth="lg" className={classes.container}>
             <Grid item xs={12} md={12} lg={12}>
               <form className={classes.container} noValidate>
                 <TextField
@@ -216,7 +211,7 @@ const Dashboard = () => {
                 </Paper>
               </Grid>
             </Grid>
-            
+
             <Box pt={4}>
               <Copyright />
             </Box>
@@ -226,10 +221,9 @@ const Dashboard = () => {
           <Statistic classes={classes} tableName={'products'} ></Statistic>
           <Statistic classes={classes} tableName={'transaction'} ></Statistic>
 
-          
           <Box pt={4}>
-              <Copyright />
-            </Box>
+            <Copyright />
+          </Box>
 
         </main>
       </div>
