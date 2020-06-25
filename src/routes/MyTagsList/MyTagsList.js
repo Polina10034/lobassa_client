@@ -166,10 +166,13 @@ class MyTagsList extends Component {
             <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img ? this.state.selectedTag.img : 'img' } picture</p>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.transactionStatus !== 'lost' && <Button variant="outlined" color="primary" onClick={this.reportLost}>
+            {this.state.selectedTag.transactionStatus !== 'lost' && <Button color="primary" onClick={this.reportLost}>
               I Lost it
             </Button>}
-            <Button variant="outlined" color="primary" onClick={this.reportDelete}>
+            {this.state.selectedTag.transactionStatus === 'found' && <Button color="primary" onClick={this.reportLost}>
+              Send it back!
+            </Button>}
+            <Button color="primary" onClick={this.reportDelete}>
               Delete Tag
             </Button>
           </DialogActions>}
