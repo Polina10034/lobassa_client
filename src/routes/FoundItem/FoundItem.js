@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './FoundItem.css'
 import { connect } from 'react-redux'
-import HomeIcon from '@material-ui/icons/Home'
 import { Redirect } from 'react-router-dom'
 import QrReader from 'react-qr-scanner'
 import ImageUploading from 'react-images-uploading'
