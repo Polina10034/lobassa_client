@@ -6,6 +6,7 @@ import {
 } from '../constants/actionTypes'
 import cognitoUtils from '../lib/cognitoUtils'
 import { loadState, saveState } from '../actions/localStorage'
+import service from '../api/api'
 
 export const clearSession = () => ({
   type: CLEAR_SESSION
@@ -28,8 +29,11 @@ export function restorSession () {
   console.log('in restore 1')
   return function (dispatch) {
     const session = loadState()
-    console.log('in restoreSessio...' + session)
-    dispatch({ type: SET_SESSION, session })
+    if (session !== undefined) {
+      console.log('session111', session)
+      service.setToken(session.credentials.accessToken, session.credentials.idToken, session.credentials.refreshToken)
+      dispatch({ type: SET_SESSION, session })
+    }
   }
 }
 

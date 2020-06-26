@@ -19,7 +19,6 @@ function Tags () {
   //   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   //   console.log('Is logged?', isLoggedIn)
 
-  console.log('requesting', api.getAll())
   if (!state.session.isLoggedIn) {
     return <Redirect to="/" />
   }
