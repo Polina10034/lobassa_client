@@ -12,6 +12,8 @@ export const loadState = () => {
 
 export const saveState = (state) => {
   try {
+    // if (!state.idToken) return;
+
     if (!state.idToken) return;
     console.log('saving');
     const serializedState = JSON.stringify(state)

@@ -4,12 +4,14 @@ import api from '../api/api'
 const initialState = {
   isLoggedIn: false,
   type: 'user',
-  labelsData: []
+  labelsData: [],
+  aSession: []
 }
-
+//  load from local storage
 const session = (state = initialState, action) => {
   switch (action.type) {
     case SET_SESSION:
+      // const aSesion
       return Object.assign({},
         action.session,
         { isLoggedIn: true,

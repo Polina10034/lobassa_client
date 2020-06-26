@@ -62,7 +62,7 @@ class FinalPayment extends Component {
         </div>
         <div className="Approval-content" >
           <div className="Approval-Title" >
-            <p> Confirmation Number: {this.state.props.confirmationNum} </p>
+            <p> Confirmation Number: XXXXX</p>
           </div>
           <div className="Approval-centerContent" >
             <p>

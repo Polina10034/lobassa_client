@@ -115,7 +115,7 @@ class MyTagsList extends Component {
 
   handleChange (id) {
     const tag = this.state.labels.filter((item) => item.productId === id)
-    if (tag.length === 1) {
+    if (tag.length > 0) {
       this.setState({ selectedTag: tag[0] })
       this.setState({ listIndicator: true })
       if (tag[0].transactionStatus === 'approved') {
@@ -264,7 +264,8 @@ class MyTagsList extends Component {
                   transactionId: this.state.selectedTag.transactionId
                 }
               }}>
-                <Button color="secondary" size="small" >Confirm
+                <Button color="secondary" size="small" >
+                  Confirm
                 </Button></Link>
             }
             <Button color="primary" size="small" onClick={this.reportDelete}>
