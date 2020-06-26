@@ -11,6 +11,10 @@ const AdminDash = () => {
     return <Redirect to="/" />
   }
 
+  if (session.type.toLowerCase() !== 'admin') {
+    return <Redirect to="/" />
+  }
+
   return (
     <div className="App">
       <Dashboard></Dashboard>
