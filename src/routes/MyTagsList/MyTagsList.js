@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import './MyTagsList.css'
 import { connect } from 'react-redux'
 import { Redirect, NavLink, Link } from 'react-router-dom'
-import { DialogContent, DialogTitle, Dialog, Button, DialogActions,
+import {
+  DialogContent, DialogTitle, Dialog, Button, DialogActions,
   ListItemAvatar,
   Fab,
   Avatar,
@@ -72,13 +73,15 @@ class MyTagsList extends Component {
           this.setState({ dialog: true })
           this.setState({ foundIndicator: true })
         }
-        this.getImagePath(foundItem[0].transactionId).then(result => {
-          if (result.body !== undefined) {
-            this.setState({
-              imagePath: result.body.picture_path
-            })
-          }
-        })
+        if (foundItem.length > 0) {
+          this.getImagePath(foundItem[0].transactionId).then(result => {
+            if (result.body !== undefined) {
+              this.setState({
+                imagePath: result.body.picture_path
+              })
+            }
+          })
+        }
       }
       this.setState({ isLoading: false })
     })
@@ -193,9 +196,9 @@ class MyTagsList extends Component {
             <Button style={{ backgroundColor: '#3A69B0', height: '60px', borderRadius: 40, fontSize: '13px', width: '180px', color: '#FFFFFF' }}>I Found Baggage!</Button>
           </Link>
           <List>
-            { this.state.isLoading ? <CircularProgress/> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => (
+            {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => (
               <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
-                <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.picture_path ? URL + `${item.picture_path}` : `${URL}/suitcase.png`} alt={'img'}/></ListItemAvatar>
+                <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.picture_path ? URL + `${item.picture_path}` : `${URL}/suitcase.png`} alt={'img'} /></ListItemAvatar>
                 <ListItemText
                   primary={<Typography style={{ color: '#434d63' }}>{item.name}</Typography>}
                   secondary={item.description}
@@ -237,26 +240,30 @@ class MyTagsList extends Component {
           <DialogContent>
             <p>{this.state.selectedTag.description}</p>
             {/* {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>} */}
-            <img style={{ width: '250px' }} src={this.state.imagePath ? URL + `${this.state.imagePath}` : `${URL}/suitcase.png`}/>
+            <img style={{ width: '250px' }} src={this.state.imagePath ? URL + `${this.state.imagePath}` : `${URL}/suitcase.png`} />
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
               Lost
             </Button>}
             {this.state.selectedTag.transactionStatus === 'approved' && !this.state.selectedTag.activeTransaction &&
-            <Link to={{ pathname: '/Test',
-              state: {
-                productId: this.state.selectedTag.productId,
-                transactionId: this.state.selectedTag.transactionId
-              } }}><Button color="secondary" size="small" >
-              Pay
-              </Button></Link>
+              <Link to={{
+                pathname: '/Test',
+                state: {
+                  productId: this.state.selectedTag.productId,
+                  transactionId: this.state.selectedTag.transactionId
+                }
+              }}><Button color="secondary" size="small" >
+                  Pay
+                </Button></Link>
             }
             {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus !== 'confirmed' &&
-              <Link to={{ pathname: '/finalPayment',
+              <Link to={{
+                pathname: '/finalPayment',
                 state: {
                   transactionId: this.state.selectedTag.transactionId
-                } }}>
+                }
+              }}>
                 <Button color="secondary" size="small" >Confirm
                 </Button></Link>
             }

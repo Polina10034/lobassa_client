@@ -8,22 +8,23 @@ import {
   Button
 } from '@material-ui/core'
 // import { Link } from 'react-router-dom'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => {
   return { session: state.session }
 }
 
 class Approval extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {}
   }
 
-  getQuery() {
+  getQuery () {
     const query = window.location.search
+    console.log(`query:${query}`)
     const params = query.split('&')
-    const toSend = `${params[0]}&${params[2]}&${params[4]}`
+    const toSend = `${params[0]}&${params[1]}&${params[3]}`
     console.log(toSend)
     // console.log(`to send:${toSend}`)
     const proxyurl = 'https://cors-anywhere.herokuapp.com/'
@@ -45,7 +46,7 @@ class Approval extends Component {
       })
   }
 
-  render() {
+  render () {
     return (
       <div className="Approval">
         <div className="Approval-header">
