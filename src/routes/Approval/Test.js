@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Loader from '../components/dashboard/loader/index'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 class Test extends Component {
     _isMounted = false
@@ -7,14 +9,18 @@ class Test extends Component {
       super(props)
       this.state = {
         redirectURL: '',
-        redirect: false
+        redirect: false,
+        isLoading: true
       }
     }
 
     componentDidMount () {
+      const { productId } = this.props.location.state
+      const { transactionId } = this.props.location.state
       this._isMounted = true
+      // this.funcCall()
       const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-      const URL = 'https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/paypallogin?transactionId=88&productId=4'
+      const URL = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/paypallogin?transactionId=${transactionId}&productId=${productId}`
       fetch(proxyurl + URL, {
         method: 'GET',
         headers: {
@@ -30,6 +36,7 @@ class Test extends Component {
               redirectURL: data.PayPalLink,
               redirect: true
             })
+            this.setState({ isLoading: false })
           }
         })
         .catch((error) => {
@@ -53,11 +60,18 @@ class Test extends Component {
     }
 
     render () {
+      // return (
+      //   loading ? <Loader /> : renderDone()
+      // )
       return (
-        <div>
-          {this.renderRedirect()}
-          {console.log(this.state.redirectURL)}
-        </div>
+        this.state.isLoading
+          ? <div style={{ alignItems: 'center' }}><Loader style={{ marginRight: '50%' }}/> </div>
+          : <div>
+            {console.log(this.state.redirectURL)}
+            {this.renderRedirect()}
+
+          </div>
+
       )
     }
 }

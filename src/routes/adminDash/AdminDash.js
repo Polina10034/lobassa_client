@@ -1,43 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Redirect, NavLink } from 'react-router-dom'
 import './App.css'
 import Dashboard from '../components/dashboard/Dashboard'
-import axios from 'axios'
 
-function AdminDash () {
-  const [data, setData] = useState()
-  const [loading, setLoading] = useState(true)
+function AdminDash() {
 
   const state = useSelector(state => state)
   const session = useSelector(state => state.session)
   console.log('Current Session: ', session)
 
-  const useMountEffect = (fun) => useEffect(fun, [])
-
-  useMountEffect(function () {
-    axios.get('https://api.lobassa.com/statistics')
-      .then(res => { setData(res.data.body); setLoading(false) })
-  })
-
-  function isLoading () {
-    return (
-      <div>
-        <span>loading...</span>
-      </div>
-    )
-  }
-
-  function adminPage (data) {
-    return (
-      <div className="App">
-        <Dashboard data={data}></Dashboard>
-      </div>
-    )
-  }
+  // if (!session.isLoggedIn) {
+  //   return <Redirect to="/" />
+  // }
 
   return (
-    loading ? isLoading() : adminPage(data)
+    <div className="App">
+      <Dashboard></Dashboard>
+    </div>
   )
+
 }
 
 export default AdminDash
