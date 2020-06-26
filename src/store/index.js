@@ -12,8 +12,9 @@ const store = createStore(rootReducer, persistedState,
 )
 
 store.subscribe(throttle(() => {
+  console.log("in saveState")
   saveState({
-    isLoggedIn: store.getState().isLoggedIn
+    session: store.getState()
   })
 }, 1000))
 

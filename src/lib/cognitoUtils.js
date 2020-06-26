@@ -3,7 +3,6 @@ import { CognitoUserPool } from 'amazon-cognito-identity-js'
 import { config as AWSConfig } from 'aws-sdk'
 import appConfig from '../config/app-config.json'
 import service from '../api/api'
-import { saveState } from '../actions/localStorage'
 AWSConfig.region = appConfig.region
 
 // Creates a CognitoAuth instance
@@ -82,7 +81,6 @@ const getCognitoSession = () => {
         }
       }
       console.log(session)
-      saveState(result)
       resolve(session)
     })
   })
