@@ -15,23 +15,29 @@ import AdminDash from '../src/routes/adminDash/AdminDash'
 import FinalPayment from '../src/routes/finalPayment/FinalPayment'
 import { createBrowserHistory } from 'history'
 import Cancel from './routes/cancel/Cancel'
+import { ThemeProvider } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/core/styles'
+import theme from './theme/appTheme'
 
 const history = createBrowserHistory()
 
 const App = () => (
-  <Router history={history}>
-    <Header/>
-    <Route exact path="/" component={Home}/>
-    <Route exact path="/callback" component={Callback}/>
-    <Route exact path="/dashboard" component={AdminDash}/>
-    <Route exact path="/tags" component={MyTagsList}/>
-    <Route exact path="/AddTag" component={AddTag}/>
-    <Route exact path="/FoundItem" component={FoundItem}/>
-    <Route exact path="/Approval" component={Approval}/>
-    <Route exact path="/Test" component={Test}/>
-    <Route exact path="/finalPayment" component={FinalPayment}/>
-    <Route exact path="/Cancel" component={Cancel}/>
-  </Router>
+  <ThemeProvider theme={theme}>
+    <Router history={history}>
+      <Header/>
+      <Route exact path="/" component={Home}/>
+      <Route exact path="/callback" component={Callback}/>
+      <Route exact path="/dashboard" component={AdminDash}/>
+      <Route exact path="/tags" component={MyTagsList}/>
+      <Route exact path="/AddTag" component={AddTag}/>
+      <Route exact path="/FoundItem" component={FoundItem}/>
+      <Route exact path="/Approval" component={Approval}/>
+      <Route exact path="/Test" component={Test}/>
+      <Route exact path="/finalPayment" component={FinalPayment}/>
+      <Route exact path="/Cancel" component={Cancel}/>
+    </Router>
+  </ThemeProvider>
+
 )
 
 export default App

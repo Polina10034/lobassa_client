@@ -236,8 +236,8 @@ class MyTagsList extends Component {
           </DialogTitle>
           <DialogContent>
             <p>{this.state.selectedTag.description}</p>
-            {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>}
-            {this.state.imagePath && <img src={`https://lobassa-photos.s3-eu-west-1.amazonaws.com${this.state.imagePath}`} />}
+            {/* {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>} */}
+            <img style={{ width: '250px' }} src={this.state.imagePath ? URL + `${this.state.imagePath}` : `${URL}/suitcase.png`}/>
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
