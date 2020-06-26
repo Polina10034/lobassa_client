@@ -12,6 +12,7 @@ import MyTagsList from './routes/MyTagsList/MyTagsList'
 import Approval from '../src/routes/Approval/Approval'
 import Test from '../src/routes/Approval/Test'
 import AdminDash from '../src/routes/adminDash/AdminDash'
+import FinalPayment from '../src/routes/finalPayment/FinalPayment'
 import { createBrowserHistory } from 'history'
 import Cancel from './routes/cancel/Cancel'
 
@@ -28,6 +29,7 @@ const App = () => (
     <Route exact path="/FoundItem" component={FoundItem}/>
     <Route exact path="/Approval" component={Approval}/>
     <Route exact path="/Test" component={Test}/>
+    <Route exact path="/finalPayment" component={FinalPayment}/>
     <Route exact path="/Cancel" component={Cancel}/>
   </Router>
 )

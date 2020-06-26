@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Loader from '../components/dashboard/loader/index'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 class Test extends Component {
     _isMounted = false
 
@@ -63,7 +65,7 @@ class Test extends Component {
       // )
       return (
         this.state.isLoading
-          ? <div style={{ alignItems: 'center', paddingRight: '50%' }}><Loader style={{ margin: '0 auto' }}/> </div>
+          ? <div style={{ alignItems: 'center' }}><Loader style={{ marginRight: '50%' }}/> </div>
           : <div>
             {console.log(this.state.redirectURL)}
             {this.renderRedirect()}
