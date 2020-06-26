@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Box from '@material-ui/core/Box'
@@ -11,7 +10,7 @@ import Loader from './loader'
 import Cards from './Cards'
 import Statistic from './statistic'
 
-function Copyright () {
+const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -107,28 +106,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles()
-  const today = new Date()
-  const todayDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0')
   const [data, setData] = React.useState()
-
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
-  const [inputStart, setInputStart] = useState(todayDate)
-  const [inputEnd, setInputEnd] = useState(todayDate)
-  const [transData, setTransData] = useState()
   const [loading, setLoading] = useState(true)
-
-  const [changeTimeout, setChangeTimeout] = React.useState(0)
-
-  const refreshRecords = (tableName) => {
-    if (changeTimeout) {
-      clearTimeout(changeTimeout)
-    }
-    setChangeTimeout(
-      setTimeout(() => {
-        getNewRecs(tableName)
-      }, 1000)
-    )
-  }
 
   React.useEffect(() => {
     const getRecs = async () => {
@@ -149,24 +128,10 @@ const Dashboard = () => {
     }
   }
 
-  const getNewRecs = async (tableName) => {
-    setLoading(true)
-    try {
-      const res = await api.service.get(`/statistics/range?tableName=${tableName}&tableparm=updateDate&startDate=${inputStart}&endDate=${inputEnd}&filter=none`)
-      setTransData(res.data.body)
-    } catch (e) {
-      console.log(e)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  function renderDone () {
+  const renderDone = () => {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        {console.log(data)}
-
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>

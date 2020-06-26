@@ -54,8 +54,6 @@ const Statistic = (props) => {
 
   return (
     <Grid container >
-      {console.log(data)}
-
       <Grid item xs={12} md={12} lg={12}>
         <form className={props.classes.container} noValidate>
           <TextField
