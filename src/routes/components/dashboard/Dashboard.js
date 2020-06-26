@@ -15,7 +15,7 @@ function Copyright () {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://lobassa.com/">
         LoBassa
       </Link>{' '}
       {new Date().getFullYear()}
@@ -172,50 +172,6 @@ const Dashboard = () => {
           <Container maxWidth="lg" className={classes.container}>
             <Cards classes={classes} data={data}></Cards>
           </Container>
-          {/* <Container maxWidth="lg" className={classes.container}>
-            <Grid item xs={12} md={12} lg={12}>
-              <form className={classes.container} noValidate>
-                <TextField
-                  id="startDate"
-                  label="Start Date"
-                  type="date"
-                  className={classes.textField}
-                  value={inputStart}
-                  onChange={(e) => { setInputStart(e.target.value); refreshRecords() }}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-                <TextField
-                  id="endDate"
-                  label="End Date"
-                  type="date"
-                  className={classes.textField}
-                  value={inputEnd}
-                  onChange={(e) => { setInputEnd(e.target.value); refreshRecords() }}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </form>
-            </Grid>
-            <Grid container spacing={3} align="center">
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper className={fixedHeightPaper}>
-                  <Chart data={data.transaction.transactionsbymode} />
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Orders data={transData} />
-                </Paper>
-              </Grid>
-            </Grid>
-
-            <Box pt={4}>
-              <Copyright />
-            </Box>
-          </Container> */}
 
           <Statistic classes={classes} tableName={'users'} ></Statistic>
           <Statistic classes={classes} tableName={'products'} ></Statistic>
@@ -224,7 +180,6 @@ const Dashboard = () => {
           <Box pt={4}>
             <Copyright />
           </Box>
-
         </main>
       </div>
     )
