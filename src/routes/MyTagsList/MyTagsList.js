@@ -47,7 +47,8 @@ class MyTagsList extends Component {
       listIndicator: true,
       foundIndicator: false,
       labels: [],
-      isLoading: true
+      isLoading: true,
+      imagePath: undefined
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
@@ -63,17 +64,44 @@ class MyTagsList extends Component {
         this.setState({
           labels: result.body
         })
-        // console.log('tag keys', Object.keys(result.body[1]))
-        // console.log('tag values', Object.values(result.body[1]))
         const foundItem = result.body.filter(item => item.transactionStatus === 'found')
         if (foundItem.length > 0) {
           this.setState({ selectedTag: foundItem[0] })
           this.setState({ dialog: true })
           this.setState({ foundIndicator: true })
         }
+        this.getImagePath(foundItem[0].transactionId).then(result => {
+          if (result.body !== undefined) {
+            this.setState({
+              imagePath: result.body.picture_path
+            })
+          }
+        })
       }
       this.setState({ isLoading: false })
     })
+  }
+
+  handleChange (id) {
+    const tag = this.state.labels.filter((item) => item.productId === id)
+    if (tag.length === 1) {
+      this.setState({ selectedTag: tag[0] })
+      this.setState({ listIndicator: true })
+      if (tag[0].transactionStatus === 'found') {
+        this.getImagePath(tag[0].transactionId).then(result => {
+          if (result.body !== undefined) {
+            this.setState({
+              imagePath: result.body.picture_path
+            })
+          }
+        })
+      }
+    }
+    this.setState({ dialog: true })
+  }
+
+  getImagePath (id) {
+    return api.getTransaction(id)
   }
 
   getLabelsData () {
@@ -81,22 +109,10 @@ class MyTagsList extends Component {
     return api.getAll()
   }
 
-  handleChange (id) {
-    let tag = this.state.labels.filter((item) => item.productId === id)
-    if (tag.length === 1) {
-      this.setState({ selectedTag: tag[0] })
-      this.setState({ listIndicator: true })
-    } else {
-      tag = this.state.labels.filter((item) => item.productId === id)
-      this.setState({ selectedTag: tag[0] })
-      this.setState({ listIndicator: false })
-    }
-    this.setState({ dialog: true })
-  }
-
   handleClose () {
     this.setState({ dialog: false })
     this.setState({ foundIndicator: false })
+    this.setState({ imagePath: undefined })
   }
 
   reportLost () {
@@ -195,7 +211,8 @@ class MyTagsList extends Component {
           </DialogTitle>
           <DialogContent>
             <p>{this.state.selectedTag.description}</p>
-            <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>{this.state.selectedTag.img ? this.state.selectedTag.img : 'img' } picture</p>
+            {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>}
+            {this.state.imagePath && <img src={`https://lobassa-photos.s3-eu-west-1.amazonaws.com${this.state.imagePath}`} />}
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             {this.state.selectedTag.transactionStatus !== 'found' && this.state.selectedTag.status !== 'lost' && <Button size="small" color="primary" onClick={this.reportLost}>
