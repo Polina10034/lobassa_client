@@ -7,7 +7,7 @@ import {
   AppBar,
   Button
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -46,6 +46,14 @@ class FinalPayment extends Component {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
+        if (data.statusCode === 200) {
+          alert('The transaction is confirmed')
+        }
+        if (data.statusCode === 500) {
+          return (
+            <Redirect to='/Cancel' />
+          )
+        }
       })
       .catch((error) => {
         console.error(`error:${error}`)
@@ -66,8 +74,8 @@ class FinalPayment extends Component {
           </div>
           <div className="Approval-centerContent" >
             <p>
-                Your payment sent succesfully.
-                Thank You!
+              Your payment sent succesfully.
+              Thank You!
             </p>
           </div>
           <div className="Approval-bottomContent" >
