@@ -30,12 +30,19 @@ export default {
 
   deleteTag (body) {
     return service
-      .delete('/tag', body)
+      .delete('/tag', { data: body})
       .then(res => res.data)
       .catch(errHandler)
   },
 
   updateTag (id, body) {
+    return service
+      .put('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+  reportTagLost (body) {
+    console.log('reporting lost: ' + body.id)
     return service
       .put('/tag', body)
       .then(res => res.data)
