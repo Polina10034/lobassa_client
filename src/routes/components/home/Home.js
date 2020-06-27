@@ -27,7 +27,6 @@ class Home extends Component {
 
   componentDidMount () {
     if (this.props.session.isLoggedIn === false) {
-      console.log("calling restore")
       this.props.restorSession()
     }
   }
@@ -48,9 +47,7 @@ class Home extends Component {
         </div>
         <div className="Home-details">
           <Typography>Please Sign In</Typography>
-
         </div>
-
       </div>
     )
   }

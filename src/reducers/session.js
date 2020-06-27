@@ -8,7 +8,6 @@ const initialState = {
 }
 //  load from local storage
 const session = (state = initialState, action) => {
-  console.log('state', state)
   switch (action.type) {
     case SET_SESSION:
       // const aSesion
@@ -19,8 +18,6 @@ const session = (state = initialState, action) => {
       })
 
     case CLEAR_SESSION:
-      // return initialState
-      console.log('in clear session..')
       return {
         isSignOut: true,
         ...initialState
@@ -31,7 +28,6 @@ const session = (state = initialState, action) => {
       return state
 
     case RESTORE_SESSION:
-      console.log('restore_session')
       const crrState = loadState()
       return crrState
 

@@ -41,7 +41,6 @@ class FoundItem extends Component {
     if (data[0]) {
       this.setState({ imageUrl: data[0].dataURL })
       this.setState({ buttonIndicator: true })
-      console.log(data[0].dataURL)
     }
   }
 
@@ -56,16 +55,14 @@ class FoundItem extends Component {
     // then we create QR code with tag id
       api.addTransaction(body).then(response => {
         // response.json()
-        console.log(response)
         this.setState({ transactionID: response.body.newItem.transactionId })
         this.setState({ uploadPhoto: true })
-        console.log(this.state.transactionID)
         // this.setState({ tagId: response.body.newItem.productId })
         // this.setState({ dialog: true })
         // e.preventDefault()
       })
     } catch (err) {
-      console.log('error fetching...:', err)
+      console.error('error fetching...:', err)
     }
     // alert('someone out there thanks you')
   }
@@ -77,19 +74,17 @@ class FoundItem extends Component {
   }
 
   handelNewPhoto () {
-    console.log('calling newPhoto...')
     var photoBody = {
       transactionId: this.state.transactionID,
       photo: this.state.imageUrl
     }
     try {
       api.addPhoto(photoBody).then(response => {
-        console.log(response)
         this.setState({ uploadPhoto: false })
         this.setState({ redirect: true })
       })
     } catch (err) {
-      console.log('error fetching...:', err)
+      console.error('error fetching...:', err)
     }
   }
 

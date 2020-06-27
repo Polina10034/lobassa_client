@@ -3,6 +3,7 @@ import { CognitoUserPool } from 'amazon-cognito-identity-js'
 import { config as AWSConfig } from 'aws-sdk'
 import appConfig from '../config/app-config.json'
 import service from '../api/api'
+
 AWSConfig.region = appConfig.region
 
 // Creates a CognitoAuth instance
@@ -67,7 +68,6 @@ const getCognitoSession = () => {
 
       // Resolve the promise with the session credentials
       service.setToken(result.accessToken.jwtToken, result.idToken.jwtToken, result.refreshToken.token)
-      console.log('Successfully got session: ' + JSON.stringify(result))
       const session = {
         credentials: {
           accessToken: result.accessToken.jwtToken,
@@ -80,7 +80,6 @@ const getCognitoSession = () => {
           type: result.idToken.payload['cognito:groups'] ? result.idToken.payload['cognito:groups'] : 'user'
         }
       }
-      console.log(session)
       resolve(session)
     })
   })
@@ -89,6 +88,7 @@ const getCognitoSession = () => {
 // Sign out of the current session (will redirect to signout URI)
 const signOutCognitoSession = () => {
   const auth = createCognitoAuth()
+  localStorage.clear()
   auth.signOut()
 }
 

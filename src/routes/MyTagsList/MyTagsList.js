@@ -155,12 +155,11 @@ class MyTagsList extends Component {
     try {
       api.reportTagLost(body).then(response => {
         // response.json()
-        console.log(response)
         this.setState({ updateStatus: !this.state.updateStatus })
         this.setState({ dialog: false })
       })
     } catch (err) {
-      console.log('error fetching...:', err)
+      console.error('error fetching...:', err)
     }
     this.setState({ dialog: false })
   }
@@ -169,16 +168,14 @@ class MyTagsList extends Component {
     var body = {
       id: this.state.selectedTag.productId
     }
-    console.log('body' + body.id)
     try {
       api.deleteTag(body).then(response => {
         // response.json()
-        console.log(response)
         this.setState({ updateStatus: !this.state.updateStatus })
         this.setState({ dialog: false })
       })
     } catch (err) {
-      console.log('error fetching...:', err)
+      console.error('error fetching...:', err)
     }
   }
 

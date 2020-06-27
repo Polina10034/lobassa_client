@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import cognitoUtils from '../../../lib/cognitoUtils'
 import { NavLink } from 'react-router-dom'
 import {
@@ -10,20 +10,12 @@ import {
 } from '@material-ui/core'
 
 function Header () {
-//   const dispatch = useDispatch()
-//   const { state } = props
-  // const handleLogout = () => dispatch(logout());
-  const dispatch = useDispatch()
-  const clearSession = () => dispatch(clearSession())
-
   const state = useSelector(state => state)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
-  console.log('Is logged?', state.session)
 
   const onSignOut = (e) => {
     e.preventDefault()
     cognitoUtils.signOutCognitoSession()
-    clearSession()
   }
 
   return (

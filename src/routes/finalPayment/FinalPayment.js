@@ -45,7 +45,6 @@ class FinalPayment extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
         if (data.statusCode === 200) {
           alert('The transaction is confirmed')
         }
