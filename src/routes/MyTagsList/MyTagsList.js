@@ -240,7 +240,8 @@ class MyTagsList extends Component {
           <DialogContent>
             <p>{this.state.selectedTag.description}</p>
             {/* {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>} */}
-            <img style={{ width: '250px' }} src={this.state.imagePath ? URL + `${this.state.imagePath}` : `${URL}/suitcase.png`} />
+            {this.state.imagePath
+              ? <img style={{ width: '250px' }} src={ URL + `${this.state.imagePath}`} /> : <CircularProgress/>}
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
@@ -258,7 +259,7 @@ class MyTagsList extends Component {
                 </Button></Link>
             }
             {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus !== 'confirmed' &&
-              <Link to={{
+              <Link style={{textDecoration: 'none' }} to={{
                 pathname: '/finalPayment',
                 state: {
                   transactionId: this.state.selectedTag.transactionId

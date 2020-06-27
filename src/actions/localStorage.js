@@ -18,3 +18,13 @@ export const saveState = (state) => {
     // ignore write errors
   }
 }
+
+export const clearState = () => {
+  try {
+    // const serializedState = JSON.stringify(state)
+    localStorage.clearItem('state')
+    localStorage.clear()
+  } catch {
+    // ignore write errors
+  }
+}

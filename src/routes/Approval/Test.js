@@ -65,7 +65,7 @@ class Test extends Component {
       // )
       return (
         this.state.isLoading
-          ? <div style={{ alignItems: 'center' }}><Loader style={{ marginRight: '50%' }}/> </div>
+          ? <CircularProgress style={{ margin: 'auto 0' }} />
           : <div>
             {console.log(this.state.redirectURL)}
             {this.renderRedirect()}

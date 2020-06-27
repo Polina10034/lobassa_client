@@ -135,10 +135,10 @@ class AddTag extends Component {
               />}
           </DialogContent>
           <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            <Button variant="outlined" color="primary" onClick={this.handlePrint}>
+            <Button color="primary" onClick={this.handlePrint}>
               Print
             </Button>
-            <Button variant="outlined" color="primary" onClick={this.handleClose}>
+            <Button color="primary" onClick={this.handleClose}>
               Done
             </Button>
           </DialogActions>
