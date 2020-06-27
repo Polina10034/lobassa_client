@@ -18,7 +18,6 @@ export default {
   service: service,
 
   getAll () {
-    console.log('calling function')
     return service.get('/tag/all').then(res => res.data).catch(errHandler)
   },
 
@@ -30,12 +29,18 @@ export default {
 
   deleteTag (body) {
     return service
-      .delete('/tag', body)
+      .delete('/tag', { data: body })
       .then(res => res.data)
       .catch(errHandler)
   },
 
   updateTag (id, body) {
+    return service
+      .put('/tag', body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+  reportTagLost (body) {
     return service
       .put('/tag', body)
       .then(res => res.data)
@@ -48,6 +53,11 @@ export default {
   },
 
   // Transaction func
+  getTransaction (body) {
+    return service.get(`/transaction/${body}`)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
 
   addTransaction (body) {
     return service.post('/transaction', body)

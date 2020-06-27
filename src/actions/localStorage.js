@@ -12,11 +12,18 @@ export const loadState = () => {
 
 export const saveState = (state) => {
   try {
-    if (!state.idToken) return;
-    console.log('saving');
     const serializedState = JSON.stringify(state)
-    console.log(serializedState);
     localStorage.setItem('state', serializedState)
+  } catch {
+    // ignore write errors
+  }
+}
+
+export const clearState = () => {
+  try {
+    // const serializedState = JSON.stringify(state)
+    localStorage.clearItem('state')
+    localStorage.clear()
   } catch {
     // ignore write errors
   }

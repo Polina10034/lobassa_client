@@ -7,6 +7,7 @@ import {
   AppBar,
   Button
 } from '@material-ui/core'
+// import { Link } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => {
@@ -21,13 +22,15 @@ class Approval extends Component {
 
   getQuery () {
     const query = window.location.search
+    console.log(`query:${query}`)
     const params = query.split('&')
-    const toSend = `${params[0]}&${params[2]}&${params[4]}`
+    const toSend = `${params[0]}&${params[1]}&${params[3]}`
+    console.log(toSend)
     // console.log(`to send:${toSend}`)
-    const proxyurl = 'https://cors-anywhere.herokuapp.com/'
+    // const proxyurl = 'https://cors-anywhere.herokuapp.com/'
     // console.log(`toSend:${toSend}`)
     const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/paymentsuccess${toSend}`
-    fetch(proxyurl + url, {
+    fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +78,7 @@ class Approval extends Component {
           {this.getQuery()}
           <div className="Approval-home">
             <Link to="/tags" style={{ textDecoration: 'none' }}>
-              <Button style={{ backgroundColor: '#01A39D', borderRadius: 22, color: '#FFFFFF' }}>Comeback Home</Button>
+              <Button style={{ backgroundColor: '#3A69B0', borderRadius: 22, width: '80px', color: '#FFFFFF' }}>Home</Button>
             </Link>
           </div>
         </div >
@@ -83,5 +86,4 @@ class Approval extends Component {
     )
   }
 }
-
 export default connect(mapStateToProps)(Approval)

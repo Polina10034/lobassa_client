@@ -11,10 +11,4 @@ const store = createStore(rootReducer, persistedState,
   storeEnhancers(applyMiddleware(thunk))
 )
 
-store.subscribe(throttle(() => {
-  saveState({
-    isLoggedIn: store.getState().isLoggedIn
-  })
-}, 1000))
-
 export default store

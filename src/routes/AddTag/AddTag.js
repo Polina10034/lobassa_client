@@ -64,7 +64,7 @@ class AddTag extends Component {
 
       // e.preventDefault()
     } catch (err) {
-      console.log('error fetching...:', err)
+      console.error('error fetching...:', err)
     }
   }
 
@@ -135,10 +135,10 @@ class AddTag extends Component {
               />}
           </DialogContent>
           <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            <Button variant="outlined" color="primary" onClick={this.handlePrint}>
+            <Button color="primary" onClick={this.handlePrint}>
               Print
             </Button>
-            <Button variant="outlined" color="primary" onClick={this.handleClose}>
+            <Button color="primary" onClick={this.handleClose}>
               Done
             </Button>
           </DialogActions>
