@@ -7,8 +7,16 @@ import {
   AppBar,
   Button
 } from '@material-ui/core'
-// import { Link } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import api from '../../api/api'
+
+import { restorSession } from '../../actions/session'
+
+function mapDispatchToProps (dispatch) {
+  return {
+    restorSession: () => dispatch(restorSession())
+  }
+}
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -20,30 +28,20 @@ class Approval extends Component {
     this.state = {}
   }
 
+  componentDidMount () {
+    // if (this.props.session.isLoggedIn === false) {
+    this.props.restorSession()
+  }
+
   getQuery () {
     const query = window.location.search
     console.log(`query:${query}`)
     const params = query.split('&')
     const toSend = `${params[0]}&${params[1]}&${params[3]}`
     console.log(toSend)
-    // console.log(`to send:${toSend}`)
-    const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-    // console.log(`toSend:${toSend}`)
-    const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/paymentsuccess${toSend}`
-    fetch(proxyurl + url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
+    api.approval(toSend).then(response => {
+      console.log(response)
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((error) => {
-        console.error(`error:${error}`)
-      })
   }
 
   render () {
@@ -86,4 +84,4 @@ class Approval extends Component {
     )
   }
 }
-export default connect(mapStateToProps)(Approval)
+export default connect(mapStateToProps, mapDispatchToProps)(Approval)

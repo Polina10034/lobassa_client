@@ -229,7 +229,7 @@ class MyTagsList extends Component {
           style={{ textAlign: 'center' }}
         >
           {this.state.foundIndicator && <DialogTitle id="simple-dialog-title">
-            We found somthing that belong to you...
+            We found somthing that belongs to you...
           </DialogTitle>}
           <DialogTitle id="simple-dialog-title">
             {this.state.selectedTag.name}
@@ -244,9 +244,10 @@ class MyTagsList extends Component {
             {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
               Lost
             </Button>}
+            {/* {this.state.selectedTag.transactionStatus === 'pending' && this.state.selectedTag.activeTransaction && */}
             {this.state.selectedTag.transactionStatus === 'approved' && this.state.selectedTag.transactionId !== undefined &&
-              <Link style={{textDecoration: 'none' }} to={{
-                pathname: '/Test',
+              <Link style={{ textDecoration: 'none' }} to={{
+                pathname: '/GetPayPalLink',
                 state: {
                   productId: this.state.selectedTag.productId,
                   transactionId: this.state.selectedTag.transactionId
@@ -255,8 +256,9 @@ class MyTagsList extends Component {
                   Pay
                 </Button></Link>
             }
+            {/* {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'approved' && */}
             {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus !== 'confirmed' &&
-              <Link style={{textDecoration: 'none' }} to={{
+              <Link style={{ textDecoration: 'none' }} to={{
                 pathname: '/finalPayment',
                 state: {
                   transactionId: this.state.selectedTag.transactionId

@@ -8,6 +8,7 @@ import {
   Button
 } from '@material-ui/core'
 import { Link, Redirect } from 'react-router-dom'
+import api from '../../api/api'
 
 const mapStateToProps = state => {
   return { session: state.session }
@@ -29,34 +30,37 @@ class FinalPayment extends Component {
   }
 
   getQuery (transactionId) {
-    // const query = window.location.search
-    // const params = query.split('&')
-    // const toSend = `${params[0]}&${params[2]}&${params[4]}`
-    // console.log(`to send:${toSend}`)
-    const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-    // console.log(`toSend:${toSend}`)
-    const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/executepayment${transactionId}`
-    fetch(proxyurl + url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
+    api.executeTransaction(transactionId).then(response => {
+      console.log(response)
+      // this.setState({ tagId: response.body.newItem.productId })
+      // this.setState({ dialog: true })
+      // this.setState({ isLoading: false })
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.statusCode === 200) {
-          alert('The transaction is confirmed')
-        }
-        if (data.statusCode === 500) {
-          return (
-            <Redirect to='/Cancel' />
-          )
-        }
-      })
-      .catch((error) => {
-        console.error(`error:${error}`)
-      })
+
+
+    // const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/executepayment${transactionId}`
+    // fetch(url, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*'
+    //   }
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data)
+    //     if (data.statusCode === 200) {
+    //       alert('The transaction is confirmed')
+    //     }
+    //     if (data.statusCode === 500) {
+    //       return (
+    //         <Redirect to='/Cancel' />
+    //       )
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(`error:${error}`)
+    //   })
   }
 
   render () {
@@ -69,7 +73,7 @@ class FinalPayment extends Component {
         </div>
         <div className="Approval-content" >
           <div className="Approval-Title" >
-            <p> Confirmation Number: XXXXX</p>
+            {/* <p> Confirmation Number: {this.state.props.confirmationNum} </p> */}
           </div>
           <div className="Approval-centerContent" >
             <p>
