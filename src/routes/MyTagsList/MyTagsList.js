@@ -248,7 +248,7 @@ class MyTagsList extends Component {
               Lost
             </Button>}
             {this.state.selectedTag.transactionStatus === 'approved' && !this.state.selectedTag.activeTransaction &&
-              <Link to={{
+              <Link style={{textDecoration: 'none' }} to={{
                 pathname: '/Test',
                 state: {
                   productId: this.state.selectedTag.productId,
