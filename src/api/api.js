@@ -76,5 +76,23 @@ export default {
     return service.post('/transaction/photo', body)
       .then(res => res.data)
       .catch(errHandler)
+  },
+
+  getPayPalLink (body) {
+    return service.get(`/payment/paypallogin?transactionId=${body.transactionId}&productId=${body.productId}`)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  approval (body) {
+    return service.get(`/payment/paymentsuccess${body}`)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  executeTransaction (body) {
+    return service.get(`/payment/executepayment?transactionId=${body}`)
+      .then(res => res.data)
+      .catch(errHandler)
   }
 }

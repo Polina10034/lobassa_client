@@ -115,7 +115,7 @@ class MyTagsList extends Component {
 
   handleChange (id) {
     const tag = this.state.labels.filter((item) => item.productId === id)
-    if (tag.length > 0) {
+    if (tag.length === 1) {
       this.setState({ selectedTag: tag[0] })
       this.setState({ listIndicator: true })
       if (tag[0].transactionStatus === 'approved') {
@@ -155,11 +155,12 @@ class MyTagsList extends Component {
     try {
       api.reportTagLost(body).then(response => {
         // response.json()
+        console.log(response)
         this.setState({ updateStatus: !this.state.updateStatus })
         this.setState({ dialog: false })
       })
     } catch (err) {
-      console.error('error fetching...:', err)
+      console.log('error fetching...:', err)
     }
     this.setState({ dialog: false })
   }
@@ -168,14 +169,16 @@ class MyTagsList extends Component {
     var body = {
       id: this.state.selectedTag.productId
     }
+    console.log('body' + body.id)
     try {
       api.deleteTag(body).then(response => {
         // response.json()
+        console.log(response)
         this.setState({ updateStatus: !this.state.updateStatus })
         this.setState({ dialog: false })
       })
     } catch (err) {
-      console.error('error fetching...:', err)
+      console.log('error fetching...:', err)
     }
   }
 
@@ -237,16 +240,15 @@ class MyTagsList extends Component {
           <DialogContent>
             <p>{this.state.selectedTag.description}</p>
             {/* {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>} */}
-            {this.state.imagePath
-              ? <img style={{ width: '250px' }} src={ URL + `${this.state.imagePath}`} /> : <CircularProgress/>}
+            <img style={{ width: '250px' }} src={this.state.imagePath ? URL + `${this.state.imagePath}` : `${URL}/suitcase.png`} />
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
               Lost
             </Button>}
             {this.state.selectedTag.transactionStatus === 'approved' && !this.state.selectedTag.activeTransaction &&
-              <Link style={{textDecoration: 'none' }} to={{
-                pathname: '/Test',
+              <Link to={{
+                pathname: '/GetPayPalLink',
                 state: {
                   productId: this.state.selectedTag.productId,
                   transactionId: this.state.selectedTag.transactionId
@@ -255,15 +257,14 @@ class MyTagsList extends Component {
                   Pay
                 </Button></Link>
             }
-            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus !== 'confirmed' &&
-              <Link style={{textDecoration: 'none' }} to={{
+            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'confirmed' &&
+              <Link to={{
                 pathname: '/finalPayment',
                 state: {
                   transactionId: this.state.selectedTag.transactionId
                 }
               }}>
-                <Button color="secondary" size="small" >
-                  Confirm
+                <Button color="secondary" size="small" >Confirm
                 </Button></Link>
             }
             <Button color="primary" size="small" onClick={this.reportDelete}>
