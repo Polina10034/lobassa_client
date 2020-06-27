@@ -18,7 +18,6 @@ export default {
   service: service,
 
   getAll () {
-    console.log('calling function')
     return service.get('/tag/all').then(res => res.data).catch(errHandler)
   },
 
@@ -30,7 +29,7 @@ export default {
 
   deleteTag (body) {
     return service
-      .delete('/tag', { data: body})
+      .delete('/tag', { data: body })
       .then(res => res.data)
       .catch(errHandler)
   },
@@ -42,7 +41,6 @@ export default {
       .catch(errHandler)
   },
   reportTagLost (body) {
-    console.log('reporting lost: ' + body.id)
     return service
       .put('/tag', body)
       .then(res => res.data)

@@ -64,7 +64,7 @@ class AddTag extends Component {
 
       // e.preventDefault()
     } catch (err) {
-      console.log('error fetching...:', err)
+      console.error('error fetching...:', err)
     }
   }
 
