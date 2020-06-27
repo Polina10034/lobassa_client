@@ -248,7 +248,7 @@ class MyTagsList extends Component {
             </Button>}
             {this.state.selectedTag.transactionStatus === 'approved' && !this.state.selectedTag.activeTransaction &&
               <Link to={{
-                pathname: '/Test',
+                pathname: '/GetPayPalLink',
                 state: {
                   productId: this.state.selectedTag.productId,
                   transactionId: this.state.selectedTag.transactionId
@@ -257,7 +257,7 @@ class MyTagsList extends Component {
                   Pay
                 </Button></Link>
             }
-            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus !== 'confirmed' &&
+            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'confirmed' &&
               <Link to={{
                 pathname: '/finalPayment',
                 state: {
