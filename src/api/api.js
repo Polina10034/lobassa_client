@@ -80,8 +80,8 @@ export default {
       .catch(errHandler)
   },
 
-  getPayPalLink (body) {
-    return service.get(`/payment/paypallogin?transactionId=${body.transactionId}&productId=${body.productId}`)
+  getPayPalLink (transactionId, productId) {
+    return service.get(`/payment/paypallogin?transactionId=${transactionId}&productId=${productId}`)
       .then(res => res.data)
       .catch(errHandler)
   },

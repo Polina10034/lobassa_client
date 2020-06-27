@@ -29,24 +29,6 @@ class Approval extends Component {
     api.approval(toSend).then(response => {
       console.log(response)
     })
-    // console.log(`to send:${toSend}`)
-    // const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-    // console.log(`toSend:${toSend}`)
-    // const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/paymentsuccess${toSend}`
-    // fetch(url, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*'
-    //   }
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data)
-    //   })
-    //   .catch((error) => {
-    //     console.error(`error:${error}`)
-    //   })
   }
 
   render () {

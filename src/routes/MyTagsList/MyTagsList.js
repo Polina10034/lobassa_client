@@ -246,7 +246,7 @@ class MyTagsList extends Component {
             {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
               Lost
             </Button>}
-            {this.state.selectedTag.transactionStatus === 'approved' && !this.state.selectedTag.activeTransaction &&
+            {this.state.selectedTag.transactionStatus === 'pending' && this.state.selectedTag.activeTransaction &&
               <Link to={{
                 pathname: '/GetPayPalLink',
                 state: {
@@ -257,7 +257,7 @@ class MyTagsList extends Component {
                   Pay
                 </Button></Link>
             }
-            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'confirmed' &&
+            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'approved' &&
               <Link to={{
                 pathname: '/finalPayment',
                 state: {
