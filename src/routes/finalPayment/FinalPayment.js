@@ -75,11 +75,8 @@ class FinalPayment extends Component {
             <Typography variant="h6"> Payment Complete </Typography>
           </AppBar>
         </div>
-        <div className="Approval-content">
-          <div className="Approval-Title">
-            {/* <p> Confirmation Number: {this.state.props.confirmationNum} </p> */}
-          </div>
-          {this.state.isLoading ? <CircularProgress/>
+        <div className="Approval-content" >
+          {this.state.isLoading ? <CircularProgress />
             : <div>
               <div className="Approval-centerContent">
                 <p>Your payment sent succesfully. Thank You!</p>
