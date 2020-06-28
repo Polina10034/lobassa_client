@@ -154,7 +154,7 @@ class MyTagsList extends Component {
     this.setState({ dialog: false })
   }
 
-  reportDelete () {
+  reportCancele () {
     var body = {
       id: this.state.selectedTag.productId
     }
