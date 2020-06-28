@@ -88,4 +88,4 @@ class Approval extends Component {
     )
   }
 }
-export default connect(mapStateToProps)(Approval)
+export default connect(mapStateToProps, mapDispatchToProps)(Approval)

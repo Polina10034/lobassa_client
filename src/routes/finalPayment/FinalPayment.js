@@ -32,7 +32,8 @@ class FinalPayment extends Component {
 
   reportTransComplit (id) {
     var body = {
-      productId: id
+      productId: id,
+      status: 'complited'
     }
     try {
       api.reportTagComplited(body).then((response) => {

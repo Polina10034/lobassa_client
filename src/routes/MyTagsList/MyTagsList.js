@@ -151,16 +151,23 @@ class MyTagsList extends Component {
 
   reportCancele () {
     var body = {
-      id: this.state.selectedTag.transactionId
+      id: this.state.selectedTag.transactionId,
+      productId: this.state.selectedTag.productId,
+      status: 'canceled'
     }
-    console.log('body' + body.id)
+    console.log('reporting cenceled: ' + JSON.stringify(body))
     try {
       api.canceleTransaction(this.state.selectedTag.transactionId).then(response => {
         // response.json()
         console.log(response)
-        this.setState({ updateStatus: !this.state.updateStatus })
+        if (Response.statusCode === 200) {
+          api.updateTag(body)
+        }
+      }).then(() => {
         this.setState({ dialog: false })
-      })
+        this.setState({ updateStatus: !this.state.updateStatus })
+      }
+      )
     } catch (err) {
       console.log('error fetching...:', err)
     }
@@ -231,9 +238,10 @@ class MyTagsList extends Component {
               ? <img style={{ width: '220px' }} src={ URL + `${this.state.imagePath}`} /> : <CircularProgress/>}
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.activeTransaction && <Button size="small" color="primary" onClick={this.reportCancele}>
+            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'pending' &&
+             <Button size="small" color="primary" onClick={this.reportCancele}>
               Cancel
-            </Button>}
+             </Button>}
             {/* {this.state.selectedTag.transactionStatus === 'pending' && this.state.selectedTag.activeTransaction && */}
             {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionId &&
               <Link style={{ textDecoration: 'none' }} to={{
