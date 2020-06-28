@@ -36,7 +36,7 @@ class AddTag extends Component {
   }
 
   handlePrint () {
-    alert('i need to print this qr')
+    window.print()
     this.setState({ dialog: false })
     this.setState({ redirect: true })
   }
