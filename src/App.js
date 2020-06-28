@@ -16,7 +16,6 @@ import FinalPayment from '../src/routes/finalPayment/FinalPayment'
 import { createBrowserHistory } from 'history'
 import Cancel from './routes/cancel/Cancel'
 import { ThemeProvider } from '@material-ui/styles'
-import { makeStyles } from '@material-ui/core/styles'
 import theme from './theme/appTheme'
 
 const history = createBrowserHistory()

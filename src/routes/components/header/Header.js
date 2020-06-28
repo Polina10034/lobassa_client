@@ -10,12 +10,8 @@ import {
 } from '@material-ui/core'
 
 function Header () {
-//   const dispatch = useDispatch()
-//   const { state } = props
-  // const handleLogout = () => dispatch(logout());
   const state = useSelector(state => state)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
-  console.log('Is logged?', state.session)
 
   const onSignOut = (e) => {
     e.preventDefault()

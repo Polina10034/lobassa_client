@@ -1,23 +1,35 @@
-import { CLEAR_SESSION, SET_SESSION } from '../constants/actionTypes'
+import { CLEAR_SESSION, SET_SESSION, RESTORE_SESSION, SAVE_SESSION } from '../constants/actionTypes'
 import api from '../api/api'
-
+import { loadState, saveState } from '../actions/localStorage'
 const initialState = {
   isLoggedIn: false,
-  type: 'user',
-  labelsData: []
+  isSignOut: false, // req to log out status
+  type: 'user'
 }
-
+//  load from local storage
 const session = (state = initialState, action) => {
   switch (action.type) {
     case SET_SESSION:
-      return Object.assign({},
-        action.session,
-        { isLoggedIn: true,
-          type: action.session.user.type[0],
-          labelsData: api.getAll() })
+      // const aSesion
+      return Object.assign({}, action.session, {
+        isLoggedIn: true,
+        isSignOut: false,
+        type: action.session.user.type[0]
+      })
 
     case CLEAR_SESSION:
-      return initialState
+      return {
+        isSignOut: true,
+        ...initialState
+      }
+
+    case SAVE_SESSION:
+      saveState(state)
+      return state
+
+    case RESTORE_SESSION:
+      const crrState = loadState()
+      return crrState
 
     default:
       return state

@@ -10,6 +10,14 @@ import {
 import { Link } from 'react-router-dom'
 import api from '../../api/api'
 
+import { restorSession } from '../../actions/session'
+
+function mapDispatchToProps (dispatch) {
+  return {
+    restorSession: () => dispatch(restorSession())
+  }
+}
+
 const mapStateToProps = state => {
   return { session: state.session }
 }
@@ -18,6 +26,11 @@ class Approval extends Component {
   constructor (props) {
     super(props)
     this.state = {}
+  }
+
+  componentDidMount () {
+    // if (this.props.session.isLoggedIn === false) {
+    this.props.restorSession()
   }
 
   getQuery () {
@@ -75,4 +88,4 @@ class Approval extends Component {
     )
   }
 }
-export default connect(mapStateToProps)(Approval)
+export default connect(mapStateToProps, mapDispatchToProps)(Approval)

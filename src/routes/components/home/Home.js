@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
 import './Home.css'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+
 // import appConfig from '../../../config/app-config.json'
 import {
   Typography
 } from '@material-ui/core'
+import { restorSession } from '../../../actions/session'
 
 const mapStateToProps = state => {
   return { session: state.session }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    restorSession: () => dispatch(restorSession())
+  }
 }
 
 class Home extends Component {
@@ -16,8 +25,17 @@ class Home extends Component {
     this.state = { apiStatus: 'Not called' }
   }
 
+  componentDidMount () {
+    if (this.props.session.isLoggedIn === false) {
+      this.props.restorSession()
+    }
+  }
+
   render () {
-    console.log(this.props.session)
+    // console.log(this.props.session)
+    if (this.props.session.isLoggedIn === true) {
+      return <Redirect to="/tags" />
+    }
     return (
       <div className="Home">
         <div>
@@ -29,12 +47,10 @@ class Home extends Component {
         </div>
         <div className="Home-details">
           <Typography>Please Sign In</Typography>
-
         </div>
-
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

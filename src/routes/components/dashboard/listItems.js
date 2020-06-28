@@ -1,11 +1,11 @@
-import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import PeopleIcon from '@material-ui/icons/People';
-import WorkIcon from '@material-ui/icons/Work';
+import React from 'react'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
+import PeopleIcon from '@material-ui/icons/People'
+import WorkIcon from '@material-ui/icons/Work'
 
 export const mainListItems = (
   <div>
@@ -17,7 +17,7 @@ export const mainListItems = (
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-      <PeopleIcon />
+        <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Users" />
     </ListItem>
@@ -34,4 +34,4 @@ export const mainListItems = (
       <ListItemText primary="Found" />
     </ListItem>
   </div>
-);
+)
