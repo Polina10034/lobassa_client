@@ -26,9 +26,13 @@ class Approval extends Component {
     const params = query.split('&')
     const toSend = `${params[0]}&${params[1]}&${params[3]}`
     console.log(toSend)
-    api.approval(toSend).then(response => {
-      console.log(response)
-    })
+    try {
+      api.approval(toSend, true).then(response => {
+        console.log(response)
+      })
+    } catch (error) {
+      console.log(`Error on approving the transaction: ${error}`)
+    }
   }
 
   render () {

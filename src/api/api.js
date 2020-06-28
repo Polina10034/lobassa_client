@@ -30,7 +30,7 @@ export default {
 
   deleteTag (body) {
     return service
-      .delete('/tag', { data: body})
+      .delete('/tag', { data: body })
       .then(res => res.data)
       .catch(errHandler)
   },
@@ -86,14 +86,20 @@ export default {
       .catch(errHandler)
   },
 
-  approval (body) {
-    return service.get(`/payment/paymentsuccess${body}`)
+  approval (body, isApproved) {
+    return service.get(`/payment/paymentsuccess${body}&isApproved=${isApproved}`)
       .then(res => res.data)
       .catch(errHandler)
   },
 
   executeTransaction (body) {
     return service.get(`/payment/executepayment?transactionId=${body}`)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  deleteTransaction () {
+    return service.get(`/payment/paymentsuccess?isApproved=false`)
       .then(res => res.data)
       .catch(errHandler)
   }

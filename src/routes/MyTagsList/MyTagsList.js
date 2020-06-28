@@ -180,6 +180,13 @@ class MyTagsList extends Component {
     } catch (err) {
       console.log('error fetching...:', err)
     }
+    try {
+      api.deleteTransaction().then(response => {
+        console.log(response)
+      })
+    } catch (error) {
+      console.log(`error deleting transaction: ${error}`)
+    }
   }
 
   render () {

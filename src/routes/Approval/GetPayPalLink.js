@@ -16,13 +16,17 @@ class GetPayPalLink extends Component {
     const { productId } = this.props.location.state
     const { transactionId } = this.props.location.state
     this._isMounted = true
-    api.getPayPalLink(transactionId, productId).then(response => {
-      this.setState({
-        redirectURL: response.data.PayPalLink,
-        redirect: true
+    try {
+      api.getPayPalLink(transactionId, productId).then(response => {
+        this.setState({
+          redirectURL: response.PayPalLink,
+          redirect: true
+        })
+        console.log(response)
       })
-      console.log(response)
-    })
+    } catch (error) {
+      console.log(`error on get paypal link for approval: ${error}`)
+    }
   }
 
   componentWillUnmount () {

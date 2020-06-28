@@ -30,13 +30,13 @@ class FinalPayment extends Component {
   }
 
   getQuery (transactionId) {
-    api.executeTransaction(transactionId).then(response => {
-      console.log(response)
-      // this.setState({ tagId: response.body.newItem.productId })
-      // this.setState({ dialog: true })
-      // this.setState({ isLoading: false })
-    })
-
+    try {
+      api.executeTransaction(transactionId).then(response => {
+        console.log(`execute: ${response}`) // need to check this response
+      })
+    } catch (error) {
+      console.log(`Error on executing transaction:${error}`)
+    }
 
     // const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/executepayment${transactionId}`
     // fetch(url, {
