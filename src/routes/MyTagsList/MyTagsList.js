@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import { CheckCircleRounded, Add, DeleteForever } from '@material-ui/icons'
+import { CheckCircleRounded, Add } from '@material-ui/icons'
 
 import api from '../../api/api'
 const URL = 'https://lobassa-photos.s3-eu-west-1.amazonaws.com'
@@ -130,18 +130,39 @@ class MyTagsList extends Component {
     this.setState({ imagePath: undefined })
   }
 
+  // reportLost () {
+  //   // alert(`lost tag id ${this.state.selectedTag.productId}`)
+  //   // API call to report lost item. all item details are saved in state - selectedTag
+  //   var body = {
+  //     productId: this.state.selectedTag.productId
+  //   }
+  //   try {
+  //     api.reportTagLost(body).then(response => {
+  //       // response.json()
+  //       console.log(response)
+  //       this.setState({ updateStatus: !this.state.updateStatus })
+  //       this.setState({ dialog: false })
+  //     })
+  //   } catch (err) {
+  //     console.log('error fetching...:', err)
+  //   }
+  //   this.setState({ dialog: false })
+  // }
+
   reportCancele () {
     var body = {
-      id: this.state.selectedTag.productId
+      id: this.state.selectedTag.transactionId
     }
+    console.log('body' + body.id)
     try {
-      api.canceleTransaction(this.state.selectedTag.productId).then(response => {
+      api.canceleTransaction(this.state.selectedTag.transactionId).then(response => {
         // response.json()
+        console.log(response)
         this.setState({ updateStatus: !this.state.updateStatus })
         this.setState({ dialog: false })
       })
     } catch (err) {
-      console.error('error fetching...:', err)
+      console.log('error fetching...:', err)
     }
   }
 
@@ -225,8 +246,6 @@ class MyTagsList extends Component {
                   Pay
                 </Button></Link>
             }
-            {/* // WHY NOT WORKING? UPDATE IN DB PRODUCTS. ADIVI. */}
-            {/* {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'approved' && */}
             {this.state.selectedTag.activeTransaction &&
               <Link style={{ textDecoration: 'none' }} to={{
                 pathname: '/finalPayment',
