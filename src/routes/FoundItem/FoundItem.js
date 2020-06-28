@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import QrReader from 'react-qr-scanner'
 import ImageUploading from 'react-images-uploading'
+import { Button } from '@material-ui/core'
+
 import api from '../../api/api'
 
 const mapStateToProps = state => {
@@ -54,7 +56,6 @@ class FoundItem extends Component {
     // API call to create new tag and return tag id,
     // then we create QR code with tag id
       api.addTransaction(body).then(response => {
-        // response.json()
         this.setState({ transactionID: response.body.newItem.transactionId })
         this.setState({ uploadPhoto: true })
         // this.setState({ tagId: response.body.newItem.productId })
@@ -64,7 +65,6 @@ class FoundItem extends Component {
     } catch (err) {
       console.error('error fetching...:', err)
     }
-    // alert('someone out there thanks you')
   }
 
   componentDidUpdate () {
@@ -117,12 +117,12 @@ class FoundItem extends Component {
             <ImageUploading multiple onChange={this.onUpload} maxNumber={1}>
               {({ imageList, onImageUpload, onImageRemoveAll }) => (
                 <div>
-                  <button className="UploadImage-button" onClick={onImageUpload}>Upload images</button>&nbsp;
+                  <Button color='secondary' size='medium' onClick={onImageUpload}>Upload images</Button>&nbsp;
                   {imageList.map(image => (
                     <div key={image.key}>
                       <img className="UploadImage-image" src={image.dataURL} alt="" width="150" />
                       <div>
-                        <button className="UploadImage-button" onClick={image.onRemove}>Remove</button>
+                        <Button color="primary" onClick={image.onRemove}>Remove</Button>
                       </div>
                     </div>
                   ))}
@@ -130,9 +130,9 @@ class FoundItem extends Component {
               )}
             </ImageUploading>
           </div>}
-          {this.state.buttonIndicator && <div className="found-button" onClick={this.onSubmit}>
+          {this.state.buttonIndicator && <Button color='secondary' size='medium' onClick={this.onSubmit}>
             Done
-          </div>}
+          </Button>}
         </div>
       </div>
     )

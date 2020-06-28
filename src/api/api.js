@@ -40,7 +40,8 @@ export default {
       .then(res => res.data)
       .catch(errHandler)
   },
-  reportTagLost (body) {
+  // lambda func productLodtLost 
+  reportTagComplited (body) {
     return service
       .put('/tag', body)
       .then(res => res.data)
@@ -58,6 +59,11 @@ export default {
       .then(res => res.data)
       .catch(errHandler)
   },
+  // getAllTransaction (body) {
+  //   return service.get(`/transaction`)
+  //     .then(res => res.data)
+  //     .catch(errHandler)
+  // },
 
   addTransaction (body) {
     return service.post('/transaction', body)
@@ -78,20 +84,27 @@ export default {
       .catch(errHandler)
   },
 
-  getPayPalLink (body) {
-    return service.get(`/payment/paypallogin?transactionId=${body.transactionId}&productId=${body.productId}`)
+  getPayPalLink (transactionId, productId) {
+    return service.get(`/payment/paypallogin?transactionId=${transactionId}&productId=${productId}`)
       .then(res => res.data)
       .catch(errHandler)
   },
 
-  approval (body) {
-    return service.get(`/payment/paymentsuccess${body}`)
+  approval (body, isApproved) {
+    return service.get(`/payment/paymentsuccess${body}&isApproved=${isApproved}`)
       .then(res => res.data)
       .catch(errHandler)
   },
 
   executeTransaction (body) {
     return service.get(`/payment/executepayment?transactionId=${body}`)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  // Canceled
+  canceleTransaction (body) {
+    return service.get(`/payment/paymentsuccess?${body}&isApproved=false`)
       .then(res => res.data)
       .catch(errHandler)
   }

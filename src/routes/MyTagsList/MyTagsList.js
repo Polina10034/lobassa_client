@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import { CheckCircleRounded, Add } from '@material-ui/icons'
+import { CheckCircleRounded, Add, DeleteForever } from '@material-ui/icons'
 
 import api from '../../api/api'
 const URL = 'https://lobassa-photos.s3-eu-west-1.amazonaws.com'
@@ -25,13 +25,14 @@ function mapStateToProps (state) {
   return { session: state.session }
 }
 
+
 const translateColor = status => {
   switch (status) {
-    case 'complited': // payment done
-      return 'black'
-    case 'pending': // lost
-      return 'red'
-    case 'approved': // approved=found
+    // case 'complited': // payment done
+    //   return 'blue'
+    case 'pending': // found
+      return 'PaleTurquoise'
+    case 'approved': // approved=payed
       return 'green'
     default:
       return 'grey'
@@ -49,14 +50,15 @@ class MyTagsList extends Component {
       listIndicator: true,
       foundIndicator: false,
       labels: [],
+      transactions: [],
       isLoading: true,
       imagePath: undefined,
       updateStatus: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
-    this.reportLost = this.reportLost.bind(this)
-    this.reportDelete = this.reportDelete.bind(this)
+    // this.reportLost = this.reportLost.bind(this)
+    this.reportCancele = this.reportCancele.bind(this)
     // this.handelPay = this.handlePay.bind(this)
   }
 
@@ -67,7 +69,7 @@ class MyTagsList extends Component {
         this.setState({
           labels: result.body
         })
-        const foundItem = result.body.filter(item => item.transactionStatus === 'approved')
+        const foundItem = result.body.filter(item => item.transactionStatus === 'pending')
         if (foundItem.length > 0) {
           this.setState({ selectedTag: foundItem[0] })
           this.setState({ dialog: true })
@@ -77,7 +79,7 @@ class MyTagsList extends Component {
           this.getImagePath(foundItem[0].transactionId).then(result => {
             if (result.body !== undefined) {
               this.setState({
-                imagePath: result.body.picture_path
+                imagePath: result.body.picture_path 
               })
             }
           })
@@ -94,19 +96,6 @@ class MyTagsList extends Component {
           this.setState({
             labels: result.body
           })
-          // const foundItem = result.body.filter(item => item.transactionStatus === 'found')
-          // if (foundItem.length > 0) {
-          //   this.setState({ selectedTag: foundItem[0] })
-          //   this.setState({ dialog: true })
-          //   this.setState({ foundIndicator: true })
-          // }
-          // this.getImagePath(foundItem[0].transactionId).then(result => {
-          //   if (result.body !== undefined) {
-          //     this.setState({
-          //       imagePath: result.body.picture_path
-          //     })
-          //   }
-          // })
         }
         this.setState({ isLoading: false })
       })
@@ -118,7 +107,7 @@ class MyTagsList extends Component {
     if (tag.length === 1) {
       this.setState({ selectedTag: tag[0] })
       this.setState({ listIndicator: true })
-      if (tag[0].transactionStatus === 'approved') {
+      if (tag[0].transactionStatus === 'pending') {
         this.getImagePath(tag[0].transactionId).then(result => {
           if (result.body !== undefined) {
             this.setState({
@@ -171,7 +160,7 @@ class MyTagsList extends Component {
     }
     console.log('body' + body.id)
     try {
-      api.deleteTag(body).then(response => {
+      api.canceleTransaction(this.state.selectedTag.productId).then(response => {
         // response.json()
         console.log(response)
         this.setState({ updateStatus: !this.state.updateStatus })
@@ -197,6 +186,7 @@ class MyTagsList extends Component {
           </Link>
           <List>
             {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => (
+              // {item.transactionStatus}
               <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
                 <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.picture_path ? URL + `${item.picture_path}` : `${URL}/suitcase.png`} alt={'img'} /></ListItemAvatar>
                 <ListItemText
@@ -232,7 +222,7 @@ class MyTagsList extends Component {
           style={{ textAlign: 'center' }}
         >
           {this.state.foundIndicator && <DialogTitle id="simple-dialog-title">
-            We found somthing that belong to you...
+            We found somthing that belongs to you... first Pay when recieved Confirm
           </DialogTitle>}
           <DialogTitle id="simple-dialog-title">
             {this.state.selectedTag.name}
@@ -243,8 +233,8 @@ class MyTagsList extends Component {
             <img style={{ width: '250px' }} src={this.state.imagePath ? URL + `${this.state.imagePath}` : `${URL}/suitcase.png`} />
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
-              Lost
+            {this.state.selectedTag.activeTransaction && <Button size="small" color="primary" onClick={this.reportCancele}>
+              Cancel
             </Button>}
             {this.state.selectedTag.transactionStatus === 'approved' && !this.state.selectedTag.activeTransaction &&
               <Link to={{
@@ -261,15 +251,16 @@ class MyTagsList extends Component {
               <Link to={{
                 pathname: '/finalPayment',
                 state: {
-                  transactionId: this.state.selectedTag.transactionId
+                  transactionId: this.state.selectedTag.transactionId,
+                  productId: this.state.selectedTag.productId
                 }
               }}>
                 <Button color="secondary" size="small" >Confirm
                 </Button></Link>
             }
-            <Button color="primary" size="small" onClick={this.reportDelete}>
-              Delete
-            </Button>
+            {/* <Button color="primary" size="small" onClick={this.reportDelete}>
+              <DeleteForever/>
+            </Button> */}
           </DialogActions>}
         </Dialog>}
       </div>
