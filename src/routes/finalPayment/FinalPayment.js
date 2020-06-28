@@ -42,38 +42,24 @@ class FinalPayment extends Component {
   //   }
   // }
 
-  getQuery (transactionId) {
+  getQuery () {
     try {
-      api.executeTransaction(transactionId).then(response => {
-        console.log(`execute: ${response}`) // need to check this response
+      api.executeTransaction(this.state.confirmationNum).then(response => {
+        console.log(`execute: ${JSON.stringify(response)}`) // need to check this response
+        if (response.statusCode === 200) alert(`Payment is confirmed`)
+        else if (response.statusCode === 400) {
+          return (
+            alert(`Something went wrong with the transaction, please make sure the details are correct`)
+          )
+        } else if (response.statusCode === 500) {
+          return (
+            <Redirect to='/Cancel' />
+          )
+        }
       })
     } catch (error) {
       console.log(`Error on executing transaction:${error}`)
     }
-
-    // const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/executepayment${transactionId}`
-    // fetch(url, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*'
-    //   }
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data)
-    //     if (data.statusCode === 200) {
-    //       alert('The transaction is confirmed')
-    //     }
-    //     if (data.statusCode === 500) {
-    //       return (
-    //         <Redirect to='/Cancel' />
-    //       )
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(`error:${error}`)
-    //   })
   }
 
   render () {
