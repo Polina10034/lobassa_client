@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import { CheckCircleRounded, Add } from '@material-ui/icons'
+import { CheckCircleRounded, Add, DeleteForever } from '@material-ui/icons'
 
 import api from '../../api/api'
 const URL = 'https://lobassa-photos.s3-eu-west-1.amazonaws.com'
@@ -25,13 +25,14 @@ function mapStateToProps (state) {
   return { session: state.session }
 }
 
+
 const translateColor = status => {
   switch (status) {
-    case 'complited': // payment done
-      return 'black'
-    case 'pending': // lost
-      return 'red'
-    case 'approved': // approved=found
+    // case 'complited': // payment done
+    //   return 'blue'
+    case 'pending': // found
+      return 'PaleTurquoise'
+    case 'approved': // approved=payed
       return 'green'
     default:
       return 'grey'
@@ -49,13 +50,14 @@ class MyTagsList extends Component {
       listIndicator: true,
       foundIndicator: false,
       labels: [],
+      transactions: [],
       isLoading: true,
       imagePath: undefined,
       updateStatus: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
-    this.reportLost = this.reportLost.bind(this)
+    // this.reportLost = this.reportLost.bind(this)
     this.reportDelete = this.reportDelete.bind(this)
     // this.handelPay = this.handlePay.bind(this)
   }
@@ -94,19 +96,6 @@ class MyTagsList extends Component {
           this.setState({
             labels: result.body
           })
-          // const foundItem = result.body.filter(item => item.transactionStatus === 'found')
-          // if (foundItem.length > 0) {
-          //   this.setState({ selectedTag: foundItem[0] })
-          //   this.setState({ dialog: true })
-          //   this.setState({ foundIndicator: true })
-          // }
-          // this.getImagePath(foundItem[0].transactionId).then(result => {
-          //   if (result.body !== undefined) {
-          //     this.setState({
-          //       imagePath: result.body.picture_path
-          //     })
-          //   }
-          // })
         }
         this.setState({ isLoading: false })
       })
@@ -144,24 +133,6 @@ class MyTagsList extends Component {
     this.setState({ dialog: false })
     this.setState({ foundIndicator: false })
     this.setState({ imagePath: undefined })
-  }
-
-  reportLost () {
-    // alert(`lost tag id ${this.state.selectedTag.productId}`)
-    // API call to report lost item. all item details are saved in state - selectedTag
-    var body = {
-      productId: this.state.selectedTag.productId
-    }
-    try {
-      api.reportTagLost(body).then(response => {
-        // response.json()
-        this.setState({ updateStatus: !this.state.updateStatus })
-        this.setState({ dialog: false })
-      })
-    } catch (err) {
-      console.error('error fetching...:', err)
-    }
-    this.setState({ dialog: false })
   }
 
   reportDelete () {
@@ -229,7 +200,7 @@ class MyTagsList extends Component {
           style={{ textAlign: 'center' }}
         >
           {this.state.foundIndicator && <DialogTitle id="simple-dialog-title">
-            We found somthing that belongs to you...
+            We found somthing that belongs to you... first Pay when recieved Confirm
           </DialogTitle>}
           <DialogTitle id="simple-dialog-title">
             {this.state.selectedTag.name}
@@ -241,11 +212,11 @@ class MyTagsList extends Component {
               ? <img style={{ width: '250px' }} src={ URL + `${this.state.imagePath}`} /> : <CircularProgress/>}
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.transactionStatus !== 'approved' && this.state.selectedTag.transactionStatus !== 'pending' && <Button size="small" color="primary" onClick={this.reportLost}>
-              Lost
+            {this.state.selectedTag.activeTransaction && <Button size="small" color="primary" onClick={this.reportLost}>
+              Cancel
             </Button>}
             {/* {this.state.selectedTag.transactionStatus === 'pending' && this.state.selectedTag.activeTransaction && */}
-            {this.state.selectedTag.transactionStatus === 'approved' && this.state.selectedTag.transactionId !== undefined &&
+            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionId &&
               <Link style={{ textDecoration: 'none' }} to={{
                 pathname: '/GetPayPalLink',
                 state: {
@@ -256,12 +227,14 @@ class MyTagsList extends Component {
                   Pay
                 </Button></Link>
             }
+            {/* // WHY NOT WORKING? UPDATE IN DB PRODUCTS. ADIVI. */}
             {/* {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'approved' && */}
-            {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus !== 'confirmed' &&
+            {this.state.selectedTag.activeTransaction &&
               <Link style={{ textDecoration: 'none' }} to={{
                 pathname: '/finalPayment',
                 state: {
                   transactionId: this.state.selectedTag.transactionId
+                  // productId:  this.state.selectedTag.productId
                 }
               }}>
                 <Button color="secondary" size="small" >
@@ -269,7 +242,7 @@ class MyTagsList extends Component {
                 </Button></Link>
             }
             <Button color="primary" size="small" onClick={this.reportDelete}>
-              Delete
+              <DeleteForever/>
             </Button>
           </DialogActions>}
         </Dialog>}

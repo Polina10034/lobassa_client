@@ -40,7 +40,8 @@ export default {
       .then(res => res.data)
       .catch(errHandler)
   },
-  reportTagLost (body) {
+  // lambda func productLodtLost 
+  reportTagComplited (body) {
     return service
       .put('/tag', body)
       .then(res => res.data)
@@ -58,6 +59,11 @@ export default {
       .then(res => res.data)
       .catch(errHandler)
   },
+  // getAllTransaction (body) {
+  //   return service.get(`/transaction`)
+  //     .then(res => res.data)
+  //     .catch(errHandler)
+  // },
 
   addTransaction (body) {
     return service.post('/transaction', body)

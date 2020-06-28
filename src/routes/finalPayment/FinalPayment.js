@@ -2,15 +2,11 @@ import React, { Component } from 'react'
 import './finalPayment.css'
 import { connect } from 'react-redux'
 import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
-import {
-  Typography,
-  AppBar,
-  Button
-} from '@material-ui/core'
+import { Typography, AppBar, Button } from '@material-ui/core'
 import { Link, Redirect } from 'react-router-dom'
 import api from '../../api/api'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { session: state.session }
 }
 
@@ -25,18 +21,35 @@ class FinalPayment extends Component {
 
   componentDidMount () {
     const { transactionId } = this.props.location.state
+    const { productId } = this.props.location.state
     this.setState({ confirmationNum: transactionId })
     this.getQuery(transactionId)
+    // if (resStatus.statusCode === 200) {
+    //   this.reportTransComplit(productId)
+    // }
   }
 
+  // reportTransComplit (id) {
+  //   var body = {
+  //     productId: id
+  //   }
+  //   try {
+  //     api.reportTagComplited(body).then((response) => {
+  //       console.log('complited: ' + response)
+  //     })
+  //   } catch (err) {
+  //     console.error('error fetching...:', err)
+  //   }
+  // }
+
   getQuery (transactionId) {
-    api.executeTransaction(transactionId).then(response => {
-      console.log(response)
+    api.executeTransaction(transactionId).then((response) => {
+      console.log('execute: ' + response.statusCode)
+      return response
       // this.setState({ tagId: response.body.newItem.productId })
       // this.setState({ dialog: true })
       // this.setState({ isLoading: false })
     })
-
 
     // const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/executepayment${transactionId}`
     // fetch(url, {
@@ -67,36 +80,42 @@ class FinalPayment extends Component {
     return (
       <div className="Approval">
         <div className="Approval-header">
-          <AppBar className="Approval-text" position="static" >
-            <Typography variant='h6' > Payment Complete </Typography>
-          </AppBar >
+          <AppBar className="Approval-text" position="static">
+            <Typography variant="h6"> Payment Complete </Typography>
+          </AppBar>
         </div>
-        <div className="Approval-content" >
-          <div className="Approval-Title" >
+        <div className="Approval-content">
+          <div className="Approval-Title">
             {/* <p> Confirmation Number: {this.state.props.confirmationNum} </p> */}
           </div>
-          <div className="Approval-centerContent" >
+          <div className="Approval-centerContent">
+            <p>Your payment sent succesfully. Thank You!</p>
+          </div>
+          <div className="Approval-bottomContent">
             <p>
-              Your payment sent succesfully.
-              Thank You!
+              We are glad to help you <br />
+              LoBassa Team.
             </p>
           </div>
-          <div className="Approval-bottomContent" >
-            <p>
-              We are glad to help you < br />
-                LoBassa Team.
-            </p>
-          </div >
-          <div className="Approval-logo" >
+          <div className="Approval-logo">
             <Logo />
           </div>
           {this.getQuery()}
           <div className="Approval-home">
             <Link to="/tags" style={{ textDecoration: 'none' }}>
-              <Button style={{ backgroundColor: '#3A69B0', borderRadius: 22, width: '80px', color: '#FFFFFF' }}>Home</Button>
+              <Button
+                style={{
+                  backgroundColor: '#3A69B0',
+                  borderRadius: 22,
+                  width: '80px',
+                  color: '#FFFFFF'
+                }}
+              >
+                Home
+              </Button>
             </Link>
           </div>
-        </div >
+        </div>
       </div>
     )
   }
