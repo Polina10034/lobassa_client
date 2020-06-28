@@ -5,6 +5,7 @@ import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
 import { Typography, AppBar, Button } from '@material-ui/core'
 import { Link, Redirect } from 'react-router-dom'
 import api from '../../api/api'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const mapStateToProps = (state) => {
   return { session: state.session }
@@ -14,7 +15,9 @@ class FinalPayment extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      confirmationNum: undefined
+      confirmationNum: undefined,
+      resStatus: undefined,
+      isLoading: true
     }
     this.getQuery = this.getQuery.bind(this)
   }
@@ -23,12 +26,8 @@ class FinalPayment extends Component {
     const { transactionId } = this.props.location.state
     const { productId } = this.props.location.state
     this.setState({ confirmationNum: transactionId })
-    const resStatus = this.getQuery(transactionId)
-    console.log(resStatus)
-    if (resStatus === 200) {
-      console.log('in reportTranss..complit')
-      this.reportTransComplit(productId)
-    }
+    this.getQuery(transactionId, productId)
+    console.log(this.state.resStatus)
   }
 
   getQuery (transactionId) {
@@ -77,15 +76,17 @@ class FinalPayment extends Component {
           <div className="Approval-Title" >
             {/* <p> Confirmation Number: {this.state.props.confirmationNum} </p> */}
           </div>
-          <div className="Approval-centerContent">
-            <p>Your payment sent succesfully. Thank You!</p>
-          </div>
-          <div className="Approval-bottomContent">
-            <p>
+          {this.state.isLoading ? <CircularProgress/>
+            : <div>
+              <div className="Approval-centerContent">
+                <p>Your payment sent succesfully. Thank You!</p>
+              </div>
+              <div className="Approval-bottomContent">
+                <p>
               We are glad to help you <br />
               LoBassa Team.
-            </p>
-          </div>
+                </p>
+              </div> </div>}
           <div className="Approval-logo">
             <Logo />
           </div>

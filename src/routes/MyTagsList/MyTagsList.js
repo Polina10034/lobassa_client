@@ -28,16 +28,16 @@ function mapStateToProps (state) {
 
 const translateColor = status => {
   switch (status) {
-    // case 'complited': // payment done
-    //   return 'blue'
+    case 'complited': // proccess done
+      return 'green'
     case 'pending': // found
       return 'PaleTurquoise'
-    case 'approved': // approved=payed
-      return 'green'
+    // case 'approved': // approved=payed
+    //   return 'green'
     default:
       return 'grey'
   }
-  // pending = lost, approved=found, confirmed = done
+  // pending = found, complited = done
 }
 
 class MyTagsList extends Component {
