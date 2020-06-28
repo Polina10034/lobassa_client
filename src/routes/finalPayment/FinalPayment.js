@@ -23,29 +23,30 @@ class FinalPayment extends Component {
     const { transactionId } = this.props.location.state
     const { productId } = this.props.location.state
     this.setState({ confirmationNum: transactionId })
-    this.getQuery(transactionId)
-    // if (resStatus.statusCode === 200) {
-    //   this.reportTransComplit(productId)
-    // }
+    const resStatus = this.getQuery(transactionId)
+    if (resStatus === 200) {
+      this.reportTransComplit(productId)
+    }
   }
 
-  // reportTransComplit (id) {
-  //   var body = {
-  //     productId: id
-  //   }
-  //   try {
-  //     api.reportTagComplited(body).then((response) => {
-  //       console.log('complited: ' + response)
-  //     })
-  //   } catch (err) {
-  //     console.error('error fetching...:', err)
-  //   }
-  // }
+  reportTransComplit (id) {
+    var body = {
+      productId: id
+    }
+    try {
+      api.reportTagComplited(body).then((response) => {
+        console.log('complited: ' + response)
+      })
+    } catch (err) {
+      console.error('error fetching...:', err)
+    }
+  }
 
   getQuery (transactionId) {
     try {
       api.executeTransaction(transactionId).then(response => {
-        console.log(`execute: ${response}`) // need to check this response
+        console.log(`execute: ${response}`)
+        return response.statusCode 
       })
     } catch (error) {
       console.log(`Error on executing transaction:${error}`)
@@ -100,7 +101,7 @@ class FinalPayment extends Component {
           <div className="Approval-logo">
             <Logo />
           </div>
-          {this.getQuery()}
+          {/* {this.getQuery()} */}
           <div className="Approval-home">
             <Link to="/tags" style={{ textDecoration: 'none' }}>
               <Button

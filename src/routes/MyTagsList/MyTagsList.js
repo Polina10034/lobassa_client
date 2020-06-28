@@ -58,7 +58,7 @@ class MyTagsList extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
     // this.reportLost = this.reportLost.bind(this)
-    this.reportDelete = this.reportDelete.bind(this)
+    this.reportCancele = this.reportCancele.bind(this)
     // this.handelPay = this.handlePay.bind(this)
   }
 
@@ -135,7 +135,21 @@ class MyTagsList extends Component {
     this.setState({ imagePath: undefined })
   }
 
-  reportDelete () {
+  // reportDelete () {
+  //   var body = {
+  //     id: this.state.selectedTag.productId
+  //   }
+  //   try {
+  //     api.deleteTag(body).then(response => {
+  //       // response.json()
+  //       this.setState({ updateStatus: !this.state.updateStatus })
+  //       this.setState({ dialog: false })
+  //     })
+  //   } catch (err) {
+  //     console.error('error fetching...:', err)
+  //   }
+  // }
+    reportCancele () {
     var body = {
       id: this.state.selectedTag.productId
     }
@@ -147,13 +161,6 @@ class MyTagsList extends Component {
       })
     } catch (err) {
       console.error('error fetching...:', err)
-    }
-    try {
-      api.deleteTransaction().then(response => {
-        console.log(response)
-      })
-    } catch (error) {
-      console.log(`error deleting transaction: ${error}`)
     }
   }
 
@@ -172,6 +179,7 @@ class MyTagsList extends Component {
           </Link>
           <List>
             {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => (
+              // {item.transactionStatus}
               <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
                 <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.picture_path ? URL + `${item.picture_path}` : `${URL}/suitcase.png`} alt={'img'} /></ListItemAvatar>
                 <ListItemText
@@ -240,17 +248,17 @@ class MyTagsList extends Component {
               <Link style={{ textDecoration: 'none' }} to={{
                 pathname: '/finalPayment',
                 state: {
-                  transactionId: this.state.selectedTag.transactionId
-                  // productId:  this.state.selectedTag.productId
+                  transactionId: this.state.selectedTag.transactionId,
+                  productId:  this.state.selectedTag.productId
                 }
               }}>
                 <Button color="secondary" size="small" >
                   Confirm
                 </Button></Link>
             }
-            <Button color="primary" size="small" onClick={this.reportDelete}>
+            {/* <Button color="primary" size="small" onClick={this.reportDelete}>
               <DeleteForever/>
-            </Button>
+            </Button> */}
           </DialogActions>}
         </Dialog>}
       </div>
