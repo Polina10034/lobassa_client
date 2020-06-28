@@ -14,6 +14,7 @@
     color: white;
     width: 300px;
     margin: 0px auto;
+    padding-top: 30px;
 }
 
 .Approval-Title {
@@ -53,7 +54,9 @@
 }
 
 .Approval-logo {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+
 }
 .Approval-home {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

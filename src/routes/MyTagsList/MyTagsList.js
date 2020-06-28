@@ -25,17 +25,12 @@ function mapStateToProps (state) {
   return { session: state.session }
 }
 
-
 const translateColor = status => {
   switch (status) {
-    case 'complited': // proccess done
-      return 'green'
     case 'pending': // found
-      return 'PaleTurquoise'
-    // case 'approved': // approved=payed
-    //   return 'green'
+      return 'LimeGreen'
     default:
-      return 'grey'
+      return 'PaleTurquoise'
   }
   // pending = found, complited = done
 }
@@ -79,7 +74,7 @@ class MyTagsList extends Component {
           this.getImagePath(foundItem[0].transactionId).then(result => {
             if (result.body !== undefined) {
               this.setState({
-                imagePath: result.body.picture_path 
+                imagePath: result.body.picture_path
               })
             }
           })
@@ -185,21 +180,23 @@ class MyTagsList extends Component {
             <Button style={{ backgroundColor: '#3A69B0', height: '60px', borderRadius: 40, fontSize: '13px', width: '180px', color: '#FFFFFF' }}>I Found Baggage!</Button>
           </Link>
           <List>
-            {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => (
-              // {item.transactionStatus}
-              <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
-                <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.picture_path ? URL + `${item.picture_path}` : `${URL}/suitcase.png`} alt={'img'} /></ListItemAvatar>
-                <ListItemText
-                  primary={<Typography style={{ color: '#434d63' }}>{item.name}</Typography>}
-                  secondary={item.description}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="comments">
-                    <CheckCircleRounded style={{ color: translateColor(item.transactionStatus) }} />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))
+            {/* {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => ( */}
+            {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels
+              .filter(labels => labels.transactionStatus !== 'complited')
+              .map((item, i) => (
+                <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
+                  <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.picture_path ? URL + `${item.picture_path}` : `${URL}/suitcase.png`} alt={'img'} /></ListItemAvatar>
+                  <ListItemText
+                    primary={<Typography style={{ color: '#434d63' }}>{item.name}</Typography>}
+                    secondary={item.description}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="comments">
+                      <CheckCircleRounded style={{ color: translateColor(item.transactionStatus) }} />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))
               : <p style={{ color: '#00000' }}>No tags to show</p>)
             }
           </List>
@@ -222,13 +219,13 @@ class MyTagsList extends Component {
           style={{ textAlign: 'center' }}
         >
           {this.state.foundIndicator && <DialogTitle id="simple-dialog-title">
-            We found somthing that belongs to you... first Pay when recieved Confirm
+            {this.state.selectedTag.description}
           </DialogTitle>}
           <DialogTitle id="simple-dialog-title">
             {this.state.selectedTag.name}
           </DialogTitle>
           <DialogContent>
-            <p>{this.state.selectedTag.description}</p>
+            <p>We found somthing that belongs to you... first Pay when recieved Confirm</p>
             {/* {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>} */}
             <img style={{ width: '250px' }} src={this.state.imagePath ? URL + `${this.state.imagePath}` : `${URL}/suitcase.png`} />
           </DialogContent>
