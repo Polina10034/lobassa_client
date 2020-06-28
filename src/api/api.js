@@ -102,8 +102,9 @@ export default {
       .catch(errHandler)
   },
 
-  deleteTransaction () {
-    return service.get(`/payment/paymentsuccess?isApproved=false`)
+  // Canceled
+  canceleTransaction (body) {
+    return service.get(`/payment/paymentsuccess?${body}&isApproved=false`)
       .then(res => res.data)
       .catch(errHandler)
   }

@@ -24,7 +24,9 @@ class FinalPayment extends Component {
     const { productId } = this.props.location.state
     this.setState({ confirmationNum: transactionId })
     const resStatus = this.getQuery(transactionId)
+    console.log(resStatus)
     if (resStatus === 200) {
+      console.log('in reportTranss..complit')
       this.reportTransComplit(productId)
     }
   }
@@ -42,39 +44,29 @@ class FinalPayment extends Component {
     }
   }
 
-  getQuery (transactionId) {
+  getQuery (id) {
     try {
-      api.executeTransaction(transactionId).then(response => {
-        console.log(`execute: ${response}`)
-        return response.statusCode 
+      // api.executeTransaction(transactionId).then(response => {
+      //   console.log(`execute: ${response}`)
+      //   return response.statusCode
+      api.executeTransaction(id).then(response => {
+        console.log(`execute: ${JSON.stringify(response)}`) // need to check this response
+        if (response.statusCode === 200) {
+          // alert(`Payment is confirmed`),
+          return response.statusCode
+        } else if (response.statusCode === 400) {
+          return (
+            alert(`Something went wrong with the transaction, please make sure the details are correct`)
+          )
+        } else if (response.statusCode === 500) {
+          return (
+            <Redirect to='/Cancel' />
+          )
+        }
       })
     } catch (error) {
       console.log(`Error on executing transaction:${error}`)
     }
-
-    // const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/executepayment${transactionId}`
-    // fetch(url, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*'
-    //   }
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data)
-    //     if (data.statusCode === 200) {
-    //       alert('The transaction is confirmed')
-    //     }
-    //     if (data.statusCode === 500) {
-    //       return (
-    //         <Redirect to='/Cancel' />
-    //       )
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(`error:${error}`)
-    //   })
   }
 
   render () {

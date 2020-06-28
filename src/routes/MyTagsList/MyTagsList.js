@@ -69,7 +69,7 @@ class MyTagsList extends Component {
         this.setState({
           labels: result.body
         })
-        const foundItem = result.body.filter(item => item.transactionStatus === 'approved')
+        const foundItem = result.body.filter(item => item.transactionStatus === 'pending')
         if (foundItem.length > 0) {
           this.setState({ selectedTag: foundItem[0] })
           this.setState({ dialog: true })
@@ -79,7 +79,7 @@ class MyTagsList extends Component {
           this.getImagePath(foundItem[0].transactionId).then(result => {
             if (result.body !== undefined) {
               this.setState({
-                imagePath: result.body.picture_path
+                imagePath: result.body.picture_path 
               })
             }
           })
@@ -107,7 +107,7 @@ class MyTagsList extends Component {
     if (tag.length > 0) {
       this.setState({ selectedTag: tag[0] })
       this.setState({ listIndicator: true })
-      if (tag[0].transactionStatus === 'approved') {
+      if (tag[0].transactionStatus === 'pending') {
         this.getImagePath(tag[0].transactionId).then(result => {
           if (result.body !== undefined) {
             this.setState({
@@ -154,7 +154,7 @@ class MyTagsList extends Component {
       id: this.state.selectedTag.productId
     }
     try {
-      api.deleteTag(body).then(response => {
+      api.canceleTransaction(this.state.selectedTag.productId).then(response => {
         // response.json()
         this.setState({ updateStatus: !this.state.updateStatus })
         this.setState({ dialog: false })
@@ -227,7 +227,7 @@ class MyTagsList extends Component {
               ? <img style={{ width: '250px' }} src={ URL + `${this.state.imagePath}`} /> : <CircularProgress/>}
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            {this.state.selectedTag.activeTransaction && <Button size="small" color="primary" onClick={this.reportLost}>
+            {this.state.selectedTag.activeTransaction && <Button size="small" color="primary" onClick={this.reportCancele}>
               Cancel
             </Button>}
             {/* {this.state.selectedTag.transactionStatus === 'pending' && this.state.selectedTag.activeTransaction && */}
@@ -249,7 +249,7 @@ class MyTagsList extends Component {
                 pathname: '/finalPayment',
                 state: {
                   transactionId: this.state.selectedTag.transactionId,
-                  productId:  this.state.selectedTag.productId
+                  productId: this.state.selectedTag.productId
                 }
               }}>
                 <Button color="secondary" size="small" >
