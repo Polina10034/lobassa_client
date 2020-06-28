@@ -34,7 +34,8 @@ export default {
       .catch(errHandler)
   },
 
-  updateTag (id, body) {
+  updateTag (body) {
+    console.log('in Update: '+ body)
     return service
       .put('/tag', body)
       .then(res => res.data)

@@ -130,24 +130,6 @@ class MyTagsList extends Component {
     this.setState({ imagePath: undefined })
   }
 
-  // reportLost () {
-  //   // alert(`lost tag id ${this.state.selectedTag.productId}`)
-  //   // API call to report lost item. all item details are saved in state - selectedTag
-  //   var body = {
-  //     productId: this.state.selectedTag.productId
-  //   }
-  //   try {
-  //     api.reportTagLost(body).then(response => {
-  //       // response.json()
-  //       console.log(response)
-  //       this.setState({ updateStatus: !this.state.updateStatus })
-  //       this.setState({ dialog: false })
-  //     })
-  //   } catch (err) {
-  //     console.log('error fetching...:', err)
-  //   }
-  //   this.setState({ dialog: false })
-  // }
 
   reportCancele () {
     var body = {
@@ -160,12 +142,12 @@ class MyTagsList extends Component {
       api.canceleTransaction(this.state.selectedTag.transactionId).then(response => {
         // response.json()
         console.log(response)
-        if (Response.statusCode === 200) {
+        if (response.statusCode === 200) {
           api.updateTag(body)
         }
       }).then(() => {
         this.setState({ dialog: false })
-        this.setState({ updateStatus: !this.state.updateStatus })
+        // this.setState({ updateStatus: !this.state.updateStatus })
       }
       )
     } catch (err) {
@@ -189,7 +171,7 @@ class MyTagsList extends Component {
           <List>
             {/* {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => ( */}
             {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels
-              .filter(labels => labels.transactionStatus !== 'complited')
+              .filter(labels => labels.transactionStatus !== 'complited' && labels.transactionStatus !== 'canceled')
               .map((item, i) => (
                 <ListItem key={i} alignItems="flex-start" className="List-item" onClick={() => this.handleChange(item.productId)}>
                   <ListItemAvatar><Avatar variant='square' className="Item-image" src={item.picture_path ? URL + `${item.picture_path}` : `${URL}/suitcase.png`} alt={'img'} /></ListItemAvatar>
