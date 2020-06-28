@@ -156,11 +156,11 @@ class MyTagsList extends Component {
 
   reportCancele () {
     var body = {
-      id: this.state.selectedTag.productId
+      id: this.state.selectedTag.transactionId
     }
     console.log('body' + body.id)
     try {
-      api.canceleTransaction(this.state.selectedTag.productId).then(response => {
+      api.canceleTransaction(this.state.selectedTag.transactionId).then(response => {
         // response.json()
         console.log(response)
         this.setState({ updateStatus: !this.state.updateStatus })

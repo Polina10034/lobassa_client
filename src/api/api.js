@@ -103,9 +103,9 @@ export default {
   },
 
   // Canceled
-  canceleTransaction (body) {
-    return service.get(`/payment/paymentsuccess?${body}&isApproved=false`)
-      .then(res => res.data)
-      .catch(errHandler)
+  canceleTransaction (transactionId) {
+    return service.get(`/payment/paymentsuccess?transactionId=${transactionId}&isApproved=false`)
+    .then(res => res.data)
+    .catch(errHandler)
   }
 }
