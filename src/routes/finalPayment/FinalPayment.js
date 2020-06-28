@@ -30,38 +30,41 @@ class FinalPayment extends Component {
     console.log(this.state.resStatus)
   }
 
-  getQuery (transactionId) {
-    api.executeTransaction(transactionId).then(response => {
-      console.log(response)
-      // this.setState({ tagId: response.body.newItem.productId })
-      // this.setState({ dialog: true })
-      // this.setState({ isLoading: false })
-    })
+  reportTransComplit (id) {
+    var body = {
+      productId: id
+    }
+    try {
+      api.reportTagComplited(body).then((response) => {
+        console.log('complited: ' + response)
+        this.setState({ isLoading: false })
+      })
+    } catch (err) {
+      console.error('error fetching...:', err)
+    }
+  }
 
-
-    // const url = `https://gexiqdyt1e.execute-api.eu-west-1.amazonaws.com/beta/payment/executepayment${transactionId}`
-    // fetch(url, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*'
-    //   }
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data)
-    //     if (data.statusCode === 200) {
-    //       alert('The transaction is confirmed')
-    //     }
-    //     if (data.statusCode === 500) {
-    //       return (
-    //         <Redirect to='/Cancel' />
-    //       )
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(`error:${error}`)
-    //   })
+  getQuery (id, pId) {
+    try {
+      api.executeTransaction(id).then(response => {
+        console.log(`execute: ${JSON.stringify(response)}`) // need to check this response
+        if (response.statusCode === 200) {
+          alert(`Payment is confirmed`)
+          // this.setState({resStatus: response.statusCode })
+          this.reportTransComplit(pId)
+        } else if (response.statusCode === 400) {
+          return (
+            alert(`Something went wrong with the transaction, please make sure the details are correct`)
+          )
+        } else if (response.statusCode === 500) {
+          return (
+            <Redirect to='/Cancel' />
+          )
+        }
+      })
+    } catch (error) {
+      console.log(`Error on executing transaction:${error}`)
+    }
   }
 
   render () {
