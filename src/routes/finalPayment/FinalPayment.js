@@ -7,7 +7,6 @@ import { Link, Redirect } from 'react-router-dom'
 import api from '../../api/api'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-
 const mapStateToProps = (state) => {
   return { session: state.session }
 }
@@ -53,7 +52,6 @@ class FinalPayment extends Component {
           alert(`Payment is confirmed`)
           // this.setState({resStatus: response.statusCode })
           this.reportTransComplit(pId)
-
         } else if (response.statusCode === 400) {
           return (
             alert(`Something went wrong with the transaction, please make sure the details are correct`)
@@ -81,17 +79,17 @@ class FinalPayment extends Component {
           <div className="Approval-Title">
             {/* <p> Confirmation Number: {this.state.props.confirmationNum} </p> */}
           </div>
-          {this.state.isLoading ? <CircularProgress/> :
-          <div>
-          <div className="Approval-centerContent">
-            <p>Your payment sent succesfully. Thank You!</p>
-          </div>
-          <div className="Approval-bottomContent">
-            <p>
+          {this.state.isLoading ? <CircularProgress/>
+            : <div>
+              <div className="Approval-centerContent">
+                <p>Your payment sent succesfully. Thank You!</p>
+              </div>
+              <div className="Approval-bottomContent">
+                <p>
               We are glad to help you <br />
               LoBassa Team.
-            </p>
-          </div> </div>}
+                </p>
+              </div> </div>}
           <div className="Approval-logo">
             <Logo />
           </div>
@@ -112,8 +110,8 @@ class FinalPayment extends Component {
           </div>
         </div>
       </div>
-    ) }
+    )
   }
-
+}
 
 export default connect(mapStateToProps)(FinalPayment)
