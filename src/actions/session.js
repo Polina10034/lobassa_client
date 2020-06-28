@@ -28,7 +28,7 @@ export function initSessionFromCallbackURI (callbackHref) {
 export function restorSession () {
   return function (dispatch) {
     const session = loadState()
-    if (session !== undefined) {
+    if (session !== undefined && session.credentials.accessToken !== undefined) {
       service.setToken(session.credentials.accessToken, session.credentials.idToken, session.credentials.refreshToken)
       dispatch({ type: SET_SESSION, session })
     }
