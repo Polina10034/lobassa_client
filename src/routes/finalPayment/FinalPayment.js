@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './finalPayment.css'
 import { connect } from 'react-redux'
-import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
+// import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
 import { Typography, AppBar, Button } from '@material-ui/core'
 import { Link, Redirect } from 'react-router-dom'
 import api from '../../api/api'
@@ -89,7 +89,11 @@ class FinalPayment extends Component {
                 </p>
               </div> </div>}
           <div className="Approval-logo">
-            <Logo />
+            <img
+              src="../images/logo2.png"
+              alt="logo"
+              style={{ width: '180px' }}
+            />
           </div>
           {/* {this.getQuery()} */}
           <div className="Approval-home">

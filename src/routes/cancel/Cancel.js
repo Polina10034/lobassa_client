@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../Approval/Approval.css'
 import { connect } from 'react-redux'
-import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
+// import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
 import {
   Typography,
   AppBar,
@@ -47,7 +47,11 @@ class Cancel extends Component {
             </p>
           </div >
           <div className="Approval-logo" >
-            <Logo />
+            <img
+              src="../images/logo2.png"
+              alt="logo"
+              style={{width: '180px'}}
+            />
           </div>
           <div className="Approval-home">
             <Link to="/tags" style={{ textDecoration: 'none' }}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Approval.css'
 import { connect } from 'react-redux'
-import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
+// import { ReactComponent as Logo } from '../../routes/lobassaLogo.svg'
 import {
   Typography,
   AppBar,
@@ -75,7 +75,11 @@ class Approval extends Component {
             </p>
           </div >
           <div className="Approval-logo" >
-            <Logo />
+            <img
+              src="../images/logo2.png"
+              alt="logo"
+              style={{width: '180px'}}
+            />
           </div>
           {this.getQuery()}
           <div className="Approval-home">
