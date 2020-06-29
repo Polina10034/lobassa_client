@@ -75,6 +75,7 @@ export default function Orders (props) {
         <TableCell>{row.createdDate}</TableCell>
         <TableCell>{row.productId}</TableCell>
         <TableCell>{row.price}</TableCell>
+        <TableCell>{Math.round((row.price * 0.06 + Number.EPSILON) * 100) / 100}</TableCell>
         <TableCell align="right">{row.transactionStatus}</TableCell>
       </TableRow>
     ))
@@ -88,6 +89,7 @@ export default function Orders (props) {
         <TableCell>Creation Date</TableCell>
         <TableCell>Product ID</TableCell>
         <TableCell>Price</TableCell>
+        <TableCell>Profit</TableCell>
         <TableCell align="right">Status</TableCell>
       </TableRow>
     )
