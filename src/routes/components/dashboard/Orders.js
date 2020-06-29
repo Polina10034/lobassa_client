@@ -75,7 +75,7 @@ export default function Orders (props) {
         <TableCell>{row.createdDate}</TableCell>
         <TableCell>{row.productId}</TableCell>
         <TableCell>{row.price}</TableCell>
-        <TableCell>{Math.round((row.price * 0.06 + Number.EPSILON) * 100) / 100}</TableCell>
+        <TableCell>{ row.transactionStatus === 'canceled' ? '0' : Math.round((row.price * 0.06 + Number.EPSILON) * 100) / 100}</TableCell>
         <TableCell align="right">{row.transactionStatus}</TableCell>
       </TableRow>
     ))

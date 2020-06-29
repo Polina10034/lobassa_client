@@ -147,7 +147,7 @@ class MyTagsList extends Component {
         }
       }).then(() => {
         this.setState({ dialog: false })
-        // this.setState({ updateStatus: !this.state.updateStatus })
+        this.setState({ updateStatus: !this.state.updateStatus })
       }
       )
     } catch (err) {
@@ -169,7 +169,6 @@ class MyTagsList extends Component {
             <Button style={{ backgroundColor: '#3A69B0', height: '60px', borderRadius: 40, fontSize: '13px', width: '180px', color: '#FFFFFF' }}>I Found Baggage!</Button>
           </Link>
           <List>
-            {/* {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels.map((item, i) => ( */}
             {this.state.isLoading ? <CircularProgress /> : (this.state.labels.length > 0 ? this.state.labels
               .filter(labels => labels.transactionStatus !== 'complited' && labels.transactionStatus !== 'canceled')
               .map((item, i) => (
