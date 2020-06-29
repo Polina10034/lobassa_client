@@ -213,10 +213,13 @@ class MyTagsList extends Component {
             {this.state.selectedTag.name}
           </DialogTitle>
           <DialogContent>
-            <p>We found somthing that belongs to you... first Pay when recieved Confirm</p>
+            {this.state.selectedTag.transactionStatus
+              ? (<p>We found somthing that belongs to you... first Pay when recieved Confirm</p>)
+              : (<p> {this.state.selectedTag.description} </p>)
+            }
             {/* {this.state.imagePath === undefined && <p style={{ border: '1px solid black', width: '100%', height: '100px' }}>image didnt found...</p>} */}
             {this.state.imagePath
-              ? <img style={{ width: '220px' }} src={ URL + `${this.state.imagePath}`} /> : <CircularProgress/>}
+              ? <img style={{ width: '220px' }} src={ URL + `${this.state.imagePath}`} /> : 'No image to show'}
           </DialogContent>
           {this.state.listIndicator && <DialogActions style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             {this.state.selectedTag.activeTransaction && this.state.selectedTag.transactionStatus === 'pending' &&
