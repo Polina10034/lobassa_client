@@ -1,4 +1,6 @@
-This application was created for Cloud Computing Course. It's frontend for lobassa APP.
+Lobassa - Serverleass App
+This application was created for Cloud Computing Course using React.js integrating with AWS services such as: Cognito authentication, API Gateway, DynamoDB. 
+
 
 ## Running the application
 
@@ -9,6 +11,3 @@ This application was created for Cloud Computing Course. It's frontend for lobas
 
 ## JWT secured REST API service
 This application will attempt to invoke a simple example REST API using the JWT access code returned in the callback from Cognito.
-
-## Example
-A running instance of this React application is hosted at ******
